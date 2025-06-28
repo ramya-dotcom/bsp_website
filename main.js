@@ -21,7 +21,7 @@ const timelineData = [
         year: 1988,
         title: "Political Foundation Campaign",
         description: "Kanshi Ram campaigns as BSP's 3rd Party candidate for Parliament in Uttar Pradesh, marking the beginning of serious electoral politics for the party.",
-        image: "Latest/assets/1988.jpg",
+        image: "assets/1988.jpg",
         // portrait: "assets/1988.jpg"
     },
     {
@@ -526,7 +526,7 @@ function switchLanguage(language, isInternalCall = false) {
     
     // Load the appropriate language file
     const script = document.createElement('script');
-    script.src = `./Latest/${language}.js`;
+    script.src = `./${language}.js`;
     script.setAttribute('data-language', language);
     
     script.onload = function() {
