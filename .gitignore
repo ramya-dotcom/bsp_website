@@ -1,0 +1,3 @@
+# Ignores the files and extenstions mentioned from being uploaded to GitHub
+
+*.code-workspace
