@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSP Image Gallery Section</title>
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.css">
+    <style>
+        /* ===== GALLERY SECTION STYLES ===== */
+        /* PERFECT: Snap scroll compatibility with exact 100vh */
+        .gallery {
+            background-image: linear-gradient(rgba(34, 65, 154, 0.8), rgba(34, 65, 154, 0.8)), 
+                              url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh; /* REQUIREMENT 3: Exact viewport height */
+            overflow: hidden; /* REQUIREMENT 3: No overflow for snap scroll */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* REQUIREMENT 3: Center align content */
+            position: relative;
+            scroll-snap-align: start; /* Perfect snap scroll integration */
+        }
+
+        /* Background overlay for better contrast */
+        .gallery::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+
+        /* Gallery container - REQUIREMENT 3: Vertically centered */
+        .gallery-container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* REQUIREMENT 3: Center content vertically */
+            align-items: center;
+            overflow: hidden;
+            padding-bottom: 0; 
+        }
+
+        /* Gallery header - Compact for snap scroll */
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .gallery-header h2 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(135deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gallery-header p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            margin-bottom: 0;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            opacity: 0.95;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        /* Gallery swiper container - Optimized for 100vh */
+        .gallery-swiper-container {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-bottom: 1rem;
+            overflow: visible;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Center slides vertically within the wrapper */
+        #galleryWrapper.swiper-wrapper {
+            align-items: center;
+            display: flex !important;
+            height: 100%;
+        }
+
+        /* Swiper wrapper */
+        .gallery-swiper {
+            width: 100%;
+            height: 100%;
+            overflow: visible !important;
+            padding: 0 120px;
+        }
+
+        /* REQUIREMENT 4: CSS transforms for angled previews with scale and opacity */
+        .gallery-swiper .swiper-slide {
+            width: 400px !important;
+            height: 450px !important;
+            flex-shrink: 0;
+            background-position: center;
+            background-size: cover;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            transform-style: preserve-3d;
+            /* REQUIREMENT 1 & 4: Default state for side images */
+            opacity: 0.4;
+            filter: blur(3px);
+            transform: scale(0.75);
+        }
+
+        /* REQUIREMENT 4: Active (center) slide - full opacity, no blur */
+        .gallery-swiper .swiper-slide-active {
+            opacity: 1 !important;
+            filter: blur(0px) !important;
+            transform: translateZ(0) scale(1) !important;
+            z-index: 10;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* REQUIREMENT 4: Previous slide - angled left with opacity and blur */
+        .gallery-swiper .swiper-slide-prev {
+            opacity: 0.3 !important;
+            filter: blur(4px) !important;
+            transform: translate3d(-100px, 0, -200px) rotateY(25deg) scale(0.7) !important;
+        }
+
+        /* REQUIREMENT 4: Next slide - angled right with opacity and blur */
+        .gallery-swiper .swiper-slide-next {
+            opacity: 0.3 !important;
+            filter: blur(4px) !important;
+            transform: translate3d(100px, 0, -200px) rotateY(-25deg) scale(0.7) !important;
+        }
+
+        /* REQUIREMENT 4: Other slides with more blur and less opacity */
+        .gallery-swiper .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(.swiper-slide-next) {
+            opacity: 0.15 !important;
+            filter: blur(6px) !important;
+            transform: scale(0.6) !important;
+        }
+
+        /* Individual gallery slide */
+        .gallery-slide {
+            position: relative;
+        }
+
+        /* Clickable overlay for enhanced click detection */
+        .gallery-slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 5;
+            cursor: pointer;
+        }
+
+        /* Slide overlay for better text visibility */
+        .gallery-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(34, 65, 154, 0.2), rgba(0, 0, 0, 0.1));
+            transition: all 0.5s ease;
+            z-index: 1;
+        }
+
+        /* Active slide overlay - more transparent */
+        .gallery-slide.swiper-slide-active::before {
+            background: linear-gradient(45deg, rgba(34, 65, 154, 0.1), rgba(0, 0, 0, 0.05));
+        }
+
+        /* REQUIREMENT 1: Slide content - ONLY show on active (center) slide */
+        .gallery-slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem;
+            color: white;
+            z-index: 2;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.6s ease;
+            pointer-events: none;
+        }
+
+        /* REQUIREMENT 1: Show content ONLY on active (center) slide */
+        .gallery-slide.swiper-slide-active .gallery-slide-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* REQUIREMENT 1: Hide content on all non-active slides */
+        .gallery-slide:not(.swiper-slide-active) .gallery-slide-content {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+
+        .gallery-slide-title {
+            font-size: clamp(1.4rem, 3vw, 1.8rem);
+            font-weight: bold;
+            margin-bottom: 0.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            line-height: 1.2;
+        }
+
+        .gallery-slide-description {
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            opacity: 0.95;
+        }
+
+        /* Navigation arrows */
+        .gallery-nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(34, 65, 154, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(34, 65, 154, 0.4);
+        }
+
+        .gallery-nav-arrow:hover {
+            background: rgba(34, 65, 154, 1);
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 12px 35px rgba(34, 65, 154, 0.6);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .gallery-prev {
+            left: 30px;
+        }
+
+        .gallery-next {
+            right: 30px;
+        }
+
+        /* ===== LIGHTBOX/MODAL STYLES - REQUIREMENT 2 ===== */
+        .gallery-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            animation: lightboxOpen 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: scale(1);
+        }
+
+        @keyframes lightboxOpen {
+            from {
+                opacity: 0;
+                transform: scale(0.8) translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .lightbox-image {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            object-fit: contain;
+            display: block;
+            background: #f8f9fa;
+        }
+
+        /* REQUIREMENT 2: Lightbox info with title and description */
+        .lightbox-info {
+            padding: 2rem;
+            background: linear-gradient(135deg, #22419A, #1a3278);
+            color: white;
+            text-align: center;
+        }
+
+        .lightbox-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-description {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            line-height: 1.6;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #22419A;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100001;
+        }
+
+        .lightbox-close:hover {
+            background: white;
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(34, 65, 154, 0.9);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100001;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(34, 65, 154, 1);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        /* Compact info cards for snap scroll */
+        .gallery-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-shrink: 0;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .gallery-info-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            color: white;
+        }
+
+        .gallery-info-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-info-card i {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 0.8rem;
+            display: block;
+        }
+
+        .gallery-info-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.6rem;
+            font-weight: bold;
+        }
+
+        .gallery-info-card p {
+            font-size: 0.85rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        /* Pagination dots */
+        .gallery-pagination {
+            text-align: center;
+            margin-top: 1rem;
+            flex-shrink: 0;
+        }
+
+        .gallery-pagination .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            margin: 0 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-pagination .swiper-pagination-bullet-active {
+            background: #ffffff;
+            transform: scale(1.3);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+
+        .gallery-pagination.swiper-pagination {
+            position: absolute;
+            bottom: -10px; /* Pushes it just below the Swiper slides */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-align: center;
+        }
+
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1024px) {
+            .gallery-swiper-container {
+                height: 450px;
+            }
+
+            .gallery-swiper .swiper-slide {
+                width: 350px !important;
+                height: 400px !important;
+            }
+
+            .gallery-swiper {
+                padding: 0 100px;
+            }
+
+            .gallery-prev {
+                left: 20px;
+            }
+
+            .gallery-next {
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery-container {
+                padding: 0 1rem;
+            }
+
+            .gallery-swiper-container {
+                height: 400px;
+            }
+
+            .gallery-swiper .swiper-slide {
+                width: 300px !important;
+                height: 350px !important;
+            }
+
+            .gallery-swiper {
+                padding: 0 80px;
+            }
+
+            .gallery-info {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .gallery-info-card {
+                padding: 1rem;
+            }
+
+            .lightbox-content {
+                max-width: 95vw;
+                max-height: 95vh;
+            }
+
+            .lightbox-info {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-swiper-container {
+                height: 350px;
+            }
+
+            .gallery-swiper .swiper-slide {
+                width: 260px !important;
+                height: 300px !important;
+            }
+
+            .gallery-swiper {
+                padding: 0 60px;
+            }
+
+            .gallery-nav-arrow {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            .gallery-prev {
+                left: 10px;
+            }
+
+            .gallery-next {
+                right: 10px;
+            }
+
+            .lightbox-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+        }
+
+        /* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-swiper .swiper-slide,
+            .gallery-slide-content,
+            .lightbox-content {
+                transition: none !important;
+                animation: none !important;
+            }
+        }
+
+        /* Focus styles for keyboard navigation */
+        .gallery-slide:focus,
+        .lightbox-close:focus,
+        .lightbox-nav:focus,
+        .gallery-nav-arrow:focus {
+            outline: 3px solid #22419A;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Gallery Section -->
+    <section class="gallery section" id="gallery">
+        <div class="gallery-container">
+            <!-- Gallery Header -->
+            <div class="gallery-header">
+                <h2 id="gallery-title">Photo Gallery</h2>
+                <p id="gallery-description">
+                    Explore BSP's journey through powerful moments and historic achievements
+                </p>
+            </div>
+
+            <!-- Gallery Swiper Container -->
+            <div class="gallery-swiper-container">
+                <!-- Navigation Arrows -->
+                <div class="gallery-nav-arrow gallery-prev" id="galleryPrev" aria-label="Previous image">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="gallery-nav-arrow gallery-next" id="galleryNext" aria-label="Next image">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+
+                <!-- Swiper Container -->
+                <div class="swiper gallery-swiper" id="gallerySwiper">
+                    <div class="swiper-wrapper" id="galleryWrapper">
+                        
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide gallery-slide" 
+                             style="background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
+                             data-image="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+                             data-title="Ambedkar Jayanti Celebration"
+                             data-description="Grand celebration honoring Dr. B.R. Ambedkar's legacy with thousands of supporters across the nation, showcasing the party's commitment to constitutional values and social justice."
+                             data-index="0"
+                             tabindex="0"
+                             role="button"
+                             aria-label="View Ambedkar Jayanti Celebration in full screen">
+                            <div class="gallery-slide-content">
+                                <h3 class="gallery-slide-title">Ambedkar Jayanti Celebration</h3>
+                                <p class="gallery-slide-description">Grand celebration honoring Dr. B.R. Ambedkar's legacy with thousands of supporters across the nation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide gallery-slide" 
+                             style="background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
+                             data-image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+                             data-title="Massive Rally in Delhi"
+                             data-description="Historic BSP rally at Ramlila Grounds demonstrating the party's growing national influence and commitment to social transformation through democratic means."
+                             data-index="1"
+                             tabindex="0"
+                             role="button"
+                             aria-label="View Massive Rally in Delhi in full screen">
+                            <div class="gallery-slide-content">
+                                <h3 class="gallery-slide-title">Massive Rally in Delhi</h3>
+                                <p class="gallery-slide-description">Historic BSP rally at Ramlila Grounds demonstrating the party's growing national influence.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="swiper-slide gallery-slide" 
+                             style="background-image: url('https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
+                             data-image="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+                             data-title="Mayawati's Leadership"
+                             data-description="Mayawati addressing supporters during a crucial campaign for social justice and equality, demonstrating her unwavering commitment to the Bahujan Samaj movement."
+                             data-index="2"
+                             tabindex="0"
+                             role="button"
+                             aria-label="View Mayawati's Leadership in full screen">
+                            <div class="gallery-slide-content">
+                                <h3 class="gallery-slide-title">Mayawati's Leadership</h3>
+                                <p class="gallery-slide-description">Mayawati addressing supporters during a crucial campaign for social justice and equality.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 4 -->
+                        <div class="swiper-slide gallery-slide" 
+                             style="background-image: url('https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
+                             data-image="https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+                             data-title="Youth Wing Formation"
+                             data-description="Launch of BSP Youth Wing to engage young minds in the party's ideology and future vision, ensuring continuity of the movement across generations."
+                             data-index="3"
+                             tabindex="0"
+                             role="button"
+                             aria-label="View Youth Wing Formation in full screen">
+                            <div class="gallery-slide-content">
+                                <h3 class="gallery-slide-title">Youth Wing Formation</h3>
+                                <p class="gallery-slide-description">Launch of BSP Youth Wing to engage young minds in the party's ideology and future vision.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 5 -->
+                        <div class="swiper-slide gallery-slide" 
+                             style="background-image: url('https://images.unsplash.com/photo-1551818255-e6e10975cd17?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
+                             data-image="https://images.unsplash.com/photo-1551818255-e6e10975cd17?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+                             data-title="Parliamentary Sessions"
+                             data-description="BSP representatives actively participating in parliamentary sessions defending constitutional rights and advocating for marginalized communities in the democratic process."
+                             data-index="4"
+                             tabindex="0"
+                             role="button"
+                             aria-label="View Parliamentary Sessions in full screen">
+                            <div class="gallery-slide-content">
+                                <h3 class="gallery-slide-title">Parliamentary Sessions</h3>
+                                <p class="gallery-slide-description">BSP representatives actively participating in parliamentary sessions defending constitutional rights.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 6 -->
+                        <div class="swiper-slide gallery-slide" 
+                             style="background-image: url('https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
+                             data-image="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+                             data-title="Dalit Rights Conference"
+                             data-description="National conference on Dalit rights and empowerment with prominent leaders and activists working together for comprehensive social reform and equality."
+                             data-index="5"
+                             tabindex="0"
+                             role="button"
+                             aria-label="View Dalit Rights Conference in full screen">
+                            <div class="gallery-slide-content">
+                                <h3 class="gallery-slide-title">Dalit Rights Conference</h3>
+                                <p class="gallery-slide-description">National conference on Dalit rights and empowerment with prominent leaders and activists.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 7 -->
+                        <div class="swiper-slide gallery-slide" 
+                             style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
+                             data-image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+                             data-title="Kanshi Ram's Legacy"
+                             data-description="Commemorating the founder of BSP and his vision for social transformation, celebrating the ideological foundation that continues to guide the party's mission."
+                             data-index="6"
+                             tabindex="0"
+                             role="button"
+                             aria-label="View Kanshi Ram's Legacy in full screen">
+                            <div class="gallery-slide-content">
+                                <h3 class="gallery-slide-title">Kanshi Ram's Legacy</h3>
+                                <p class="gallery-slide-description">Commemorating the founder of BSP and his vision for social transformation.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <!-- <div class="gallery-pagination" id="galleryPagination"></div> -->
+
+            <!-- Gallery Information Cards
+            <div class="gallery-info">
+                <div class="gallery-info-card">
+                    <i class="fas fa-images"></i>
+                    <h3>Historic Moments</h3>
+                    <p>Capturing significant moments in BSP's journey.</p>
+                </div>
+                <div class="gallery-info-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Mass Rallies</h3>
+                    <p>Documenting widespread public support.</p>
+                </div>
+                <div class="gallery-info-card">
+                    <i class="fas fa-heart"></i>
+                    <h3>Community Events</h3>
+                    <p>Celebrating cultural programs and initiatives.</p>
+                </div>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL - REQUIREMENT 2 -->
+    <div class="gallery-lightbox" id="galleryLightbox" role="dialog" aria-modal="true" aria-labelledby="lightboxTitle">
+        <div class="lightbox-content" id="lightboxContent">
+            <button class="lightbox-close" id="lightboxClose" aria-label="Close lightbox">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <img class="lightbox-image" id="lightboxImage" src="" alt="">
+            
+            <div class="lightbox-info">
+                <h3 class="lightbox-title" id="lightboxTitle"></h3>
+                <p class="lightbox-description" id="lightboxDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Swiper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
+    
+    <script>
+        // ===== GALLERY INITIALIZATION =====
+        
+        let gallerySwiper = null;
+        let galleryImages = [];
+        let currentLightboxIndex = 0;
+        let isLightboxOpen = false;
+        
+        /**
+         * REQUIREMENT 5: Initialize gallery with autoplay and enhanced swipe
+         * REQUIREMENT 4: Setup CSS transforms with opacity and blur effects
+         * REQUIREMENT 1: Configure captions only for center image
+         */
+        function initGallery() {
+            console.log('🎨 Initializing Enhanced BSP Gallery...');
+            
+            if (typeof Swiper === 'undefined') {
+                console.error('❌ Swiper library not loaded');
+                setTimeout(initGallery, 1000);
+                return;
+            }
+
+            try {
+                // Collect gallery images data first
+                collectGalleryImages();
+                
+                // REQUIREMENT 5: Initialize Swiper with autoplay and enhanced swipe
+                gallerySwiper = new Swiper('.gallery-swiper', {
+                    // Use coverflow effect for 3D transforms
+                    effect: 'coverflow',
+                    grabCursor: true,
+                    centeredSlides: true,
+                    slidesPerView: 'auto',
+                    
+                    // REQUIREMENT 4: Coverflow settings for angled previews
+                    coverflowEffect: {
+                        rotate: 20,          // Angle for side images
+                        stretch: 0,          
+                        depth: 200,          // 3D depth
+                        modifier: 1,         
+                        slideShadows: true,  
+                        scale: 0.8,         // Scale for side images
+                    },
+                    
+                    // REQUIREMENT 5: Enhanced autoplay with swipe
+                    loop: true,
+                    speed: 800,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                        waitForTransition: true,
+                    },
+                    
+                    // Spacing between slides
+                    spaceBetween: 60,
+                    
+                    // Navigation
+                    navigation: {
+                        nextEl: '#galleryNext',
+                        prevEl: '#galleryPrev',
+                    },
+                    
+                    // Pagination
+                    pagination: {
+                        el: '#galleryPagination',
+                        clickable: true,
+                        dynamicBullets: true,
+                    },
+                    
+                    // REQUIREMENT 5: Enhanced touch/swipe settings
+                    touchRatio: 1,
+                    touchAngle: 45,
+                    allowTouchMove: true,
+                    resistanceRatio: 0.85,
+                    
+                    // Responsive breakpoints
+                    breakpoints: {
+                        320: {
+                            coverflowEffect: { rotate: 15, depth: 150, scale: 0.75 },
+                            spaceBetween: 40,
+                        },
+                        768: {
+                            coverflowEffect: { rotate: 18, depth: 175, scale: 0.8 },
+                            spaceBetween: 50,
+                        },
+                        1024: {
+                            coverflowEffect: { rotate: 20, depth: 200, scale: 0.8 },
+                            spaceBetween: 60,
+                        }
+                    },
+                    
+                    // Event callbacks
+                    on: {
+                        init: function() {
+                            console.log('✅ Enhanced Gallery Swiper initialized');
+                            setTimeout(() => {
+                                setupLightboxTriggers();
+                                updateSlideVisuals();
+                            }, 100);
+                        },
+                        
+                        slideChange: function() {
+                            console.log('🔄 Slide changed to:', this.activeIndex);
+                            updateSlideVisuals();
+                        },
+                        
+                        // REQUIREMENT 5: Autoplay control on interaction
+                        touchStart: function() {
+                            this.autoplay.stop();
+                        },
+                        
+                        touchEnd: function() {
+                            setTimeout(() => {
+                                if (!isLightboxOpen) {
+                                    this.autoplay.start();
+                                }
+                            }, 2000);
+                        }
+                    },
+                    
+                    // Keyboard navigation
+                    keyboard: {
+                        enabled: true,
+                        onlyInViewport: true,
+                    },
+                    
+                    // Mouse wheel control
+                    mousewheel: {
+                        thresholdDelta: 70,
+                        sensitivity: 1,
+                    },
+                });
+
+                console.log('🎉 Enhanced BSP Gallery initialized successfully');
+                
+            } catch (error) {
+                console.error('❌ Error initializing gallery:', error);
+            }
+        }
+        
+        /**
+         * Collect gallery images data for lightbox functionality
+         */
+        function collectGalleryImages() {
+            const slides = document.querySelectorAll('.gallery-slide');
+            galleryImages = [];
+            
+            slides.forEach((slide, index) => {
+                const imageUrl = slide.getAttribute('data-image') || 
+                               slide.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/)?.[1] || '';
+                
+                galleryImages.push({
+                    image: imageUrl,
+                    title: slide.getAttribute('data-title') || `Image ${index + 1}`,
+                    description: slide.getAttribute('data-description') || '',
+                    element: slide,
+                    index: index
+                });
+            });
+            
+            console.log('📷 Collected gallery images:', galleryImages.length);
+        }
+        
+        /**
+         * REQUIREMENT 2: Setup enhanced lightbox triggers with better click detection
+         */
+        function setupLightboxTriggers() {
+            const slides = document.querySelectorAll('.gallery-slide');
+            console.log('🔗 Setting up enhanced lightbox triggers');
+            
+            slides.forEach((slide, index) => {
+                // Enhanced click event
+                slide.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('🖱️ Image clicked:', index);
+                    openLightbox(index);
+                }, { passive: false });
+                
+                // Keyboard accessibility
+                slide.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        openLightbox(index);
+                    }
+                });
+                
+                // Enhanced hover effects
+                slide.addEventListener('mouseenter', function() {
+                    if (!isLightboxOpen && this.classList.contains('swiper-slide-active')) {
+                        this.style.transform += ' scale(1.02)';
+                    }
+                });
+                
+                slide.addEventListener('mouseleave', function() {
+                    if (!isLightboxOpen && this.classList.contains('swiper-slide-active')) {
+                        this.style.transform = this.style.transform.replace(' scale(1.02)', '');
+                    }
+                });
+            });
+            
+            console.log('✅ Enhanced lightbox triggers setup complete');
+        }
+        
+        /**
+         * REQUIREMENT 1 & 4: Update slide visuals with opacity, blur, and caption display
+         */
+        function updateSlideVisuals() {
+            const slides = document.querySelectorAll('.gallery-slide');
+            
+            slides.forEach(slide => {
+                const content = slide.querySelector('.gallery-slide-content');
+                
+                if (slide.classList.contains('swiper-slide-active')) {
+                    // REQUIREMENT 1: Show content only on active slide
+                    if (content) {
+                        setTimeout(() => {
+                            content.style.transform = 'translateY(0)';
+                            content.style.opacity = '1';
+                        }, 400);
+                    }
+                } else {
+                    // REQUIREMENT 1: Hide content on non-active slides
+                    if (content) {
+                        content.style.transform = 'translateY(100%)';
+                        content.style.opacity = '0';
+                    }
+                }
+            });
+        }
+        
+        // ===== LIGHTBOX FUNCTIONALITY - REQUIREMENT 2 =====
+        
+        /**
+         * REQUIREMENT 2: Enhanced lightbox with centered image, title, and description
+         */
+        function openLightbox(index) {
+            console.log('🔍 Opening enhanced lightbox for image:', index);
+            
+            if (!galleryImages[index]) {
+                console.error('❌ No image data found for index:', index);
+                return;
+            }
+            
+            isLightboxOpen = true;
+            currentLightboxIndex = index;
+            const imageData = galleryImages[index];
+            
+            // Update lightbox content
+            const lightboxImage = document.getElementById('lightboxImage');
+            const lightboxTitle = document.getElementById('lightboxTitle');
+            const lightboxDescription = document.getElementById('lightboxDescription');
+            const lightbox = document.getElementById('galleryLightbox');
+            
+            if (lightboxImage && lightboxTitle && lightboxDescription && lightbox) {
+                // Set loading state
+                lightboxImage.style.opacity = '0.5';
+                lightboxImage.src = imageData.image;
+                lightboxImage.alt = imageData.title;
+                
+                // Handle image load
+                lightboxImage.onload = function() {
+                    this.style.opacity = '1';
+                    console.log('✅ Lightbox image loaded');
+                };
+                
+                lightboxImage.onerror = function() {
+                    console.error('❌ Failed to load lightbox image');
+                    this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjBmMGYwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5Ij5JbWFnZSBOb3QgQXZhaWxhYmxlPC90ZXh0Pgo8L3N2Zz4=';
+                    this.style.opacity = '1';
+                };
+                
+                // REQUIREMENT 2: Set title and description
+                lightboxTitle.textContent = imageData.title;
+                lightboxDescription.textContent = imageData.description;
+                
+                // Show lightbox with animation
+                lightbox.style.display = 'flex';
+                setTimeout(() => {
+                    lightbox.classList.add('active');
+                }, 10);
+                
+                // Prevent body scroll
+                document.body.style.overflow = 'hidden';
+                
+                // Pause gallery autoplay
+                if (gallerySwiper && gallerySwiper.autoplay) {
+                    gallerySwiper.autoplay.stop();
+                }
+                
+                console.log('✅ Enhanced lightbox opened');
+            }
+        }
+        
+        /**
+         * Close lightbox and resume gallery
+         */
+        function closeLightbox() {
+            console.log('❌ Closing lightbox');
+            
+            isLightboxOpen = false;
+            const lightbox = document.getElementById('galleryLightbox');
+            
+            if (lightbox) {
+                lightbox.classList.remove('active');
+                
+                setTimeout(() => {
+                    lightbox.style.display = 'none';
+                }, 400);
+                
+                document.body.style.overflow = '';
+                
+                // REQUIREMENT 5: Resume autoplay
+                if (gallerySwiper && gallerySwiper.autoplay) {
+                    setTimeout(() => {
+                        gallerySwiper.autoplay.start();
+                    }, 1000);
+                }
+                
+                console.log('✅ Lightbox closed, autoplay resumed');
+            }
+        }
+        
+        /**
+         * Navigate to previous image in lightbox
+         */
+        function lightboxPrevious() {
+            currentLightboxIndex = (currentLightboxIndex - 1 + galleryImages.length) % galleryImages.length;
+            openLightbox(currentLightboxIndex);
+        }
+        
+        /**
+         * Navigate to next image in lightbox
+         */
+        function lightboxNext() {
+            currentLightboxIndex = (currentLightboxIndex + 1) % galleryImages.length;
+            openLightbox(currentLightboxIndex);
+        }
+        
+        // ===== EVENT LISTENERS =====
+        
+        /**
+         * Setup enhanced lightbox event listeners
+         */
+        function setupLightboxEvents() {
+            console.log('🔧 Setting up enhanced lightbox events');
+            
+            // Close button
+            const closeBtn = document.getElementById('lightboxClose');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    closeLightbox();
+                });
+            }
+            
+            // Navigation buttons
+            const prevBtn = document.getElementById('lightboxPrev');
+            const nextBtn = document.getElementById('lightboxNext');
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    lightboxPrevious();
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    lightboxNext();
+                });
+            }
+            
+            // Click outside to close
+            const lightbox = document.getElementById('galleryLightbox');
+            if (lightbox) {
+                lightbox.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeLightbox();
+                    }
+                });
+            }
+            
+            // Enhanced keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (isLightboxOpen) {
+                    switch(e.key) {
+                        case 'Escape':
+                            e.preventDefault();
+                            closeLightbox();
+                            break;
+                        case 'ArrowLeft':
+                            e.preventDefault();
+                            lightboxPrevious();
+                            break;
+                        case 'ArrowRight':
+                            e.preventDefault();
+                            lightboxNext();
+                            break;
+                    }
+                }
+            });
+            
+            console.log('✅ Enhanced lightbox events setup complete');
+        }
+        
+        // ===== ADDITIONAL FUNCTIONALITY =====
+        
+        /**
+         * Handle responsive updates
+         */
+        function handleResize() {
+            if (gallerySwiper) {
+                gallerySwiper.update();
+                updateSlideVisuals();
+            }
+        }
+        
+        /**
+         * REQUIREMENT 5: Handle visibility changes for autoplay
+         */
+        function handleVisibilityChange() {
+            if (gallerySwiper) {
+                if (document.hidden) {
+                    gallerySwiper.autoplay.stop();
+                } else if (!isLightboxOpen) {
+                    gallerySwiper.autoplay.start();
+                }
+            }
+        }
+        
+        // ===== LANGUAGE SUPPORT =====
+        
+        /**
+         * Update gallery content for different languages
+         */
+        function updateGalleryContent() {
+            const currentLang = window.currentLanguage || 'english';
+            
+            const galleryContent = {
+                english: {
+                    title: "Photo Gallery",
+                    description: "Explore BSP's journey through powerful moments and historic achievements"
+                },
+                hindi: {
+                    title: "फ़ोटो गैलरी",
+                    description: "शक्तिशाली क्षणों और ऐतिहासिक उपलब्धियों के माध्यम से बीएसपी की यात्रा का अन्वेषण करें"
+                },
+                tamil: {
+                    title: "புகைப்பட தொகுப்பு",
+                    description: "சக்திவாய்ந்த தருணங்கள் மற்றும் வரலாற்று சாதனைகள் மூலம் பிஎஸ்பியின் பயணத்தை ஆராயுங்கள்"
+                }
+            };
+            
+            if (galleryContent[currentLang]) {
+                const titleElement = document.getElementById('gallery-title');
+                const descElement = document.getElementById('gallery-description');
+                
+                if (titleElement) titleElement.textContent = galleryContent[currentLang].title;
+                if (descElement) descElement.textContent = galleryContent[currentLang].description;
+            }
+        }
+        
+        // ===== INITIALIZATION =====
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initializing Enhanced BSP Gallery...');
+            
+            setupLightboxEvents();
+            
+            setTimeout(() => {
+                initGallery();
+            }, 100);
+            
+            // Setup event listeners
+            window.addEventListener('resize', handleResize);
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+        });
+        
+        // Export functions for global access
+        window.initGallery = initGallery;
+        window.updateGalleryContent = updateGalleryContent;
+        window.openLightbox = openLightbox;
+        window.closeLightbox = closeLightbox;
+        
+        console.log('🎉 Enhanced BSP Gallery Script Loaded Successfully');
+    </script>
+</body>
+</html>
