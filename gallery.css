@@ -1,0 +1,621 @@
+/* ===== GALLERY SECTION STYLES ===== */
+/* ...move all CSS from <style>...</style> here... */
+
+/* ===== GALLERY SECTION STYLES ===== */
+/* PERFECT: Snap scroll compatibility with exact 100vh */
+.gallery {
+    background-image: linear-gradient(rgba(34, 65, 154, 0.8), rgba(34, 65, 154, 0.8)), 
+                      url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 100vh; /* REQUIREMENT 3: Exact viewport height */
+    overflow: hidden; /* REQUIREMENT 3: No overflow for snap scroll */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* REQUIREMENT 3: Center align content */
+    position: relative;
+    scroll-snap-align: start; /* Perfect snap scroll integration */
+
+    /* Only for gallery.html: prevent parent scaling issues */
+    min-width: 100vw;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Background overlay for better contrast */
+.gallery::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+/* Gallery container - REQUIREMENT 3: Vertically centered */
+.gallery-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* REQUIREMENT 3: Center content vertically */
+    align-items: center;
+    overflow: hidden;
+    padding-bottom: 0; 
+}
+
+/* Gallery header - Compact for snap scroll */
+.gallery-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.gallery-header h2 {
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    background: linear-gradient(135deg, #ffffff, #e0e0e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.gallery-header p {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    opacity: 0.95;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+}
+
+/* Gallery swiper container - Optimized for 100vh */
+.gallery-swiper-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    margin-bottom: 1rem;
+    overflow: visible;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Center slides vertically within the wrapper */
+#galleryWrapper.swiper-wrapper {
+    align-items: center;
+    display: flex !important;
+    height: 100%;
+}
+
+/* Swiper wrapper */
+.gallery-swiper {
+    width: 100vw;
+    max-width: 1400px;
+    height: 100%;
+    overflow: visible !important;
+    padding: 0 60px;
+}
+
+/* REQUIREMENT 4: CSS transforms for angled previews with scale and opacity */
+.gallery-swiper .swiper-slide {
+    width: 350px !important;
+    height: 400px !important;
+    /* Responsive scaling for iframe context */
+    max-width: 90vw;
+    max-height: 80vh;
+    flex-shrink: 0;
+    background-position: center;
+    background-size: cover;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    transform-style: preserve-3d;
+    /* REQUIREMENT 1 & 4: Default state for side images */
+    opacity: 0.4;
+    filter: blur(3px);
+    transform: scale(0.75);
+}
+
+/* REQUIREMENT 4: Active (center) slide - full opacity, no blur */
+.gallery-swiper .swiper-slide-active {
+    opacity: 1 !important;
+    filter: blur(0px) !important;
+    transform: translateZ(0) scale(1) !important;
+    z-index: 10;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* REQUIREMENT 4: Previous slide - angled left with opacity and blur */
+.gallery-swiper .swiper-slide-prev {
+    opacity: 0.3 !important;
+    filter: blur(4px) !important;
+    transform: translate3d(-100px, 0, -200px) rotateY(25deg) scale(0.7) !important;
+}
+
+/* REQUIREMENT 4: Next slide - angled right with opacity and blur */
+.gallery-swiper .swiper-slide-next {
+    opacity: 0.3 !important;
+    filter: blur(4px) !important;
+    transform: translate3d(100px, 0, -200px) rotateY(-25deg) scale(0.7) !important;
+}
+
+/* REQUIREMENT 4: Other slides with more blur and less opacity */
+.gallery-swiper .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(.swiper-slide-next) {
+    opacity: 0.15 !important;
+    filter: blur(6px) !important;
+    transform: scale(0.6) !important;
+}
+
+/* Individual gallery slide */
+.gallery-slide {
+    position: relative;
+}
+
+/* Clickable overlay for enhanced click detection */
+.gallery-slide::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    cursor: pointer;
+}
+
+/* Slide overlay for better text visibility */
+.gallery-slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(34, 65, 154, 0.2), rgba(0, 0, 0, 0.1));
+    transition: all 0.5s ease;
+    z-index: 1;
+}
+
+/* Active slide overlay - more transparent */
+.gallery-slide.swiper-slide-active::before {
+    background: linear-gradient(45deg, rgba(34, 65, 154, 0.1), rgba(0, 0, 0, 0.05));
+}
+
+/* REQUIREMENT 1: Slide content - ONLY show on active (center) slide */
+.gallery-slide-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem;
+    color: white;
+    z-index: 2;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    transform: translateY(100%);
+    opacity: 0;
+    transition: all 0.6s ease;
+    pointer-events: none;
+}
+
+/* REQUIREMENT 1: Show content ONLY on active (center) slide */
+.gallery-slide.swiper-slide-active .gallery-slide-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* REQUIREMENT 1: Hide content on all non-active slides */
+.gallery-slide:not(.swiper-slide-active) .gallery-slide-content {
+    transform: translateY(100%);
+    opacity: 0;
+}
+
+.gallery-slide-title {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: bold;
+    margin-bottom: 0.8rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    line-height: 1.2;
+}
+
+.gallery-slide-description {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    line-height: 1.4;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    opacity: 0.95;
+}
+
+/* Navigation arrows */
+.gallery-nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(34, 65, 154, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1001; /* Increased z-index to ensure above Swiper slides */
+    transition: all 0.3s ease;
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(34, 65, 154, 0.4);
+    pointer-events: auto; /* Ensure always clickable */
+}
+
+.gallery-nav-arrow:hover {
+    background: rgba(34, 65, 154, 1);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 12px 35px rgba(34, 65, 154, 0.6);
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+.gallery-prev {
+    left: 30px;
+}
+
+.gallery-next {
+    right: 30px;
+}
+
+/* ===== LIGHTBOX/MODAL STYLES - REQUIREMENT 2 ===== */
+.gallery-lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 99999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.gallery-lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+    animation: lightboxOpen 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(1);
+}
+
+@keyframes lightboxOpen {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.lightbox-image {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    object-fit: contain;
+    display: block;
+    background: #f8f9fa;
+}
+
+/* REQUIREMENT 2: Lightbox info with title and description */
+.lightbox-info {
+    padding: 2rem;
+    background: linear-gradient(135deg, #22419A, #1a3278);
+    color: white;
+    text-align: center;
+}
+
+.lightbox-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-description {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: #22419A;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 100001;
+}
+
+.lightbox-close:hover {
+    background: white;
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(34, 65, 154, 0.9);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100001;
+}
+
+.lightbox-nav:hover {
+    background: rgba(34, 65, 154, 1);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-prev {
+    left: 20px;
+}
+
+.lightbox-next {
+    right: 20px;
+}
+
+/* Compact info cards for snap scroll */
+.gallery-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 800px;
+}
+
+.gallery-info-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    color: white;
+}
+
+.gallery-info-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-info-card i {
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin-bottom: 0.8rem;
+    display: block;
+}
+
+.gallery-info-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem;
+    font-weight: bold;
+}
+
+.gallery-info-card p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* Pagination dots */
+.gallery-pagination {
+    text-align: center;
+    margin-top: 1rem;
+    flex-shrink: 0;
+}
+
+.gallery-pagination .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    margin: 0 6px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-pagination .swiper-pagination-bullet-active {
+    background: #ffffff;
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+}
+
+.gallery-pagination.swiper-pagination {
+    position: absolute;
+    bottom: -10px; /* Pushes it just below the Swiper slides */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    text-align: center;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .gallery-swiper-container {
+        height: 450px;
+    }
+
+    .gallery-swiper .swiper-slide {
+        width: 300px !important;
+        height: 340px !important;
+    }
+
+    .gallery-swiper {
+        padding: 0 20px;
+    }
+
+    .gallery-prev {
+        left: 20px;
+    }
+
+    .gallery-next {
+        right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-container {
+        padding: 0 1rem;
+    }
+
+    .gallery-swiper-container {
+        height: 400px;
+    }
+
+    .gallery-swiper .swiper-slide {
+        width: 220px !important;
+        height: 250px !important;
+    }
+    .gallery-swiper {
+        padding: 0 20px;
+    }
+
+    .gallery-info {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .gallery-info-card {
+        padding: 1rem;
+    }
+
+    .lightbox-content {
+        max-width: 95vw;
+        max-height: 95vh;
+    }
+
+    .lightbox-info {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-swiper-container {
+        height: 350px;
+    }
+
+    .gallery-swiper .swiper-slide {
+        width: 260px !important;
+        height: 300px !important;
+    }
+
+    .gallery-swiper {
+        padding: 0 60px;
+    }
+
+    .gallery-nav-arrow {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+
+    .gallery-prev {
+        left: 10px;
+    }
+
+    .gallery-next {
+        right: 10px;
+    }
+
+    .lightbox-nav {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3rem;
+    }
+
+    .lightbox-prev {
+        left: 10px;
+    }
+
+    .lightbox-next {
+        right: 10px;
+    }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+    .gallery-swiper .swiper-slide,
+    .gallery-slide-content,
+    .lightbox-content {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* Focus styles for keyboard navigation */
+.gallery-slide:focus,
+.lightbox-close:focus,
+.lightbox-nav:focus,
+.gallery-nav-arrow:focus {
+    outline: 3px solid #22419A;
+    outline-offset: 2px;
+}
