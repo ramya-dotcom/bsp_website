@@ -254,6 +254,12 @@ languageContent = {
     }
 };
 
+// ===== GALLERY TRANSLATIONS =====
+window.galleryTranslations = {
+    title: "गैलरी शीर्षक",
+    description: "[गैलरी विवरण]"
+};
+
 // ===== AUTO-UPDATE PAGE CONTENT =====
 // Update the page content immediately when this file loads
 if (typeof updatePageContent === 'function') {

@@ -435,34 +435,39 @@ function handleVisibilityChange() {
 // ===== LANGUAGE SUPPORT =====
 
 /**
- * Update gallery content for different languages
+ * Update gallery content for different languages using window.galleryTranslations
+ * This function should be called after switching languages.
  */
 function updateGalleryContent() {
-    const currentLang = window.currentLanguage || 'english';
-
-    const galleryContent = {
-        english: {
-            title: "Photo Gallery",
-            description: "Explore BSP's journey through powerful moments and historic achievements"
-        },
-        hindi: {
-            title: "फ़ोटो गैलरी",
-            description: "शक्तिशाली क्षणों और ऐतिहासिक उपलब्धियों के माध्यम से बीएसपी की यात्रा का अन्वेषण करें"
-        },
-        tamil: {
-            title: "புகைப்பட தொகுப்பு",
-            description: "சக்திவாய்ந்த தருணங்கள் மற்றும் வரலாற்று சாதனைகள் மூலம் பிஎஸ்பியின் பயணத்தை ஆராயுங்கள்"
-        }
-    };
-
-    if (galleryContent[currentLang]) {
-        const titleElement = document.getElementById('gallery-title');
-        const descElement = document.getElementById('gallery-description');
-
-        if (titleElement) titleElement.textContent = galleryContent[currentLang].title;
-        if (descElement) descElement.textContent = galleryContent[currentLang].description;
+    const titleElement = document.getElementById('gallery-title');
+    const descElement = document.getElementById('gallery-description');
+    if (window.galleryTranslations) {
+        if (titleElement) titleElement.textContent = window.galleryTranslations.title;
+        if (descElement) descElement.textContent = window.galleryTranslations.description;
     }
 }
+
+// ===== LANGUAGE SWITCHER SUPPORT =====
+window.switchLanguage = function(lang) {
+    // Remove all language script tags except Swiper, main.js, and gallery.js
+    const scripts = document.querySelectorAll('script[data-lang]');
+    scripts.forEach(s => s.remove());
+
+    // Dynamically load the selected language file
+    const script = document.createElement('script');
+    script.src = lang + '.js';
+    script.setAttribute('data-lang', lang);
+    script.onload = function() {
+        if (typeof updatePageContent === 'function') updatePageContent();
+        if (typeof updateGalleryContent === 'function') updateGalleryContent();
+    };
+    document.body.appendChild(script);
+
+    // Update active button UI
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+    const btn = document.getElementById('btn-' + lang);
+    if (btn) btn.classList.add('active');
+};
 
 // ===== INITIALIZATION =====
 

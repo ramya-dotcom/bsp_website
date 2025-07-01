@@ -253,6 +253,12 @@ languageContent = {
     }
 };
 
+// ===== GALLERY TRANSLATIONS =====
+window.galleryTranslations = {
+    title: "Photo Gallery",
+    description: "Explore BSP's journey through powerful moments and historic achievements"
+};
+
 // ===== AUTO-UPDATE PAGE CONTENT =====
 // Update the page content immediately when this file loads
 if (typeof updatePageContent === 'function') {
