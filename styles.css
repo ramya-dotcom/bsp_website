@@ -427,7 +427,7 @@ body::-webkit-scrollbar-thumb:hover {
 /* ===== HERO SECTION ===== */
 .hero {
     background-image: linear-gradient(rgba(34, 65, 154, 0.7), rgba(34, 65, 154, 0.7)), 
-                      url('assets/Mayawati-1024x576.avif');
+                      url('assets/maya_voting.jpg');
     color: white;
     justify-content: center;
     align-items: center;
