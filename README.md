@@ -6,3 +6,5 @@ web4.html --> google translate incorporated
 web4.html --> final one so far
 
 Placeholder images are there in all the versions - to be changed
+
+Assests--> All images for the website
