@@ -17,6 +17,7 @@ languageContent = {
         vision: "दृष्टिकोण",
         timeline: "समयरेखा",
         events: "कार्यक्रम",
+        gallery: "गैलरी",
         contact: "संपर्क",
         faq: "सामान्य प्रश्न"
     },
