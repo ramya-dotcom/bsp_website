@@ -698,7 +698,10 @@ function updatePageContent() {
         
         // Update about section
         updateElement('about-title', languageContent.about?.title);
-        updateElement('about-description', languageContent.about?.description);
+        // updateElement('about-description', languageContent.about?.description);
+        updateElement('about-description-1', languageContent.about?.description?.p1);
+        updateElement('about-description-2', languageContent.about?.description?.p2);
+        updateElement('about-description-3', languageContent.about?.description?.p3);
         updateElement('mission-title', languageContent.about?.mission?.title);
         updateElement('mission-description', languageContent.about?.mission?.description);
         updateElement('values-title', languageContent.about?.values?.title);
