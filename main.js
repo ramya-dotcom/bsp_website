@@ -4,7 +4,6 @@
  * =====================================================
  * Main functionality for the BSP political party website
  * Handles navigation, timeline, events, and core features
- * FIXED: Language persistence across navigation
  */
 
 // ===== GLOBAL VARIABLES =====
@@ -239,6 +238,7 @@ function getEnglishContent() {
             vision: "Vision",
             timeline: "Timeline",
             events: "Events",
+            gallery: "Gallery",
             contact: "Contact",
             faq: "FAQ"
         },
@@ -606,6 +606,7 @@ function loadLanguageFallback(language) {
                 vision: "दृष्टिकोण",
                 timeline: "समयरेखा",
                 events: "कार्यक्रम",
+                gallery: "गैलरी",
                 contact: "संपर्क",
                 faq: "सामान्य प्रश्न"
             },
@@ -627,6 +628,7 @@ function loadLanguageFallback(language) {
                 vision: "தொலைநோக்கு",
                 timeline: "நேரக்கோடு",
                 events: "நிகழ்வுகள்",
+                gallery: "கேலரி",
                 contact: "தொடர்பு",
                 faq: "பொதுவான கேள்விகள்"
             },
@@ -649,6 +651,7 @@ function loadLanguageFallback(language) {
                 vision: "Vision",
                 timeline: "Timeline",
                 events: "Events",
+                gallery: "Gallery",
                 contact: "Contact",
                 faq: "FAQ"
             },
@@ -686,6 +689,7 @@ function updatePageContent() {
         updateElement('nav-vision', languageContent.nav?.vision);
         updateElement('nav-timeline', languageContent.nav?.timeline);
         updateElement('nav-events', languageContent.nav?.events);
+        updateElement('nav-gallery', languageContent.nav?.gallery);
         updateElement('nav-contact', languageContent.nav?.contact);
         updateElement('nav-faq', languageContent.nav?.faq);
         
@@ -979,6 +983,20 @@ function goHome() {
     }, 100);
 }
 
+// async function goHome() { // ADDED async
+//     await ensureLanguageConsistency(); // ADDED: Ensure language is consistent first
+
+//     // REMOVED: hideEventDetail();
+//     // REMOVED: hideFAQ();
+//     // REMOVED: scrollToSection('hero'); // This will be handled by handlePageDisplayAfterLanguageSwitch
+
+//     currentPage = 'main';
+//     updateHistory('main', 0);
+
+//     // ADDED: Explicitly handle page display after language is set
+//     handlePageDisplayAfterLanguageSwitch('main', 0);
+// }
+
 /**
  * Smooth scroll to specific section (ENHANCED)
  * @param {string} sectionId - ID of the target section
@@ -986,53 +1004,51 @@ function goHome() {
 function scrollToSection(sectionId) {
     hideEventDetail();
     hideFAQ();
-    
+
     // Reset current page state when navigating to main sections
     currentPage = 'main';
-    
+
     const section = document.getElementById(sectionId);
     const mainContainer = document.getElementById('mainContainer');
-    
+
     if (section && mainContainer) {
         // Store current scroll position
         currentScrollPosition = mainContainer.scrollTop;
-        
+
         // Calculate target scroll position
-        const targetScrollTop = section.offsetTop - 80;
-        
+        const targetScrollTop = section.offsetTop - 80; // Adjust for fixed navbar
+
         // Smooth scroll animation
         const startScrollTop = mainContainer.scrollTop;
         const distance = targetScrollTop - startScrollTop;
         const duration = 800;
         let startTime = null;
-        
+
         function animateScroll(currentTime) {
             if (startTime === null) startTime = currentTime;
             const timeElapsed = currentTime - startTime;
             const progress = Math.min(timeElapsed / duration, 1);
-            
+
             // Easing function (easeInOutCubic)
-            const ease = progress < 0.5 
-                ? 2 * progress * progress 
+            const ease = progress < 0.5
+                ? 2 * progress * progress
                 : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-            
+
             mainContainer.scrollTop = startScrollTop + (distance * ease);
-            
+
             if (progress < 1) {
                 requestAnimationFrame(animateScroll);
             } else {
                 updateHistory('main', targetScrollTop);
-                
-                // Ensure language consistency after navigation animation completes
-                setTimeout(() => {
-                    ensureLanguageConsistency();
-                }, 100);
+
+                // Ensure language consistency immediately after navigation animation completes
+                ensureLanguageConsistency(); // Removed setTimeout
             }
         }
-        
+
         requestAnimationFrame(animateScroll);
     }
-    
+
     // Close mobile menu if open
     const navMenu = document.querySelector('.nav-menu');
     const hamburger = document.querySelector('.hamburger');

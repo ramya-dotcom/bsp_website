@@ -16,6 +16,7 @@ languageContent = {
         vision: "Vision",
         timeline: "Timeline",
         events: "Events",
+        gallery: "Gallery",
         contact: "Contact",
         faq: "FAQ"
     },
@@ -32,7 +33,11 @@ languageContent = {
     // About section content
     about: {
         title: "About BSP",
-        description: "The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Dr. B.R. Ambedkar, we work towards creating an egalitarian society.",
+        description: {
+            p1: "The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Dr. B.R. Ambedkar, we work towards creating an egalitarian society.",
+            p2: "Inspired by the philosophies of great social reformers like Dr. B. R. Ambedkar, Jyotirao Phule, Narayana Guru, Chhatrapati Shahuji Maharaj, and Gautama Buddha, the BSP stands as a beacon of empowerment for the oppressed. Rooted in the ideals of equality, justice, and constitutional rights, the party seeks to uplift and unite these diverse sections of society, ensuring their rightful place in India’s democratic framework.",
+            p3: "At the heart of the BSP’s ideology is the fight against caste-based discrimination and the promotion of welfare for the Bahujan community, extending its reach to include all marginalized groups across India. The BSP envisions a society where every individual, irrespective of caste, creed, or religion, is entitled to equal opportunities, dignity, and justice."
+        },
         mission: {
             title: "Our Mission",
             description: "To achieve social transformation and economic emancipation of the Bahujan Samaj through democratic means and constitutional methods."
