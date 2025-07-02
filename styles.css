@@ -508,7 +508,7 @@ body::-webkit-scrollbar-thumb:hover {
     text-decoration: none;
     border-radius: 30px;
     font-size: 1.1rem;
-    font-family: 'Times New Roman', serif;
+    font-family: 'Montserrat', 'Sans-serif	';
     transition: all 0.3s ease;
     font-weight: 600;
     cursor: pointer;
