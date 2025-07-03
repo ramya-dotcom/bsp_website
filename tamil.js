@@ -11,7 +11,7 @@
 languageContent = {
     // Navigation content
     nav: {
-        logoText: "பி.எஸ்.பி.",
+        logoText: "பகுஜன் சமாஜ் கட்சி",
         home: "முகப்பு",
         about: "பற்றி", 
         vision: "பார்வை ", //"தொலைநோக்கு",
@@ -21,7 +21,7 @@ languageContent = {
         gallery: "கேலரி",
         resources: "வளங்கள்", // New section added
         contact: "தொடர்பு",
-        faq: "பொதுவான கேள்விகள்"
+        faq: "கேள்விகள்"
     },
 
     // Hero section content
