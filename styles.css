@@ -992,12 +992,13 @@ body::-webkit-scrollbar-thumb:hover {
 .events {
     background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
                       url('assets/crowd2.jpg');
+    padding-top: 1rem;  
 }
 
 .events h2 {
     font-size: clamp(2rem, 4vw, 2.5rem);
     color: white;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     text-align: center;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
