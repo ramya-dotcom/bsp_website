@@ -8,12 +8,26 @@ async function fetchTweets() {
     if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
     const data = await res.json();
     if (data && data.data && data.data.length > 0) {
-      container.innerHTML = data.data.slice(0, 2).map(tweet => `
-        <div class="tweet-card">
-          <div class="tweet-date">${new Date(tweet.created_at).toLocaleString()}</div>
-          <div class="tweet-text">${tweet.text.replace(/(https?:\/\/\S+)/g, '<a href=\"$1\" target=\"_blank\">$1</a>')}</div>
-        </div>
-      `).join('');
+      container.innerHTML = data.data.slice(0, 2).map(tweet => {
+        const tweetUrl = `https://twitter.com/Mayawati/status/${tweet.id}`;
+        const tweetDate = new Date(tweet.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        return `
+          <blockquote class="twitter-tweet">
+            <p lang="en" dir="ltr">${tweet.text}</p>
+            &mdash; Mayawati <a href="${tweetUrl}">${tweetDate}</a>
+          </blockquote>
+        `;
+      }).join('');
+      // Load Twitter widgets.js to render embeds
+      if (window.twttr && window.twttr.widgets) {
+        window.twttr.widgets.load(container);
+      } else {
+        const script = document.createElement('script');
+        script.setAttribute('src', 'https://platform.twitter.com/widgets.js');
+        script.setAttribute('async', '');
+        script.setAttribute('charset', 'utf-8');
+        document.body.appendChild(script);
+      }
     } else {
       container.textContent = 'No tweets found.';
     }
