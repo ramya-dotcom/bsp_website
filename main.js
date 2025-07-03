@@ -329,23 +329,37 @@ function getEnglishContent() {
                 },
                 {
                     title: "Parliamentary Presence",
-                    description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights."
+                    description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights.",
+                    image: "assets/timeline/2015.jpg",
+                    // portrait: "assets/2015.jpg"
                 },
                 {
+                    year: 2016,
                     title: "Ambedkar Anniversary Rally",
-                    description: "Massive rally in Lucknow on 61st death anniversary of Dr. Ambedkar, with party review meetings to prepare for 2017 elections."
+                    description: "Massive rally in Lucknow on 61st death anniversary of Dr. Ambedkar, with party review meetings to prepare for 2017 elections.",
+                    image: "assets/timeline/2016.jpg",
+                    // portrait: "assets/2016.jpg"
                 },
                 {
+                    year: 2017,
                     title: "Electoral Campaign",
-                    description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation."
+                    description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation.",
+                    image: "assets/timeline/2017.jpg",
+                    // portrait: "assets/2017.jpg"
                 },
                 {
+                    year: 2018,
                     title: "Opposition Unity",
-                    description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka."
+                    description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka.",
+                    image: "assets/timeline/2018.jpg",
+                    // portrait: "assets/2018.jpg"
                 },
                 {
+                    year: 2019,
                     title: "Strategic Alliance",
-                    description: "Joint rally with Akhilesh Yadav (SP) and Ajit Singh (RLD) in Varanasi before Lok Sabha elections, demonstrating coalition politics for social justice."
+                    description: "Joint rally with Akhilesh Yadav (SP) and Ajit Singh (RLD) in Varanasi before Lok Sabha elections, demonstrating coalition politics for social justice.",
+                    image: "assets/timeline/2019.jpg",
+                    // portrait: "assets/2019.jpg"
                 }
             ]
         },
@@ -1759,6 +1773,38 @@ function initWebsite() {
         console.error('Error initializing website:', error);
     }
 }
+
+// ===== CONTACT FORM MODAL LOGIC =====
+document.addEventListener('DOMContentLoaded', function() {
+  const openBtn = document.getElementById('openContactModalBtn');
+  const closeBtn = document.getElementById('closeContactModalBtn');
+  const modal = document.getElementById('contactModalOverlay');
+
+  if (openBtn && closeBtn && modal) {
+    openBtn.addEventListener('click', function() {
+      modal.classList.add('active');
+      document.body.classList.add('no-scroll');
+    });
+    closeBtn.addEventListener('click', function() {
+      modal.classList.remove('active');
+      document.body.classList.remove('no-scroll');
+    });
+    // Close modal on overlay click (not modal box)
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+      }
+    });
+    // Optional: Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+      }
+    });
+  }
+});
 
 // ===== EVENT LISTENERS =====
 
