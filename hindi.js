@@ -18,6 +18,7 @@ languageContent = {
         timeline: "समयरेखा",
         events: "कार्यक्रम",
         updates: "नई अपडेट्स",
+        resources: "संसाधन", // New section added
         gallery: "गैलरी",
         contact: "संपर्क",
         faq: "सामान्य प्रश्न"

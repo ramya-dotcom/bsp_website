@@ -705,6 +705,7 @@ function updatePageContent() {
         updateElement('nav-events', languageContent.nav?.events);
         updateElement('nav-updates', languageContent.nav?.updates);
         updateElement('nav-gallery', languageContent.nav?.gallery);
+        updateElement('nav-resources', languageContent.nav?.resources);
         updateElement('nav-contact', languageContent.nav?.contact);
         updateElement('nav-faq', languageContent.nav?.faq);
         

@@ -19,6 +19,7 @@ languageContent = {
         events: "நிகழ்வுகள்",
         updates: "புதுப்பிப்புகள்", // New section added
         gallery: "கேலரி",
+        resources: "வளங்கள்", // New section added
         contact: "தொடர்பு",
         faq: "பொதுவான கேள்விகள்"
     },
