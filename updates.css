@@ -1,0 +1,192 @@
+/* ===== UPDATES SECTION STYLES - FIXED DIMENSIONS ===== */
+.section.updates {
+  height: 100vh; /* Full viewport height for snap scroll */
+  scroll-snap-align: start; /* Align this section at top when snapped */
+  padding: 4rem 2rem;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+              url('assets/crowd2.jpg') no-repeat center center fixed;
+  text-align: center;
+  font-family: 'Times New Roman', serif; /* Match site font */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+/* ===== BACKGROUND PATTERN ===== */
+.section.updates::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)); */
+  background-size: 30px 30px;
+  z-index: 1;
+}
+
+/* ===== CONTAINER - FIXED WIDTH ===== */
+.updates-container {
+  max-width: 900px; /* Increased to accommodate iframe */
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== TITLE ===== */
+#updates-title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+  font-weight: bold;
+  color: #ffffff; /* Match site color scheme */
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ===== DESCRIPTION ===== */
+#updates-description {
+  font-size: clamp(1rem, 2vw, 1.1rem);
+  color: #ffffff;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+/* ===== SOCIAL EMBED CONTAINER - FIXED DIMENSIONS ===== */
+.social-embed-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: white;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(34, 65, 154, 0.1);
+  /* FIXED: Set specific dimensions to prevent dynamic resizing */
+  width: 470px; /* Container width = iframe width + padding */
+  height: 570px; /* Container height = iframe height + padding */
+  min-width: 470px;
+  min-height: 570px;
+  max-width: 470px;
+  max-height: 570px;
+}
+
+.social-embed-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(34, 65, 154, 0.2);
+  border-color: #22419A;
+}
+
+/* ===== IFRAME STYLES - ENFORCE FIXED DIMENSIONS ===== */
+.social-embed-container iframe {
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  /* FIXED: Enforce specific dimensions */
+  width: 500px !important;
+  height: 600px !important;
+  min-width: 500px !important;
+  min-height: 600px !important;
+  max-width: 500px !important;
+  max-height: 600px !important;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+  .updates-container {
+    max-width: 100%;
+  }
+  
+  .social-embed-container {
+    /* Scale down but maintain aspect ratio */
+    transform: scale(0.9);
+    transform-origin: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .section.updates {
+    padding: 2rem 1rem;
+    height: auto;
+    min-height: 100vh;
+  }
+  
+  .social-embed-container {
+    /* Scale down further for tablets */
+    transform: scale(0.8);
+    transform-origin: center;
+    margin: 2rem auto;
+  }
+
+  #updates-title {
+    font-size: 1.8rem;
+  }
+
+  #updates-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .social-embed-container {
+    /* Scale down for mobile but keep readable */
+    transform: scale(0.7);
+    transform-origin: center;
+    margin: 1rem auto;
+  }
+  
+  .section.updates {
+    padding: 1rem 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-embed-container {
+    /* Smallest scale for very small screens */
+    transform: scale(0.6);
+    transform-origin: center;
+  }
+  
+  .updates-container {
+    padding: 0 0.25rem;
+  }
+  
+  #updates-title {
+    font-size: 1.5rem;
+  }
+  
+  #updates-description {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== LOADING STATE ===== */
+.social-embed-container::before {
+  content: 'Loading Facebook feed...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-style: italic;
+  z-index: -1;
+  font-size: 1rem;
+}
+
+/* ===== PREVENT OVERFLOW ON SMALLER SCREENS ===== */
+@media (max-width: 520px) {
+  .updates-container {
+    overflow-x: auto; /* Allow horizontal scroll if needed */
+  }
+  
+  .social-embed-container {
+    /* For very small screens, allow the container to be smaller */
+    min-width: auto;
+    width: auto;
+    transform: scale(0.5);
+  }
+}

@@ -689,6 +689,7 @@ function updatePageContent() {
         updateElement('nav-vision', languageContent.nav?.vision);
         updateElement('nav-timeline', languageContent.nav?.timeline);
         updateElement('nav-events', languageContent.nav?.events);
+        updateElement('nav-updates', languageContent.nav?.updates);
         updateElement('nav-gallery', languageContent.nav?.gallery);
         updateElement('nav-contact', languageContent.nav?.contact);
         updateElement('nav-faq', languageContent.nav?.faq);
@@ -724,6 +725,10 @@ function updatePageContent() {
         updateElement('events-title', languageContent.events?.title);
         updateElement('events-description', languageContent.events?.description);
         
+        //Update Social media section
+        updateElement('updates-title', languageContent.updates?.title);
+        updateElement('updates-description', languageContent.updates?.description);
+
         // Update contact section
         updateElement('contact-title', languageContent.contact?.title);
         updateElement('contact-description', languageContent.contact?.description);
