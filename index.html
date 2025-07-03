@@ -171,14 +171,76 @@
 
       <!-- Events Section -->
       <section class="section events" id="events">
-        <div class="section-content">
-          <h2 id="events-title">Latest Events & News</h2>
-          <p id="events-description">Stay updated with our latest activities, rallies, and announcements.</p>
+          <div class="section-content">
+              <h2 id="events-title">Latest Events & News</h2>
+              <p id="events-description">Stay updated with our latest activities, rallies, and announcements.</p>
 
-          <div class="events-grid" id="eventsGrid">
-            <!-- Events will be dynamically loaded -->
+              <div class="events-grid" id="eventsGrid">
+                  <!-- Event 1: Ambedkar Jayanti Celebration -->
+                  <div class="event-card" onclick="showEventDetail('event1')">
+                      <!-- Date badge moved to top right -->
+                      <div class="event-date-badge" id="event1-date">Dec 2024</div>
+                      <div class="event-content">
+                          <div class="event-icon">
+                              <i class="fas fa-calendar-star"></i>
+                          </div>
+                          <div class="event-text">
+                              <h3 id="event1-title">Ambedkar Jayanti Celebration</h3>
+                              <p id="event1-description">Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary with rallies and cultural programs across all states.</p>
+                              <button class="read-more-btn" id="btn-read-more-1">Read More</button>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Event 2: State Executive Meeting -->
+                  <div class="event-card" onclick="showEventDetail('event2')">
+                      <!-- Date badge moved to top right -->
+                      <div class="event-date-badge" id="event2-date">Nov 2024</div>
+                      <div class="event-content">
+                          <div class="event-icon">
+                              <i class="fas fa-users-cog"></i>
+                          </div>
+                          <div class="event-text">
+                              <h3 id="event2-title">State Executive Meeting</h3>
+                              <p id="event2-description">Monthly state executive committee meeting to discuss upcoming strategies and organizational matters.</p>
+                              <button class="read-more-btn" id="btn-read-more-2">Read More</button>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Event 3: Dalit Rights Conference -->
+                  <div class="event-card" onclick="showEventDetail('event3')">
+                      <!-- Date badge moved to top right -->
+                      <div class="event-date-badge" id="event3-date">Oct 2024</div>
+                      <div class="event-content">
+                          <div class="event-icon">
+                              <i class="fas fa-balance-scale"></i>
+                          </div>
+                          <div class="event-text">
+                              <h3 id="event3-title">Dalit Rights Conference</h3>
+                              <p id="event3-description">National conference on Dalit rights and empowerment with prominent leaders and activists.</p>
+                              <button class="read-more-btn" id="btn-read-more-3">Read More</button>
+                          </div>
+                      </div>
+                  </div>
+
+                  <!-- Event 4: Youth Wing Formation -->
+                  <div class="event-card" onclick="showEventDetail('event4')">
+                      <!-- Date badge moved to top right -->
+                      <div class="event-date-badge" id="event4-date">Sep 2024</div>
+                      <div class="event-content">
+                          <div class="event-icon">
+                              <i class="fas fa-graduation-cap"></i>
+                          </div>
+                          <div class="event-text">
+                              <h3 id="event4-title">Youth Wing Formation</h3>
+                              <p id="event4-description">Launch of BSP Youth Wing to engage young minds in the party's ideology and future vision.</p>
+                              <button class="read-more-btn" id="btn-read-more-4">Read More</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
           </div>
-        </div>
       </section>
 
       <!-- Gallery Section -->

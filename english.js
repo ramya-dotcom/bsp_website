@@ -142,8 +142,6 @@ languageContent = {
                 title: "Ambedkar Jayanti Celebration",
                 description: "Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary with rallies and cultural programs across all states.",
                 date: "Dec 2024",
-                category: "BSP Rally",
-                image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
                 contentTitle: "Celebrating the Legacy of Dr. B.R. Ambedkar",
                 fullContent: "Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary, a momentous occasion that honors the architect of the Indian Constitution and the champion of social justice. This year's celebration will be held across all states with unprecedented scale and participation.",
                 highlights: "The celebration will feature cultural programs showcasing the rich heritage of the Bahujan community, educational seminars on Dr. Ambedkar's contributions to modern India, and rallies promoting social equality and justice. Distinguished speakers will address the gathering, sharing insights into Dr. Ambedkar's vision for a just and equitable society."
@@ -153,8 +151,6 @@ languageContent = {
                 title: "State Executive Meeting",
                 description: "Monthly state executive committee meeting to discuss upcoming strategies and organizational matters.",
                 date: "Nov 2024",
-                category: "Executive Meet",
-                image: "https://images.unsplash.com/photo-1551818255-e6e10975cd17?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
                 contentTitle: "Strategic Planning and Organizational Development",
                 fullContent: "The monthly State Executive Committee meeting brings together key party leaders to discuss strategic initiatives, organizational strengthening, and upcoming political activities. This crucial gathering ensures coordinated efforts across all state units.",
                 highlights: "The meeting will cover election preparations, membership drive strategies, youth engagement programs, and social welfare initiatives. Special focus will be on strengthening grassroots organization and increasing party presence in rural areas."
@@ -164,8 +160,6 @@ languageContent = {
                 title: "Dalit Rights Conference",
                 description: "National conference on Dalit rights and empowerment with prominent leaders and activists.",
                 date: "Oct 2024",
-                category: "Rights Conference",
-                image: "https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
                 contentTitle: "National Conference on Dalit Rights and Empowerment",
                 fullContent: "A comprehensive conference focusing on Dalit rights, empowerment strategies, and social justice initiatives. Prominent leaders, activists, and intellectuals will share their insights on advancing the cause of marginalized communities.",
                 highlights: "The conference will address contemporary challenges faced by Dalits, discuss policy reforms, and chalk out future strategies for ensuring equal rights and opportunities for all sections of society."
@@ -175,8 +169,6 @@ languageContent = {
                 title: "Youth Wing Formation",
                 description: "Launch of BSP Youth Wing to engage young minds in the party's ideology and future vision.",
                 date: "Sep 2024",
-                category: "Youth Wing",
-                image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
                 contentTitle: "Launch of BSP Youth Wing",
                 fullContent: "Inaugural launch of the BSP Youth Wing to engage young minds in the party's ideology and future vision. This initiative aims to build the next generation of leaders committed to social justice and equality.",
                 highlights: "The Youth Wing will focus on educational programs, leadership development, and creating awareness about constitutional rights among the younger generation. Special emphasis will be placed on digital outreach and modern communication methods."
