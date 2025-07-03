@@ -29,7 +29,7 @@ try {
   console.error('Failed to load cache file:', e.message);
   tweetCache = {};
 }
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours in ms
 
 // Helper to save cache to file
 function saveCache() {
@@ -41,7 +41,7 @@ function saveCache() {
 }
 
 // Helper to fetch tweets from Twitter API v2 with persistent caching
-async function fetchTweets(username, max_results = 2) {
+async function fetchTweets(username, max_results = 5) {
   const cacheKey = `${username}:${max_results}`;
   const now = Date.now();
   if (tweetCache[cacheKey] && (now - tweetCache[cacheKey].timestamp < CACHE_DURATION)) {
@@ -75,7 +75,7 @@ async function fetchTweets(username, max_results = 2) {
 
 // API endpoint to get tweets for a handle
 app.get('/api/tweets/Mayawati', async (req, res) => { 
-  const max = req.query.max || 2;
+  const max = req.query.max || 5;
   try {
     const tweets = await fetchTweets('Mayawati', max);
     res.json(tweets);
