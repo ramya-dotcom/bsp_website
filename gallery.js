@@ -144,17 +144,25 @@ function initGallery() {
  * Collect gallery images data for lightbox functionality
  */
 function collectGalleryImages() {
+    // Only collect unique slides (ignore Swiper's duplicated slides for looping)
     const slides = document.querySelectorAll('.gallery-slide');
+    // Filter out Swiper's duplicate slides by checking for a unique attribute or by limiting to the first N slides
+    // Here, we assume the first N slides are the real ones (N = number of unique images, e.g., 20)
+    const uniqueSlides = Array.from(slides).slice(0, 20); // Adjust 20 to your real image count if needed
     galleryImages = [];
 
-    slides.forEach((slide, index) => {
+    uniqueSlides.forEach((slide, index) => {
         let imageUrl = slide.getAttribute('data-image') ||
             slide.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/)?.[1] || '';
-        // Fallback: if imageUrl is missing or blank, use a placeholder
+        // Detailed logging for debugging
+        console.log(`Slide ${index + 1}: data-image=`, slide.getAttribute('data-image'));
+        console.log(`Slide ${index + 1}: backgroundImage=`, slide.style.backgroundImage);
         if (!imageUrl) {
             console.warn(`⚠️ Gallery slide ${index + 1} is missing an image. Using placeholder.`);
             imageUrl = 'https://via.placeholder.com/450x550?text=Image+Not+Found';
             slide.style.backgroundImage = `url('${imageUrl}')`;
+        } else {
+            console.log(`✅ Gallery slide ${index + 1} using image:`, imageUrl);
         }
         galleryImages.push({
             image: imageUrl,
@@ -176,19 +184,31 @@ function setupLightboxTriggers() {
     console.log('🔗 Setting up enhanced lightbox triggers');
 
     slides.forEach((slide, index) => {
+        // Remove any previous click listeners to avoid duplicates
+        slide.onclick = null;
         // Enhanced click event
         slide.addEventListener('click', function (e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Image clicked:', index);
-            openLightbox(index);
+            // Find the real index in galleryImages (handles Swiper duplicates)
+            const realIndex = galleryImages.findIndex(img => img.element === slide);
+            if (realIndex !== -1) {
+                openLightbox(realIndex);
+            } else {
+                openLightbox(index); // fallback
+            }
         }, { passive: false });
 
         // Keyboard accessibility
         slide.addEventListener('keydown', function (e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                openLightbox(index);
+                const realIndex = galleryImages.findIndex(img => img.element === slide);
+                if (realIndex !== -1) {
+                    openLightbox(realIndex);
+                } else {
+                    openLightbox(index);
+                }
             }
         });
 
@@ -413,6 +433,24 @@ function setupLightboxEvents() {
     console.log('✅ Enhanced lightbox events setup complete');
 }
 
+// ===== LIGHTBOX MODAL HTML CREATION =====
+function ensureGalleryLightboxModal() {
+    if (document.getElementById('galleryLightbox')) return;
+    const modal = document.createElement('div');
+    modal.id = 'galleryLightbox';
+    modal.style.display = 'none';
+    modal.className = 'gallery-lightbox-modal';
+    modal.innerHTML = `
+        <div class="gallery-lightbox-content">
+            <button id="lightboxClose" class="gallery-lightbox-close" aria-label="Close">&times;</button>
+            <img id="lightboxImage" class="gallery-lightbox-image" src="" alt="" />
+            <button id="lightboxPrev" class="gallery-lightbox-nav gallery-lightbox-prev" aria-label="Previous">&#10094;</button>
+            <button id="lightboxNext" class="gallery-lightbox-nav gallery-lightbox-next" aria-label="Next">&#10095;</button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
 // ===== ADDITIONAL FUNCTIONALITY =====
 
 /**
@@ -489,6 +527,7 @@ window.switchLanguage = function(lang) {
 document.addEventListener('DOMContentLoaded', function () {
     console.log('🚀 Initializing Enhanced BSP Gallery...');
 
+    ensureGalleryLightboxModal();
     setupLightboxEvents();
 
     setTimeout(() => {
@@ -506,5 +545,56 @@ window.initGallery = initGallery;
 window.updateGalleryContent = updateGalleryContent;
 window.openLightbox = openLightbox;
 window.closeLightbox = closeLightbox;
+
+(function addGalleryLightboxStyles() {
+    if (document.getElementById('gallery-lightbox-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'gallery-lightbox-styles';
+    style.textContent = `
+    .gallery-lightbox-modal {
+        position: fixed; z-index: 9999; left: 0; top: 0; width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center;
+        transition: opacity 0.3s; opacity: 0; pointer-events: none;
+    }
+    .gallery-lightbox-modal.active { opacity: 1; pointer-events: auto; }
+    .gallery-lightbox-content {
+        position: relative;
+        width: 900px;
+        height: 600px;
+        max-width: 95vw;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        box-shadow: 0 2px 16px #000a;
+        border-radius: 12px;
+        padding: 0;
+    }
+    .gallery-lightbox-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: none;
+        margin: 0;
+        display: block;
+    }
+    .gallery-lightbox-close { position: absolute; top: 10px; right: 20px; font-size: 2rem; background: none; border: none; color: #fff; cursor: pointer; z-index: 2; }
+    .gallery-lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; background: none; border: none; color: #fff; cursor: pointer; z-index: 2; padding: 0 10px; }
+    .gallery-lightbox-prev { left: 10px; }
+    .gallery-lightbox-next { right: 10px; }
+    @media (max-width: 1000px) {
+        .gallery-lightbox-content { width: 98vw; height: 60vw; max-width: 98vw; max-height: 60vw; }
+    }
+    @media (max-width: 600px) {
+        .gallery-lightbox-content { width: 98vw; height: 56vw; max-width: 98vw; max-height: 56vw; }
+        .gallery-lightbox-image { max-width: 98vw; max-height: 56vw; }
+    }
+    `;
+    document.head.appendChild(style);
+})();
 
 console.log('🎉 Enhanced BSP Gallery Script Loaded Successfully');
