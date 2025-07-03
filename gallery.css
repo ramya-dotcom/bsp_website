@@ -113,11 +113,11 @@
 
 /* REQUIREMENT 4: CSS transforms for angled previews with scale and opacity */
 .gallery-swiper .swiper-slide {
-    width: 350px !important;
-    height: 400px !important;
+    width: 450px !important;
+    height: 550px !important;
     /* Responsive scaling for iframe context */
-    max-width: 90vw;
-    max-height: 80vh;
+    max-width: 95vw;
+    max-height: 90vh;
     flex-shrink: 0;
     background-position: center;
     background-size: cover;
@@ -501,24 +501,11 @@
 /* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 1024px) {
     .gallery-swiper-container {
-        height: 450px;
+        height: 500px;
     }
-
     .gallery-swiper .swiper-slide {
-        width: 300px !important;
-        height: 340px !important;
-    }
-
-    .gallery-swiper {
-        padding: 0 20px;
-    }
-
-    .gallery-prev {
-        left: 20px;
-    }
-
-    .gallery-next {
-        right: 20px;
+        width: 350px !important;
+        height: 420px !important;
     }
 }
 
@@ -532,8 +519,8 @@
     }
 
     .gallery-swiper .swiper-slide {
-        width: 220px !important;
-        height: 250px !important;
+        width: 270px !important;
+        height: 320px !important;
     }
     .gallery-swiper {
         padding: 0 20px;
@@ -560,12 +547,11 @@
 
 @media (max-width: 480px) {
     .gallery-swiper-container {
-        height: 350px;
+        height: 300px;
     }
-
     .gallery-swiper .swiper-slide {
-        width: 260px !important;
-        height: 300px !important;
+        width: 180px !important;
+        height: 200px !important;
     }
 
     .gallery-swiper {
