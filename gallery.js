@@ -276,11 +276,9 @@ function openLightbox(index) {
 
     // Update lightbox content
     const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxTitle = document.getElementById('lightboxTitle');
-    const lightboxDescription = document.getElementById('lightboxDescription');
     const lightbox = document.getElementById('galleryLightbox');
 
-    if (lightboxImage && lightboxTitle && lightboxDescription && lightbox) {
+    if (lightboxImage && lightbox) {
         // Set loading state
         lightboxImage.style.opacity = '0.5';
         lightboxImage.src = imageData.image;
@@ -297,10 +295,6 @@ function openLightbox(index) {
             this.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjZjBmMGYwIi8+Cjx0ZXh0IHg9IjIwMCIgeT0iMTUwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTk5Ij5JbWFnZSBOb3QgQXZhaWxhYmxlPC90ZXh0Pgo8L3N2Zz4=';
             this.style.opacity = '1';
         };
-
-        // REQUIREMENT 2: Set title and description
-        lightboxTitle.textContent = imageData.title;
-        lightboxDescription.textContent = imageData.description;
 
         // Show lightbox with animation
         lightbox.style.display = 'flex';
@@ -581,6 +575,12 @@ window.closeLightbox = closeLightbox;
         box-shadow: none;
         margin: 0;
         display: block;
+    }
+    .gallery-lightbox-caption, .gallery-lightbox-title, .gallery-lightbox-description {
+        display: none !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
     .gallery-lightbox-close { position: absolute; top: 10px; right: 20px; font-size: 2rem; background: none; border: none; color: #fff; cursor: pointer; z-index: 2; }
     .gallery-lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); font-size: 2.5rem; background: none; border: none; color: #fff; cursor: pointer; z-index: 2; padding: 0 10px; }
