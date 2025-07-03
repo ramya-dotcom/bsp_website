@@ -14,7 +14,7 @@ async function getUserId(username) {
   return resp.data.data.id;
 }
 
-async function getUserTweets(userId, max_results = 5) {
+async function getUserTweets(userId, max_results) {
   const url = `https://api.twitter.com/2/users/${userId}/tweets?max_results=${max_results}&tweet.fields=created_at,text`;
   const resp = await axios.get(url, {
     headers: { Authorization: `Bearer ${BEARER_TOKEN}` }
