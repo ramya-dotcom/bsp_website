@@ -8,7 +8,7 @@ async function fetchTweets() {
     if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
     const data = await res.json();
     if (data && data.data && data.data.length > 0) {
-      container.innerHTML = data.data.map(tweet => `
+      container.innerHTML = data.data.slice(0, 2).map(tweet => `
         <div class="tweet-card">
           <div class="tweet-date">${new Date(tweet.created_at).toLocaleString()}</div>
           <div class="tweet-text">${tweet.text.replace(/(https?:\/\/\S+)/g, '<a href=\"$1\" target=\"_blank\">$1</a>')}</div>
