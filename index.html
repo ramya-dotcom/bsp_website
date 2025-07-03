@@ -14,6 +14,23 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="gallery.css" />
     <link rel="stylesheet" href="updates.css">
+    <style>
+      html, body {
+        max-width: 100vw;
+        overflow-x: hidden !important;
+      }
+      body {
+        box-sizing: border-box;
+      }
+      .main-container, .section, .section-content, .contact-grid, .gallery-container, .updates-container, .timeline-fullscreen-container, .events-grid {
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      .contact-info-row, .contact-info-col, .contact-footer, .contact-grid {
+        box-sizing: border-box;
+        max-width: 100vw;
+      }
+    </style>
   </head>
   <body>
     <!-- Loading Screen -->
@@ -128,17 +145,17 @@
 
           <div class="leadership-grid">
             <div class="leader-card">
-              <img src="assets/br_ambedhkar_1.jpg" alt="Dr. B.R. Ambedkar" />
+              <img src="assets/br_ambedhkar.jpg" alt="Dr. B.R. Ambedkar" />
               <h3>Dr. B.R. Ambedkar</h3>
               <p id="leader-inspiration">Ideological Inspiration</p>
             </div>
             <div class="leader-card">
-              <img src="assets/kanshi_ram_b.jpg" alt="Kanshi Ram" />
+              <img src="assets/kanshi_ram.jpg" alt="Kanshi Ram" />
               <h3>Kanshi Ram</h3>
               <p id="leader-founder">Founder (1984)</p>
             </div>
             <div class="leader-card">
-              <img src="assets/mayawati_1.jpg" alt="Mayawati" />
+              <img src="assets/mayawati.jpg" alt="Mayawati" />
               <h3>Mayawati</h3>
               <p id="leader-president">National President</p>
             </div>
@@ -547,7 +564,7 @@
           <p id="contact-description">Connect with us to be part of the movement for social transformation.</p>
           <div class="contact-grid" style="display: flex; flex-direction: column; gap: 0; width: 100%;">
             <div class="contact-btn-row" style="display: flex; justify-content: center; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; width: 100%;">
-              <button id="boothAgentBtn" class="cta-btn primary" type="button">Booth Level Agent</button>
+              <button id="boothAgentBtn" class="cta-btn primary" type="button">BLA - Booth Level Agent</button>
               <button id="openContactModalBtn" class="cta-btn primary" type="button">Send Us A Message Here!</button>
             </div>
             <!-- Contact Info Footer -->

@@ -429,7 +429,7 @@ body::-webkit-scrollbar-thumb:hover {
 /* ===== HERO SECTION ===== */
 .hero {
     background-image: linear-gradient(rgba(34, 65, 154, 0.7), rgba(34, 65, 154, 0.7)), 
-                      url('assets/maya_voting.jpg');
+                      url('assets/hero.jpg');
     color: white;
     justify-content: center;
     align-items: center;
