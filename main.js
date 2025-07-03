@@ -196,6 +196,7 @@ function ensureLanguageConsistency() {
             console.log('English content missing or incorrect, reloading English content');
             languageContent = getEnglishContent();
             updatePageContent();
+            if (typeof updateGalleryContent === 'function') updateGalleryContent();
         } else {
             updatePageContent();
         }
@@ -329,23 +330,33 @@ function getEnglishContent() {
                 },
                 {
                     title: "Parliamentary Presence",
-                    description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights."
+                    description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights.",
+                    image: "assets/1997.jpg",
+                    // portrait: "assets/1997.jpg"
                 },
                 {
                     title: "Ambedkar Anniversary Rally",
-                    description: "Massive rally in Lucknow on 61st death anniversary of Dr. Ambedkar, with party review meetings to prepare for 2017 elections."
+                    description: "Massive rally in Lucknow on 61st death anniversary of Dr. Ambedkar, with party review meetings to prepare for 2017 elections.",
+                    image: "assets/1997.jpg",
+                    // portrait: "assets/1997.jpg"
                 },
                 {
                     title: "Electoral Campaign",
-                    description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation."
+                    description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation.",
+                    image: "assets/1997.jpg",
+                    // portrait: "assets/1997.jpg"
                 },
                 {
                     title: "Opposition Unity",
-                    description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka."
+                    description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka.",
+                    image: "assets/1997.jpg",
+                    // portrait: "assets/1997.jpg"
                 },
                 {
                     title: "Strategic Alliance",
-                    description: "Joint rally with Akhilesh Yadav (SP) and Ajit Singh (RLD) in Varanasi before Lok Sabha elections, demonstrating coalition politics for social justice."
+                    description: "Joint rally with Akhilesh Yadav (SP) and Ajit Singh (RLD) in Varanasi before Lok Sabha elections, demonstrating coalition politics for social justice.",
+                    image: "assets/1997.jpg",
+                    // portrait: "assets/1997.jpg"
                 }
             ]
         },
@@ -511,6 +522,7 @@ function switchLanguage(language, isInternalCall = false) {
         // Set English content explicitly
         languageContent = getEnglishContent();
         updatePageContent();
+        if (typeof updateGalleryContent === 'function') updateGalleryContent();
         if (!isInternalCall) {
             hideLoadingOverlay();
         }
@@ -532,6 +544,8 @@ function switchLanguage(language, isInternalCall = false) {
     script.onload = function() {
         console.log(`${language} language loaded successfully`);
         // Content will be updated by the loaded language file
+        updatePageContent();
+        if (typeof updateGalleryContent === 'function') updateGalleryContent();
         if (!isInternalCall) {
             hideLoadingOverlay();
         }
@@ -557,6 +571,8 @@ function switchLanguage(language, isInternalCall = false) {
         script.src = `${language}.js`;
         script.onload = function() {
             console.log(`${language} language loaded successfully (alternative path)`);
+            updatePageContent();
+            if (typeof updateGalleryContent === 'function') updateGalleryContent();
             if (!isInternalCall) {
                 hideLoadingOverlay();
             }
@@ -583,6 +599,7 @@ function switchLanguage(language, isInternalCall = false) {
             
             // Fallback: Load content directly if file loading fails
             loadLanguageFallback(language);
+            if (typeof updateGalleryContent === 'function') updateGalleryContent();
         };
     };
     
@@ -680,7 +697,6 @@ function updatePageContent() {
         console.error('Language content not available');
         return;
     }
-    
     try {
         // Update navigation elements
         updateElement('logo-text', languageContent.nav?.logoText);
@@ -703,7 +719,6 @@ function updatePageContent() {
         
         // Update about section
         updateElement('about-title', languageContent.about?.title);
-        // updateElement('about-description', languageContent.about?.description);
         updateElement('about-description-1', languageContent.about?.description?.p1);
         updateElement('about-description-2', languageContent.about?.description?.p2);
         updateElement('about-description-3', languageContent.about?.description?.p3);
@@ -759,7 +774,6 @@ function updatePageContent() {
         // Check if we're in an event detail page and update it
         const currentEventId = getCurrentEventId();
         if (currentEventId) {
-            console.log('Updating event detail page from updatePageContent for event:', currentEventId);
             updateEventDetailForCurrentLanguage(currentEventId);
         }
         
@@ -987,20 +1001,6 @@ function goHome() {
         ensureLanguageConsistency();
     }, 100);
 }
-
-// async function goHome() { // ADDED async
-//     await ensureLanguageConsistency(); // ADDED: Ensure language is consistent first
-
-//     // REMOVED: hideEventDetail();
-//     // REMOVED: hideFAQ();
-//     // REMOVED: scrollToSection('hero'); // This will be handled by handlePageDisplayAfterLanguageSwitch
-
-//     currentPage = 'main';
-//     updateHistory('main', 0);
-
-//     // ADDED: Explicitly handle page display after language is set
-//     handlePageDisplayAfterLanguageSwitch('main', 0);
-// }
 
 /**
  * Smooth scroll to specific section (ENHANCED)
@@ -1765,6 +1765,14 @@ function initWebsite() {
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
+    
+    let lang = (typeof loadLanguagePreference === 'function' ? loadLanguagePreference() : null) || 'english';
+    let script = document.createElement('script');
+    script.src = lang + '.js';
+    script.setAttribute('data-lang', lang);
+    document.body.appendChild(script);
+    
+    // Initialize website functionality
     initWebsite();
 });
 
