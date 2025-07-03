@@ -246,6 +246,7 @@ function getEnglishContent() {
             events: "Events",
             updates: "Updates",
             gallery: "Gallery",
+            resources: "Resources",
             contact: "Contact",
             faq: "FAQ"
         },
@@ -668,7 +669,9 @@ function loadLanguageFallback(language) {
                 vision: "दृष्टिकोण",
                 timeline: "समयरेखा",
                 events: "कार्यक्रम",
+                updates: "अपडेट्स",
                 gallery: "गैलरी",
+                resources: "संसाधन",
                 contact: "संपर्क",
                 faq: "सामान्य प्रश्न"
             },
@@ -690,7 +693,9 @@ function loadLanguageFallback(language) {
                 vision: "தொலைநோக்கு",
                 timeline: "நேரக்கோடு",
                 events: "நிகழ்வுகள்",
+                updates: "புதுப்பிப்புகள்",
                 gallery: "கேலரி",
+                resources: "வளங்கள்",
                 contact: "தொடர்பு",
                 faq: "கேள்விகள்"
             },
@@ -713,7 +718,9 @@ function loadLanguageFallback(language) {
                 vision: "Vision",
                 timeline: "Timeline",
                 events: "Events",
+                updates: "Updates",
                 gallery: "Gallery",
+                resources: "Resources",
                 contact: "Contact",
                 faq: "FAQ"
             },
