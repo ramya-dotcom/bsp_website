@@ -20,113 +20,113 @@ const timelineData = [
         year: 1988,
         title: "Political Foundation Campaign",
         description: "Kanshi Ram campaigns as BSP's 3rd Party candidate for Parliament in Uttar Pradesh, marking the beginning of serious electoral politics for the party.",
-        image: "assets/1988.jpg",
+        image: "assets/timeline/1988.jpg",
         // portrait: "assets/1988.jpg"
     },
     {
         year: 1991,
         title: "Commitment to Dalit Rights",
         description: "Mayawati appears publicly with the statue of Dr. B.R. Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice.",
-        image: "assets/1991.jpg",
-        portrait: "assets/1991.jpg"
+        image: "assets/timeline/1991.jpg",
+        // portrait: "assets/1991.jpg"
     },
     {
         year: 1997,
         title: "First Chief Minister Term",
         description: "Mayawati becomes Chief Minister of Uttar Pradesh for the first time, appearing with prominent leaders including Kanshi Ram, Inder Kumar Gujral, and KR Narayanan.",
-        image: "assets/1997.jpg",
+        image: "assets/timeline/1997.jpg",
         // portrait: "assets/1997.jpg"
     },
     {
         year: 1998,
         title: "National Party Status",
         description: "BSP is declared a national party in the presence of Prime Minister Inder Kumar Gujral, establishing its significance in Indian politics.",
-        image: "assets/1998.jpg",
+        image: "assets/timeline/1998.jpg",
         // portrait: "assets/1998.jpg"
     },
     {
         year: 2001,
         title: "Massive Delhi Rally",
         description: "Historic BSP rally at Ramlila Grounds in Delhi with Kanshi Ram and Mayawati, demonstrating the party's growing national influence and mass appeal.",
-        image: "assets/2001.jpg",
+        image: "assets/timeline/2001.jpg",
         // portrait: "assets/2001.jpg"
     },
     {
         year: 2002,
         title: "Second Term as Chief Minister",
         description: "Mayawati becomes CM of Uttar Pradesh again with BJP's support, demonstrating strategic political alliances for governance.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2002.jpg",
+        // portrait: "assets/2002.jpg"
     },
     {
         year: 2006,
         title: "Golden Jubilee Celebration",
         description: "Mayawati celebrates her 50th birthday with Kanshi Ram in New Delhi, marking a significant personal and political milestone.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2006.jpg",
+        // portrait: "assets/2006.jpg"
     },
     {
         year: 2007,
         title: "Historic Absolute Majority",
         description: "Mayawati wins absolute majority and becomes CM of UP again, taking oath in Lucknow in a landmark political victory.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2007.jpg",
+        // portrait: "assets/2007.jpg"
     },
     {
         year: 2008,
         title: "Sarv Samaj Bhaichara Rally",
         description: "Massive rally in Delhi, meetings with Left leaders, and unveiling of statues at Noida's Dalit Prerna Sthal, showcasing party's cultural initiatives.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2008.jpg",
+        // portrait: "assets/2008.jpg"
     },
     {
         year: 2009,
         title: "Lok Sabha Campaign",
         description: "Mayawati campaigns extensively for Lok Sabha elections with public rallies at Ramlila Grounds and across UP, strengthening democratic participation.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2009.jpg",
+        // portrait: "assets/2009.jpg"
     },
     {
         year: 2012,
         title: "Democratic Participation",
         description: "Votes in Lucknow during UP Assembly elections, symbolizing democratic participation and peaceful transfer of power.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2012.jpg",
+        // portrait: "assets/2012.jpg"
     },
     {
         year: 2015,
         title: "Parliamentary Presence",
         description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2015.jpg",
+        // portrait: "assets/2015.jpg"
     },
     {
         year: 2016,
         title: "Ambedkar Anniversary Rally",
         description: "Massive rally in Lucknow on 61st death anniversary of Dr. Ambedkar, with party review meetings to prepare for 2017 elections.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2016.jpg",
+        // portrait: "assets/2016.jpg"
     },
     {
         year: 2017,
         title: "Electoral Campaign",
         description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2017.jpg",
+        // portrait: "assets/2017.jpg"
     },
     {
         year: 2018,
         title: "Opposition Unity",
         description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2018.jpg",
+        // portrait: "assets/2018.jpg"
     },
     {
         year: 2019,
         title: "Strategic Alliance",
         description: "Joint rally with Akhilesh Yadav (SP) and Ajit Singh (RLD) in Varanasi before Lok Sabha elections, demonstrating coalition politics for social justice.",
-        image: "assets/1997.jpg",
-        // portrait: "assets/1997.jpg"
+        image: "assets/timeline/2019.jpg",
+        // portrait: "assets/2019.jpg"
     }
 ];
 
