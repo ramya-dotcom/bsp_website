@@ -14,13 +14,13 @@
         <span id="logo-text">BAHUJAN SAMAJ PARTY</span>
       </a>
       <ul class="nav-menu">
-        <li><a href="index.html#hero" id="nav-home">Home</a></li>
-        <li><a href="index.html#timeline" id="nav-timeline">Timeline</a></li>
-        <li><a href="index.html#events" id="nav-events">Events</a></li>
-        <li><a href="index.html#updates" id="nav-updates">Updates</a></li>
-        <li><a href="index.html#gallery" id="nav-gallery">Gallery</a></li>
+        <li><a href="index.html#hero" onclick="scrollToSection('hero')" id="nav-home">Home</a></li>
+        <li><a href="index.html#timeline" onclick="scrollToSection('timeline')" id="nav-timeline">Timeline</a></li>
+        <li><a href="index.html#events" onclick="scrollToSection('events')" id="nav-events">Events</a></li>
+        <li><a href="index.html#updates" onclick="scrollToSection('updates')" id="nav-updates">Updates</a></li>
+        <li><a href="index.html#gallery" onclick="scrollToSection('gallery')" id="nav-gallery">Gallery</a></li>
         <li><a href="resources.html" id="nav-resources">Resources</a></li>
-        <li><a href="index.html#contact" id="nav-contact">Contact</a></li>
+        <li><a href="index.html#contact" onclick="scrollToSection('contact')" id="nav-contact">Contact</a></li>
         <li><a href="#" onclick="window.location='index.html#faq';return false;" id="nav-faq">FAQ</a></li>
         <li class="language-switcher">
           <div class="language-buttons">
@@ -57,6 +57,7 @@
     // Minimal language switcher for Resources page
     const translations = {
       english: {
+        'logo-text': 'BAHUJAN SAMAJ PARTY',
         'nav-home': 'Home',
         'nav-timeline': 'Timeline',
         'nav-events': 'Events',
@@ -69,6 +70,7 @@
         'resources-description': 'Welcome to the Resources page. Here you can find important documents, links, and materials related to the Bahujan Samaj Party.'
       },
       hindi: {
+        'logo-text': 'बहुजन समाज पार्टी',
         'nav-home': 'होम',
         'nav-timeline': 'समयरेखा',
         'nav-events': 'कार्यक्रम',
@@ -81,6 +83,7 @@
         'resources-description': 'संसाधन पृष्ठ में आपका स्वागत है। यहां आप बहुजन समाज पार्टी से संबंधित महत्वपूर्ण दस्तावेज़, लिंक और सामग्री पा सकते हैं।'
       },
       tamil: {
+        'logo-text': 'பஹுஜன் சமாஜ் கட்சி',
         'nav-home': 'முகப்பு',
         'nav-timeline': 'காலவரிசை',
         'nav-events': 'நிகழ்வுகள்',
@@ -102,11 +105,16 @@
       });
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
       document.getElementById('btn-' + lang).classList.add('active');
+      // Save selected language
+      localStorage.setItem('selectedLanguage', lang);
     }
-    // Default to English
-    document.getElementById('btn-english').addEventListener('click', () => switchLanguage('english'));
-    document.getElementById('btn-hindi').addEventListener('click', () => switchLanguage('hindi'));
-    document.getElementById('btn-tamil').addEventListener('click', () => switchLanguage('tamil'));
+    // Add event listeners and set initial language
+    ['english', 'hindi', 'tamil'].forEach(lang => {
+      document.getElementById('btn-' + lang).addEventListener('click', () => switchLanguage(lang));
+    });
+    // On page load, use saved language or default to English
+    const savedLang = localStorage.getItem('selectedLanguage') || 'english';
+    switchLanguage(savedLang);
   </script>
 </body>
 </html>
