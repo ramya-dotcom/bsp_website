@@ -263,7 +263,11 @@ function getEnglishContent() {
         // About section content
         about: {
             title: "About BSP",
-            description: "The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Dr. B.R. Ambedkar, we work towards creating an egalitarian society.",
+            description: {
+                p1: "The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Dr. B.R. Ambedkar, we work towards creating an egalitarian society.",
+                p2: "Our movement is rooted in the principles of social justice, equality, and fraternity. We strive to empower the marginalized and ensure their rightful place in society.",
+                p3: "Join us in our mission to build a just and equitable India for all, following the path shown by Dr. B.R. Ambedkar and Kanshi Ram."
+            },
             mission: {
                 title: "Our Mission",
                 description: "To achieve social transformation and economic emancipation of the Bahujan Samaj through democratic means and constitutional methods."
