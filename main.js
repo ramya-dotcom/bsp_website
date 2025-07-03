@@ -644,7 +644,7 @@ function loadLanguageFallback(language) {
                 events: "நிகழ்வுகள்",
                 gallery: "கேலரி",
                 contact: "தொடர்பு",
-                faq: "பொதுவான கேள்விகள்"
+                faq: "கேள்விகள்"
             },
             hero: {
                 title: "பகுஜன் சமாஜ் கட்சி",
