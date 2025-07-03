@@ -16,6 +16,7 @@ languageContent = {
         vision: "Vision",
         timeline: "Timeline",
         events: "Events",
+        updates: "Updates",
         gallery: "Gallery",
         contact: "Contact",
         faq: "FAQ"
@@ -174,6 +175,12 @@ languageContent = {
                 highlights: "The Youth Wing will focus on educational programs, leadership development, and creating awareness about constitutional rights among the younger generation. Special emphasis will be placed on digital outreach and modern communication methods."
             }
         ]
+    },
+
+    // Updates section content
+    updates: {
+        title: "Latest Updates",
+        description: "Stay informed with the latest news and updates from the Bahujan Samaj Party."
     },
 
     // Contact section content
