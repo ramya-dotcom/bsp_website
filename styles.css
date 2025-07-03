@@ -209,6 +209,11 @@ body::-webkit-scrollbar-thumb:hover {
     margin-top: -2%;
 }
 
+/* Make the about section container narrower */
+.about .section-content {
+    max-width: 1350px;
+}
+
 /* ===== NAVIGATION BAR ===== */
 .navbar {
     position: fixed;
