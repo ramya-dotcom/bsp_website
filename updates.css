@@ -4,7 +4,10 @@
   scroll-snap-align: start; /* Align this section at top when snapped */
   padding: 4rem 2rem;
   background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-              url('assets/crowd2.jpg') no-repeat center center fixed;
+              url('assets/crowd2.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   text-align: center;
   font-family: 'Times New Roman', serif; /* Match site font */
   display: flex;
