@@ -148,9 +148,14 @@ function collectGalleryImages() {
     galleryImages = [];
 
     slides.forEach((slide, index) => {
-        const imageUrl = slide.getAttribute('data-image') ||
+        let imageUrl = slide.getAttribute('data-image') ||
             slide.style.backgroundImage.match(/url\(["']?([^"']*)["']?\)/)?.[1] || '';
-
+        // Fallback: if imageUrl is missing or blank, use a placeholder
+        if (!imageUrl) {
+            console.warn(`⚠️ Gallery slide ${index + 1} is missing an image. Using placeholder.`);
+            imageUrl = 'https://via.placeholder.com/450x550?text=Image+Not+Found';
+            slide.style.backgroundImage = `url('${imageUrl}')`;
+        }
         galleryImages.push({
             image: imageUrl,
             title: slide.getAttribute('data-title') || `Image ${index + 1}`,
@@ -229,6 +234,7 @@ function updateSlideVisuals() {
             }
         }
     });
+    updateGalleryImageCount();
 }
 
 // ===== LIGHTBOX FUNCTIONALITY - REQUIREMENT 2 =====
@@ -432,6 +438,14 @@ function handleVisibilityChange() {
     }
 }
 
+// Remove image count display
+function updateGalleryImageCount() {
+    const counter = document.getElementById('gallery-image-counter');
+    if (counter && counter.parentNode) {
+        counter.parentNode.removeChild(counter);
+    }
+}
+
 // ===== LANGUAGE SUPPORT =====
 
 /**
@@ -479,6 +493,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setTimeout(() => {
         initGallery();
+        updateGalleryImageCount();
     }, 100);
 
     // Setup event listeners
