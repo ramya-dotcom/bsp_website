@@ -336,33 +336,26 @@ function getEnglishContent() {
                 },
                 {
                     title: "Parliamentary Presence",
-                    description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights.",
-                    image: "assets/1997.jpg",
-                    // portrait: "assets/1997.jpg"
+                    description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights."
+                    
                 },
                 {
                     title: "Ambedkar Anniversary Rally",
-                    description: "Massive rally in Lucknow on 61st death anniversary of Dr. Ambedkar, with party review meetings to prepare for 2017 elections.",
-                    image: "assets/1997.jpg",
-                    // portrait: "assets/1997.jpg"
+                    description: "Massive rally in Lucknow on 61st death anniversary of Dr. Ambedkar, with party review meetings to prepare for 2017 elections."
+                    
                 },
                 {
                     title: "Electoral Campaign",
-                    description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation.",
-                    image: "assets/1997.jpg",
-                    // portrait: "assets/1997.jpg"
+                    description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation."
+                    
                 },
                 {
                     title: "Opposition Unity",
-                    description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka.",
-                    image: "assets/1997.jpg",
-                    // portrait: "assets/1997.jpg"
+                    description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka."
                 },
                 {
                     title: "Strategic Alliance",
-                    description: "Joint rally with Akhilesh Yadav (SP) and Ajit Singh (RLD) in Varanasi before Lok Sabha elections, demonstrating coalition politics for social justice.",
-                    image: "assets/1997.jpg",
-                    // portrait: "assets/1997.jpg"
+                    description: "Joint rally with Akhilesh Yadav (SP) and Ajit Singh (RLD) in Varanasi before Lok Sabha elections, demonstrating coalition politics for social justice."
                 }
             ]
         },
