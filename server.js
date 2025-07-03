@@ -41,7 +41,7 @@ function saveCache() {
 }
 
 // Helper to fetch tweets from Twitter API v2 with persistent caching
-async function fetchTweets(username, max_results = 5) {
+async function fetchTweets(username, max_results = 2) {
   const cacheKey = `${username}:${max_results}`;
   const now = Date.now();
   if (tweetCache[cacheKey] && (now - tweetCache[cacheKey].timestamp < CACHE_DURATION)) {
@@ -75,7 +75,7 @@ async function fetchTweets(username, max_results = 5) {
 
 // API endpoint to get tweets for a handle
 app.get('/api/tweets/Mayawati', async (req, res) => { 
-  const max = req.query.max || 5;
+  const max = req.query.max || 2;
   try {
     const tweets = await fetchTweets('Mayawati', max);
     res.json(tweets);

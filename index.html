@@ -18,6 +18,10 @@
     <div id="loader">
       <img src="assets/loader_logo.jpeg" alt="Loading..." class="loading-img" />
     </div>
+
+    <!-- Facebook SDK root -->
+    <div id="fb-root"></div>
+
     <!-- Navigation Bar -->
     <nav class="navbar">
       <div class="nav-container">
@@ -243,6 +247,36 @@
           </div>
       </section>
 
+      <section class="section updates" id="updates">
+        <div class="updates-container">
+          <h2 id="updates-title">Latest Updates</h2>
+          <p id="updates-description">Stay informed with the latest news and updates from the Bahujan Samaj Party.</p>
+
+          <div class="fb-page" data-href="https://www.facebook.com/BSPTamilnaduUnit/" data-tabs="timeline" data-width="450" 
+          data-height="750" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" 
+          data-show-facepile="false">
+          <blockquote cite="https://www.facebook.com/BSPTamilnaduUnit/" class="fb-xfbml-parse-ignore">
+            <a href="https://www.facebook.com/BSPTamilnaduUnit/">Bahujan Samaj Party - Tamil Nadu Unit</a>
+          </blockquote>
+        </div>
+        <!-- <div class="updates-grid"> -->
+          <!-- Update 1 -->
+          <!-- <div class="update-card">
+            <h3 id="update1-title">BSP's Historic Rally in Delhi</h3>
+            <p id="update1-description">Thousands gathered to support BSP's vision for a just society.</p>
+            <span class="update-date" id="update1-date">Jan 15, 2025</span>
+          </div> -->
+
+          <!-- Update 2 -->
+          <!-- <div class="update-card">
+            <h3 id="update2-title">BSP's New Education Initiative</h3>  
+            <p id="update2-description">Launching programs to empower youth through education and skill development.</p>
+            <span class="update-date" id="update2-date">Jan 10, 2025</span>
+          </div> -->
+        <!-- </div> -->
+        </div>
+      </section>  
+
       <!-- Gallery Section -->
       <section class="section gallery" id="gallery">
         <div class="gallery-container">
@@ -267,135 +301,263 @@
             <div class="swiper gallery-swiper" id="gallerySwiper">
               <div class="swiper-wrapper" id="galleryWrapper">
                 <!-- Slide 1 -->
-                <div class="swiper-slide gallery-slide" 
-                     style="background-image: url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
-                     data-image="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-                     data-title="Ambedkar Jayanti Celebration"
-                     data-description="Grand celebration honoring Dr. B.R. Ambedkar's legacy with thousands of supporters across the nation, showcasing the party's commitment to constitutional values and social justice."
-                     data-index="0"
-                     tabindex="0"
-                     role="button"
-                     aria-label="View Ambedkar Jayanti Celebration in full screen">
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_1.jpg')"
+                    data-title="Event 1"
+                    data-index="0"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 1 in full screen">
                   <div class="gallery-slide-content">
-                    <h3 class="gallery-slide-title">Ambedkar Jayanti Celebration</h3>
-                    <p class="gallery-slide-description">Grand celebration honoring Dr. B.R. Ambedkar's legacy with thousands of supporters across the nation.</p>
+                    <h3 class="gallery-slide-title">Event 1</h3>
                   </div>
                 </div>
+
                 <!-- Slide 2 -->
-                <div class="swiper-slide gallery-slide" 
-                     style="background-image: url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
-                     data-image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-                     data-title="Massive Rally in Delhi"
-                     data-description="Historic BSP rally at Ramlila Grounds demonstrating the party's growing national influence and commitment to social transformation through democratic means."
-                     data-index="1"
-                     tabindex="0"
-                     role="button"
-                     aria-label="View Massive Rally in Delhi in full screen">
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_2.jpg')"
+                    data-title="Event 2"
+                    data-index="1"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 2 in full screen">
                   <div class="gallery-slide-content">
-                    <h3 class="gallery-slide-title">Massive Rally in Delhi</h3>
-                    <p class="gallery-slide-description">Historic BSP rally at Ramlila Grounds demonstrating the party's growing national influence.</p>
+                    <h3 class="gallery-slide-title">Event 2</h3>
                   </div>
                 </div>
+
                 <!-- Slide 3 -->
-                <div class="swiper-slide gallery-slide" 
-                     style="background-image: url('https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
-                     data-image="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-                     data-title="Mayawati's Leadership"
-                     data-description="Mayawati addressing supporters during a crucial campaign for social justice and equality, demonstrating her unwavering commitment to the Bahujan Samaj movement."
-                     data-index="2"
-                     tabindex="0"
-                     role="button"
-                     aria-label="View Mayawati's Leadership in full screen">
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_3.jpg')"
+                    data-title="Event 3"
+                    data-index="2"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 3 in full screen">
                   <div class="gallery-slide-content">
-                    <h3 class="gallery-slide-title">Mayawati's Leadership</h3>
-                    <p class="gallery-slide-description">Mayawati addressing supporters during a crucial campaign for social justice and equality.</p>
+                    <h3 class="gallery-slide-title">Event 3</h3>
                   </div>
                 </div>
+
                 <!-- Slide 4 -->
-                <div class="swiper-slide gallery-slide" 
-                     style="background-image: url('https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
-                     data-image="https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-                     data-title="Youth Wing Formation"
-                     data-description="Launch of BSP Youth Wing to engage young minds in the party's ideology and future vision, ensuring continuity of the movement across generations."
-                     data-index="3"
-                     tabindex="0"
-                     role="button"
-                     aria-label="View Youth Wing Formation in full screen">
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_4.jpg')"
+                    data-title="Event 4"
+                    data-index="3"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 4 in full screen">
                   <div class="gallery-slide-content">
-                    <h3 class="gallery-slide-title">Youth Wing Formation</h3>
-                    <p class="gallery-slide-description">Launch of BSP Youth Wing to engage young minds in the party's ideology and future vision.</p>
+                    <h3 class="gallery-slide-title">Event 4</h3>
                   </div>
                 </div>
+
                 <!-- Slide 5 -->
-                <div class="swiper-slide gallery-slide" 
-                     style="background-image: url('https://images.unsplash.com/photo-1551818255-e6e10975cd17?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
-                     data-image="https://images.unsplash.com/photo-1551818255-e6e10975cd17?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-                     data-title="Parliamentary Sessions"
-                     data-description="BSP representatives actively participating in parliamentary sessions defending constitutional rights and advocating for marginalized communities in the democratic process."
-                     data-index="4"
-                     tabindex="0"
-                     role="button"
-                     aria-label="View Parliamentary Sessions in full screen">
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_5.jpg')"
+                    data-title="Event 5"
+                    data-index="4"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 5 in full screen">
                   <div class="gallery-slide-content">
-                    <h3 class="gallery-slide-title">Parliamentary Sessions</h3>
-                    <p class="gallery-slide-description">BSP representatives actively participating in parliamentary sessions defending constitutional rights.</p>
+                    <h3 class="gallery-slide-title">Event 5</h3>
                   </div>
                 </div>
+
                 <!-- Slide 6 -->
-                <div class="swiper-slide gallery-slide" 
-                     style="background-image: url('https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
-                     data-image="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-                     data-title="Dalit Rights Conference"
-                     data-description="National conference on Dalit rights and empowerment with prominent leaders and activists working together for comprehensive social reform and equality."
-                     data-index="5"
-                     tabindex="0"
-                     role="button"
-                     aria-label="View Dalit Rights Conference in full screen">
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_6.jpg')"
+                    data-title="Event 6"
+                    data-index="5"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 6 in full screen">
                   <div class="gallery-slide-content">
-                    <h3 class="gallery-slide-title">Dalit Rights Conference</h3>
-                    <p class="gallery-slide-description">National conference on Dalit rights and empowerment with prominent leaders and activists.</p>
+                    <h3 class="gallery-slide-title">Event 6</h3>
                   </div>
                 </div>
+
                 <!-- Slide 7 -->
-                <div class="swiper-slide gallery-slide" 
-                     style="background-image: url('https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600&q=80')"
-                     data-image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-                     data-title="Kanshi Ram's Legacy"
-                     data-description="Commemorating the founder of BSP and his vision for social transformation, celebrating the ideological foundation that continues to guide the party's mission."
-                     data-index="6"
-                     tabindex="0"
-                     role="button"
-                     aria-label="View Kanshi Ram's Legacy in full screen">
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_7.jpg')"
+                    data-title="Event 7"
+                    data-index="6"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 7 in full screen">
                   <div class="gallery-slide-content">
-                    <h3 class="gallery-slide-title">Kanshi Ram's Legacy</h3>
-                    <p class="gallery-slide-description">Commemorating the founder of BSP and his vision for social transformation.</p>
+                    <h3 class="gallery-slide-title">Event 7</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 8 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_8.jpg')"
+                    data-title="Event 8"
+                    data-index="7"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 8 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 8</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 9 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_9.jpg')"
+                    data-title="Event 9"
+                    data-index="8"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 9 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 9</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 10 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_10.jpg')"
+                    data-title="Event 10"
+                    data-index="9"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 10 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 10</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 11 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_11.jpg')"
+                    data-title="Event 11"
+                    data-index="10"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 11 in full screen">
+                  <div class="gallery-slide-content">
+                <!-- Slide 12 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_12.jpg')"
+                    data-title="Event 12"
+                    data-index="11"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 12 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 12</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 13 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_13.jpg')"
+                    data-title="Event 13"
+                    data-index="12"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 13 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 13</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 14 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_14.jpg')"
+                    data-title="Event 14"
+                    data-index="13"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 14 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 14</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 15 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_15.jpg')"
+                    data-title="Event 15"
+                    data-index="14"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 15 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 15</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 16 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_16.jpg')"
+                    data-title="Event 16"
+                    data-index="15"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 16 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 16</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 17 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_17.jpg')"
+                    data-title="Event 17"
+                    data-index="16"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 17 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 17</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 18 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_18.jpg')"
+                    data-title="Event 18"
+                    data-index="17"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 18 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 18</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 19 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_19.jpg')"
+                    data-title="Event 19"
+                    data-index="18"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 19 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 19</h3>
+                  </div>
+                </div>
+
+                <!-- Slide 20 -->
+                <div class="swiper-slide gallery-slide"
+                    style="background-image: url('assets/gallery_images/gallery_image_20.jpg')"
+                    data-title="Event 20"
+                    data-index="19"
+                    tabindex="0"
+                    role="button"
+                    aria-label="View Event 20 in full screen">
+                  <div class="gallery-slide-content">
+                    <h3 class="gallery-slide-title">Event 20</h3>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- Pagination -->
-          <!-- <div class="gallery-pagination" id="galleryPagination"></div> -->
-
-          <!-- Gallery Information Cards
-          <div class="gallery-info">
-              <div class="gallery-info-card">
-                  <i class="fas fa-images"></i>
-                  <h3>Historic Moments</h3>
-                  <p>Capturing significant moments in BSP's journey.</p>
-              </div>
-              <div class="gallery-info-card">
-                  <i class="fas fa-users"></i>
-                  <h3>Mass Rallies</h3>
-                  <p>Documenting widespread public support.</p>
-              </div>
-              <div class="gallery-info-card">
-                  <i class="fas fa-heart"></i>
-                  <h3>Community Events</h3>
-                  <p>Celebrating cultural programs and initiatives.</p>
-              </div>
-          </div> -->
         </div>
       </section>
 
@@ -541,6 +703,8 @@
       });
     </script>
 
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v23.0"></script>
     <!-- Swiper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
     <!-- Main JavaScript -->
