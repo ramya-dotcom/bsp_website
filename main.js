@@ -195,6 +195,11 @@ function ensureLanguageConsistency() {
         if (!languageContent || !languageContent.nav || languageContent.nav.logoText !== "BAHUJAN SAMAJ PARTY") {
             console.log('English content missing or incorrect, reloading English content');
             languageContent = getEnglishContent();
+            // Set gallery translations for gallery.js
+            window.galleryTranslations = {
+                title: languageContent.gallery?.title || "Photo Gallery",
+                description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+            };
             updatePageContent();
             if (typeof updateGalleryContent === 'function') updateGalleryContent();
         } else {
@@ -239,6 +244,7 @@ function getEnglishContent() {
             vision: "Vision",
             timeline: "Timeline",
             events: "Events",
+            updates: "Updates",
             gallery: "Gallery",
             contact: "Contact",
             faq: "FAQ"
@@ -484,6 +490,18 @@ function getEnglishContent() {
             downloadSoon: "Event details download feature will be available soon!",
             messageSent: "Thank you for your message! We will get back to you soon.",
             fillRequired: "Please fill all required fields."
+        },
+
+        // Updates section content
+        updates: {
+            title: "Latest Updates",
+            description: "Stay informed with the latest news and updates from the Bahujan Samaj Party."
+        },
+
+        // Gallery section content
+        gallery: {
+            title: "Photo Gallery",
+            description: "Explore BSP's journey through powerful moments and historic achievements"
         }
     };
 }
@@ -521,6 +539,11 @@ function switchLanguage(language, isInternalCall = false) {
     if (language === 'english') {
         // Set English content explicitly
         languageContent = getEnglishContent();
+        // Set gallery translations for gallery.js
+        window.galleryTranslations = {
+            title: languageContent.gallery?.title || "Photo Gallery",
+            description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+        };
         updatePageContent();
         if (typeof updateGalleryContent === 'function') updateGalleryContent();
         if (!isInternalCall) {
@@ -544,6 +567,12 @@ function switchLanguage(language, isInternalCall = false) {
     script.onload = function() {
         console.log(`${language} language loaded successfully`);
         // Content will be updated by the loaded language file
+        if (language === 'english') {
+            window.galleryTranslations = {
+                title: languageContent.gallery?.title || "Photo Gallery",
+                description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+            };
+        }
         updatePageContent();
         if (typeof updateGalleryContent === 'function') updateGalleryContent();
         if (!isInternalCall) {
@@ -571,6 +600,12 @@ function switchLanguage(language, isInternalCall = false) {
         script.src = `${language}.js`;
         script.onload = function() {
             console.log(`${language} language loaded successfully (alternative path)`);
+            if (language === 'english') {
+                window.galleryTranslations = {
+                    title: languageContent.gallery?.title || "Photo Gallery",
+                    description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+                };
+            }
             updatePageContent();
             if (typeof updateGalleryContent === 'function') updateGalleryContent();
             if (!isInternalCall) {
@@ -599,6 +634,12 @@ function switchLanguage(language, isInternalCall = false) {
             
             // Fallback: Load content directly if file loading fails
             loadLanguageFallback(language);
+            if (language === 'english') {
+                window.galleryTranslations = {
+                    title: languageContent.gallery?.title || "Photo Gallery",
+                    description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+                };
+            }
             if (typeof updateGalleryContent === 'function') updateGalleryContent();
         };
     };
@@ -1819,8 +1860,3 @@ window.toggleFAQ = toggleFAQ;
 window.showEventDetail = showEventDetail;
 window.hideEventDetail = hideEventDetail;
 window.shareEvent = shareEvent;
-window.downloadDetails = downloadDetails;
-window.goToTimelineSlide = goToTimelineSlide;
-window.updatePageContent = updatePageContent;
-
-console.log('BSP Website Main JavaScript Loaded Successfully with Language Persistence');
