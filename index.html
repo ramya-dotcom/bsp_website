@@ -611,6 +611,19 @@
           </form>
         </div>
       </div>
+
+      <!-- Booth Agent Links Modal -->
+      <div class="contact-modal-overlay" id="boothAgentModal" style="display:none;">
+        <div class="contact-modal-box">
+          <button class="contact-modal-close" id="closeBoothAgentModalBtn" aria-label="Close">&times;</button>
+          <h3 style="margin-bottom:1.5rem;">Choose Booth Agent Link</h3>
+          <div style="display:flex; flex-direction:column; gap:1.2rem;">
+            <a href="https://www.erolls.tn.gov.in/blo/BLA1.aspx" target="_blank" class="cta-btn primary" style="text-align:center;">BLA 1 Link</a>
+            <a href="https://www.erolls.tn.gov.in/blo/BLA2.aspx" target="_blank" class="cta-btn primary" style="text-align:center;">BLA 2 Link</a>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- Event Detail Pages -->
@@ -676,5 +689,22 @@
     <script src="gallery.js"></script>
     <!-- Twitter Feed JavaScript -->
     <script src="twitterFeed.js"></script>
+    <script>
+      // Booth Agent Modal logic
+      const boothAgentBtn = document.getElementById('boothAgentBtn');
+      const boothAgentModal = document.getElementById('boothAgentModal');
+      const closeBoothAgentModalBtn = document.getElementById('closeBoothAgentModalBtn');
+      if (boothAgentBtn && boothAgentModal && closeBoothAgentModalBtn) {
+        boothAgentBtn.addEventListener('click', function() {
+          boothAgentModal.style.display = 'flex';
+        });
+        closeBoothAgentModalBtn.addEventListener('click', function() {
+          boothAgentModal.style.display = 'none';
+        });
+        boothAgentModal.addEventListener('click', function(e) {
+          if (e.target === boothAgentModal) boothAgentModal.style.display = 'none';
+        });
+      }
+    </script>
   </body>
 </html>
