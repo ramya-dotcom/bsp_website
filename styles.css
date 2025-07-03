@@ -1322,7 +1322,7 @@ body::-webkit-scrollbar-thumb:hover {
     display: flex;
 }
 .contact-modal-box {
-    background: rgba(255,255,255,0.98);
+    background: #23272f; /* Darker grey tint */
     border-radius: 16px;
     box-shadow: 0 8px 40px rgba(34,65,154,0.25);
     padding: 1.5rem 1.2rem 1.2rem 1.2rem;
@@ -1331,7 +1331,7 @@ body::-webkit-scrollbar-thumb:hover {
     max-height: 90vh;
     overflow-y: auto;
     position: relative;
-    color: #22419A;
+    color: #fff;
     animation: fadeIn 0.3s;
 }
 .contact-modal-close {
@@ -1357,23 +1357,17 @@ body::-webkit-scrollbar-thumb:hover {
     box-shadow: none;
     padding: 0;
     margin: 0;
-    color: #22419A;
+    color: #fff;
 }
-.contact-modal-box .contact-form h3 {
-    color: #22419A;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
+.contact-modal-box .contact-form h3,
 .contact-modal-box .form-group label {
-    color: #22419A;
-    font-size: 0.98rem;
+    color: #fff;
 }
 .contact-modal-box .form-group input,
 .contact-modal-box .form-group textarea {
-    background: #f7faff;
-    color: #22419A;
-    font-size: 0.98rem;
-    border: 1px solid #dbeafe;
+    background: #2d323c;
+    color: #fff;
+    border: 1px solid #444a56;
 }
 .contact-modal-box .submit-btn {
     background: #22419A;
