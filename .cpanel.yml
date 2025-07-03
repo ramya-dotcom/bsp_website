@@ -1,0 +1,14 @@
+---
+deployment:
+  tasks:
+    # 1. Export the deployment path. REPLACE 'your_cpanel_username' with your actual cPanel username.
+    #    For the primary domain (tnbsp.org), this is typically public_html directly.
+    - export DEPLOYPATH=/home/mfnssihw/public_html/
+
+    # 2. Copy all files and folders from the repository root to the deployment path.
+    #    Adjust `*` if your website files are in a subfolder (e.g., `dist/*` or `build/*`).
+    - /bin/cp -R * $DEPLOYPATH
+
+    # 3. (Optional but Recommended) Remove the .git folder from the publicly accessible site.
+    #    This prevents exposing your repository's history to visitors.
+    - /bin/rm -rf $DEPLOYPATH/.git

@@ -271,38 +271,30 @@
         <div class="updates-container">
           <h2 id="updates-title">Latest Updates</h2>
           <p id="updates-description">Stay informed with the latest news and updates from the Bahujan Samaj Party.</p>
-          
-          <!-- Facebook Page Plugin - FIXED DIMENSIONS, NO COVER, NO FRIENDS -->
-          <div class="social-embed-container">
-            <div class="fb-page" 
-                 data-href="https://www.facebook.com/BSPTamilnaduUnit/" 
-                 data-tabs="timeline" 
-                 data-width="450" 
-                 data-height="550" 
-                 data-small-header="true" 
-                 data-adapt-container-width="false" 
-                 data-hide-cover="true" 
-                 data-show-facepile="false">
-              <blockquote cite="https://www.facebook.com/BSPTamilnaduUnit/" class="fb-xfbml-parse-ignore">
-                <a href="https://www.facebook.com/BSPTamilnaduUnit/">Bahujan Samaj Party - Tamil Nadu Unit</a>
-              </blockquote>
+          <div class="social-embed-row" style="display: flex; gap: 32px; align-items: flex-start; flex-wrap: wrap;">
+            <!-- Facebook Widget: left -->
+            <div class="social-embed-container" style="flex: 1 1 350px; min-width: 320px; max-width: 450px;">
+              <div class="fb-page" 
+                   data-href="https://www.facebook.com/BSPTamilnaduUnit/" 
+                   data-tabs="timeline" 
+                   data-width="450" 
+                   data-height="550" 
+                   data-small-header="true" 
+                   data-adapt-container-width="false" 
+                   data-hide-cover="true" 
+                   data-show-facepile="false">
+                <blockquote cite="https://www.facebook.com/BSPTamilnaduUnit/" class="fb-xfbml-parse-ignore">
+                  <a href="https://www.facebook.com/BSPTamilnaduUnit/">Bahujan Samaj Party - Tamil Nadu Unit</a>
+                </blockquote>
+              </div>
+            </div>
+            <!-- Twitter Feed: right -->
+            <div class="social-embed-container" style="flex: 1 1 350px; min-width: 320px; max-width: 450px;">
+              <div id="tweets-container" style="min-height: 200px; background: #f7f7f7; border-radius: 8px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.04);"></div>
             </div>
           </div>
         </div>
       </section>
-
-      <!-- <section class="section updates" id="updates">
-        <div class="updates-container">
-          <h2 id="updates-title">Latest Updates</h2>
-          <p id="updates-description">Stay informed with the latest news and updates from the Bahujan Samaj Party.</p>
-          <div class="fb-page" data-href="https://www.facebook.com/BSPTamilnaduUnit/" data-tabs="timeline" data-width="450" 
-          data-height="550" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" 
-          data-show-facepile="false">
-          <blockquote cite="https://www.facebook.com/BSPTamilnaduUnit/" class="fb-xfbml-parse-ignore">
-            <a href="https://www.facebook.com/BSPTamilnaduUnit/">Bahujan Samaj Party - Tamil Nadu Unit</a>
-          </blockquote>
-        </div>
-      </section> -->
 
       <!-- Gallery Section -->
       <section class="section gallery" id="gallery">
@@ -680,10 +672,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.7/swiper-bundle.min.js"></script>
     <!-- Main JavaScript -->
     <script src="main.js"></script>
-    <!-- Default Language (English) -->
-    <script src="english.js"></script>
     <!-- Gallery JavaScript -->
     <script src="gallery.js"></script>
-    
+    <!-- Twitter Feed JavaScript -->
+    <script src="twitterFeed.js"></script>
   </body>
 </html>

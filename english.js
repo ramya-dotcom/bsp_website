@@ -266,19 +266,8 @@ window.galleryTranslations = {
 
 // ===== AUTO-UPDATE PAGE CONTENT =====
 // Update the page content immediately when this file loads
-if (typeof updatePageContent === 'function') {
-    updatePageContent();
-    console.log('English language content loaded and applied');
-} else {
-    console.warn('updatePageContent function not available, content will be applied when main.js loads');
-    
-    // Fallback: Wait for main.js to load
-    document.addEventListener('DOMContentLoaded', function() {
-        setTimeout(() => {
-            if (typeof updatePageContent === 'function') {
-                updatePageContent();
-                console.log('English language content applied after DOM load');
-            }
-        }, 100);
-    });
-}
+window.languageContent = getEnglishContent();
+if (typeof updatePageContent === 'function') updatePageContent();
+if (typeof updateGalleryContent === 'function') updateGalleryContent();
+
+console.log('English language content loaded and applied');

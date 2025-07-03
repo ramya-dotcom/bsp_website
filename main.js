@@ -195,7 +195,13 @@ function ensureLanguageConsistency() {
         if (!languageContent || !languageContent.nav || languageContent.nav.logoText !== "BAHUJAN SAMAJ PARTY") {
             console.log('English content missing or incorrect, reloading English content');
             languageContent = getEnglishContent();
+            // Set gallery translations for gallery.js
+            window.galleryTranslations = {
+                title: languageContent.gallery?.title || "Photo Gallery",
+                description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+            };
             updatePageContent();
+            if (typeof updateGalleryContent === 'function') updateGalleryContent();
         } else {
             updatePageContent();
         }
@@ -238,6 +244,7 @@ function getEnglishContent() {
             vision: "Vision",
             timeline: "Timeline",
             events: "Events",
+            updates: "Updates",
             gallery: "Gallery",
             contact: "Contact",
             faq: "FAQ"
@@ -487,6 +494,18 @@ function getEnglishContent() {
             downloadSoon: "Event details download feature will be available soon!",
             messageSent: "Thank you for your message! We will get back to you soon.",
             fillRequired: "Please fill all required fields."
+        },
+
+        // Updates section content
+        updates: {
+            title: "Latest Updates",
+            description: "Stay informed with the latest news and updates from the Bahujan Samaj Party."
+        },
+
+        // Gallery section content
+        gallery: {
+            title: "Photo Gallery",
+            description: "Explore BSP's journey through powerful moments and historic achievements"
         }
     };
 }
@@ -524,7 +543,13 @@ function switchLanguage(language, isInternalCall = false) {
     if (language === 'english') {
         // Set English content explicitly
         languageContent = getEnglishContent();
+        // Set gallery translations for gallery.js
+        window.galleryTranslations = {
+            title: languageContent.gallery?.title || "Photo Gallery",
+            description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+        };
         updatePageContent();
+        if (typeof updateGalleryContent === 'function') updateGalleryContent();
         if (!isInternalCall) {
             hideLoadingOverlay();
         }
@@ -546,6 +571,14 @@ function switchLanguage(language, isInternalCall = false) {
     script.onload = function() {
         console.log(`${language} language loaded successfully`);
         // Content will be updated by the loaded language file
+        if (language === 'english') {
+            window.galleryTranslations = {
+                title: languageContent.gallery?.title || "Photo Gallery",
+                description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+            };
+        }
+        updatePageContent();
+        if (typeof updateGalleryContent === 'function') updateGalleryContent();
         if (!isInternalCall) {
             hideLoadingOverlay();
         }
@@ -571,6 +604,14 @@ function switchLanguage(language, isInternalCall = false) {
         script.src = `${language}.js`;
         script.onload = function() {
             console.log(`${language} language loaded successfully (alternative path)`);
+            if (language === 'english') {
+                window.galleryTranslations = {
+                    title: languageContent.gallery?.title || "Photo Gallery",
+                    description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+                };
+            }
+            updatePageContent();
+            if (typeof updateGalleryContent === 'function') updateGalleryContent();
             if (!isInternalCall) {
                 hideLoadingOverlay();
             }
@@ -597,6 +638,13 @@ function switchLanguage(language, isInternalCall = false) {
             
             // Fallback: Load content directly if file loading fails
             loadLanguageFallback(language);
+            if (language === 'english') {
+                window.galleryTranslations = {
+                    title: languageContent.gallery?.title || "Photo Gallery",
+                    description: languageContent.gallery?.description || "Explore BSP's journey through powerful moments and historic achievements"
+                };
+            }
+            if (typeof updateGalleryContent === 'function') updateGalleryContent();
         };
     };
     
@@ -694,7 +742,6 @@ function updatePageContent() {
         console.error('Language content not available');
         return;
     }
-    
     try {
         // Update navigation elements
         updateElement('logo-text', languageContent.nav?.logoText);
@@ -718,7 +765,6 @@ function updatePageContent() {
         
         // Update about section
         updateElement('about-title', languageContent.about?.title);
-        // updateElement('about-description', languageContent.about?.description);
         updateElement('about-description-1', languageContent.about?.description?.p1);
         updateElement('about-description-2', languageContent.about?.description?.p2);
         updateElement('about-description-3', languageContent.about?.description?.p3);
@@ -774,7 +820,6 @@ function updatePageContent() {
         // Check if we're in an event detail page and update it
         const currentEventId = getCurrentEventId();
         if (currentEventId) {
-            console.log('Updating event detail page from updatePageContent for event:', currentEventId);
             updateEventDetailForCurrentLanguage(currentEventId);
         }
         
@@ -1002,20 +1047,6 @@ function goHome() {
         ensureLanguageConsistency();
     }, 100);
 }
-
-// async function goHome() { // ADDED async
-//     await ensureLanguageConsistency(); // ADDED: Ensure language is consistent first
-
-//     // REMOVED: hideEventDetail();
-//     // REMOVED: hideFAQ();
-//     // REMOVED: scrollToSection('hero'); // This will be handled by handlePageDisplayAfterLanguageSwitch
-
-//     currentPage = 'main';
-//     updateHistory('main', 0);
-
-//     // ADDED: Explicitly handle page display after language is set
-//     handlePageDisplayAfterLanguageSwitch('main', 0);
-// }
 
 /**
  * Smooth scroll to specific section (ENHANCED)
@@ -1812,6 +1843,14 @@ document.addEventListener('DOMContentLoaded', function() {
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded');
+    
+    let lang = (typeof loadLanguagePreference === 'function' ? loadLanguagePreference() : null) || 'english';
+    let script = document.createElement('script');
+    script.src = lang + '.js';
+    script.setAttribute('data-lang', lang);
+    document.body.appendChild(script);
+    
+    // Initialize website functionality
     initWebsite();
 });
 
@@ -1858,8 +1897,3 @@ window.toggleFAQ = toggleFAQ;
 window.showEventDetail = showEventDetail;
 window.hideEventDetail = hideEventDetail;
 window.shareEvent = shareEvent;
-window.downloadDetails = downloadDetails;
-window.goToTimelineSlide = goToTimelineSlide;
-window.updatePageContent = updatePageContent;
-
-console.log('BSP Website Main JavaScript Loaded Successfully with Language Persistence');

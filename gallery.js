@@ -494,26 +494,26 @@ function updateGalleryContent() {
 }
 
 // ===== LANGUAGE SWITCHER SUPPORT =====
-window.switchLanguage = function(lang) {
-    // Remove all language script tags except Swiper, main.js, and gallery.js
-    const scripts = document.querySelectorAll('script[data-lang]');
-    scripts.forEach(s => s.remove());
-
-    // Dynamically load the selected language file
-    const script = document.createElement('script');
-    script.src = lang + '.js';
-    script.setAttribute('data-lang', lang);
-    script.onload = function() {
-        if (typeof updatePageContent === 'function') updatePageContent();
-        if (typeof updateGalleryContent === 'function') updateGalleryContent();
-    };
-    document.body.appendChild(script);
-
-    // Update active button UI
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    const btn = document.getElementById('btn-' + lang);
-    if (btn) btn.classList.add('active');
-};
+// window.switchLanguage = function(lang) {
+//     // Remove all language script tags except Swiper, main.js, and gallery.js
+//     const scripts = document.querySelectorAll('script[data-lang]');
+//     scripts.forEach(s => s.remove());
+//
+//     // Dynamically load the selected language file
+//     const script = document.createElement('script');
+//     script.src = lang + '.js';
+//     script.setAttribute('data-lang', lang);
+//     script.onload = function() {
+//         if (typeof updatePageContent === 'function') updatePageContent();
+//         if (typeof updateGalleryContent === 'function') updateGalleryContent();
+//     };
+//     document.body.appendChild(script);
+//
+//     // Update active button UI
+//     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+//     const btn = document.getElementById('btn-' + lang);
+//     if (btn) btn.classList.add('active');
+// };
 
 // ===== INITIALIZATION =====
 
