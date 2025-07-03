@@ -541,14 +541,12 @@
       </div>
       <!-- End Gallery Section -->
 
-      <!-- Contact Section -->
+      <!-- CONTACT SECTION -->
       <section class="section contact" id="contact">
         <div class="section-content">
           <h2 id="contact-title">Get in Touch</h2>
           <p id="contact-description">Connect with us to be part of the movement for social transformation.</p>
-
           <div class="contact-grid">
-            <!-- Contact Information -->
             <div class="contact-info">
               <h3 id="contact-info-title">Contact Information</h3>
               <div class="contact-item">
@@ -576,33 +574,39 @@
                 <a href="https://bahujansamajparty.net/"><i class="fas fa-envelope"></i></a>
               </div>
             </div>
-
-            <!-- Contact Form -->
-            <div class="contact-form">
-              <h3 id="contact-form-title">Send us a Message</h3>
-              <form id="contactForm">
-                <div class="form-group">
-                  <label id="form-name-label">Name</label>
-                  <input type="text" required />
-                </div>
-                <div class="form-group">
-                  <label id="form-email-label">Email</label>
-                  <input type="email" required />
-                </div>
-                <div class="form-group">
-                  <label id="form-subject-label">Subject</label>
-                  <input type="text" required />
-                </div>
-                <div class="form-group">
-                  <label id="form-message-label">Message</label>
-                  <textarea required></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="btn-send-message">Send Message</button>
-              </form>
+            <!-- Modal trigger button -->
+            <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
+              <button id="openContactModalBtn" class="cta-btn primary" type="button">Send Us A Message Here!</button>
             </div>
           </div>
         </div>
       </section>
+      <!-- Contact Form Modal -->
+      <div class="contact-modal-overlay" id="contactModalOverlay">
+        <div class="contact-modal-box">
+          <button class="contact-modal-close" id="closeContactModalBtn" aria-label="Close">&times;</button>
+          <form class="contact-form" id="contactForm">
+            <h3 id="contact-form-title">Send us a Message</h3>
+            <div class="form-group">
+              <label for="name" id="form-name-label">Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email" id="form-email-label">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="subject" id="form-subject-label">Subject</label>
+              <input type="text" id="subject" name="subject">
+            </div>
+            <div class="form-group">
+              <label for="message" id="form-message-label">Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            <button class="submit-btn" id="btn-send-message" type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <!-- Event Detail Pages -->
