@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources - Bahujan Samaj Party</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">
+        <img src="assets/logo.jpg" alt="BSP Logo" class="twirl-logo" />
+        <span id="logo-text">BAHUJAN SAMAJ PARTY</span>
+      </a>
+      <ul class="nav-menu">
+        <li><a href="index.html#hero" id="nav-home">Home</a></li>
+        <li><a href="index.html#timeline" id="nav-timeline">Timeline</a></li>
+        <li><a href="index.html#events" id="nav-events">Events</a></li>
+        <li><a href="index.html#updates" id="nav-updates">Updates</a></li>
+        <li><a href="index.html#gallery" id="nav-gallery">Gallery</a></li>
+        <li><a href="resources.html" id="nav-resources">Resources</a></li>
+        <li><a href="index.html#contact" id="nav-contact">Contact</a></li>
+        <li><a href="#" onclick="window.location='index.html#faq';return false;" id="nav-faq">FAQ</a></li>
+        <li class="language-switcher">
+          <div class="language-buttons">
+            <button class="lang-btn active" onclick="switchLanguage('english')" id="btn-english">EN</button>
+            <button class="lang-btn" onclick="switchLanguage('hindi')" id="btn-hindi">हिंदी</button>
+            <button class="lang-btn" onclick="switchLanguage('tamil')" id="btn-tamil">தமிழ்</button>
+          </div>
+        </li>
+      </ul>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </nav>
+  <main style="padding: 6rem 3rem; max-width: 900px; margin: 0 auto;">
+    <h1 id="resources-title">Resources</h1>
+    <p id="resources-description">Welcome to the Resources page. Here you can find important documents, links, and materials related to the Bahujan Samaj Party.</p>
+    <ul style="margin-top:2rem;">
+      <li><a href="#">BSP Constitution (PDF)</a></li>
+      <li><a href="#">Party Manifesto</a></li>
+      <li><a href="#">Volunteer Handbook</a></li>
+      <li><a href="#">Media Kit</a></li>
+      <li><a href="#">Useful Links</a></li>
+    </ul>
+    <p style="margin-top:2rem;">For more information, contact us at <a href="mailto:info@bspindia.org">info@bspindia.org</a>.</p>
+  </main>
+  <script src="main.js"></script>
+  <script src="english.js"></script>
+  <script src="hindi.js"></script>
+  <script src="tamil.js"></script>
+  <script>
+    // Minimal language switcher for Resources page
+    const translations = {
+      english: {
+        'nav-home': 'Home',
+        'nav-timeline': 'Timeline',
+        'nav-events': 'Events',
+        'nav-updates': 'Updates',
+        'nav-gallery': 'Gallery',
+        'nav-resources': 'Resources',
+        'nav-contact': 'Contact',
+        'nav-faq': 'FAQ',
+        'resources-title': 'Resources',
+        'resources-description': 'Welcome to the Resources page. Here you can find important documents, links, and materials related to the Bahujan Samaj Party.'
+      },
+      hindi: {
+        'nav-home': 'होम',
+        'nav-timeline': 'समयरेखा',
+        'nav-events': 'कार्यक्रम',
+        'nav-updates': 'अपडेट्स',
+        'nav-gallery': 'गैलरी',
+        'nav-resources': 'संसाधन',
+        'nav-contact': 'संपर्क',
+        'nav-faq': 'प्रश्न',
+        'resources-title': 'संसाधन',
+        'resources-description': 'संसाधन पृष्ठ में आपका स्वागत है। यहां आप बहुजन समाज पार्टी से संबंधित महत्वपूर्ण दस्तावेज़, लिंक और सामग्री पा सकते हैं।'
+      },
+      tamil: {
+        'nav-home': 'முகப்பு',
+        'nav-timeline': 'காலவரிசை',
+        'nav-events': 'நிகழ்வுகள்',
+        'nav-updates': 'புதுப்பிப்புகள்',
+        'nav-gallery': 'கேலரி',
+        'nav-resources': 'வளங்கள்',
+        'nav-contact': 'தொடர்பு',
+        'nav-faq': 'கேள்விகள்',
+        'resources-title': 'வளங்கள்',
+        'resources-description': 'வளங்கள் பக்கத்திற்கு வரவேற்கிறோம். இங்கு நீங்கள் பஹுஜன் சமாஜ் கட்சியுடன் தொடர்புடைய முக்கியமான ஆவணங்கள், இணைப்புகள் மற்றும் பொருட்களை காணலாம்.'
+      }
+    };
+    function switchLanguage(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      Object.keys(t).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = t[id];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+      document.getElementById('btn-' + lang).classList.add('active');
+    }
+    // Default to English
+    document.getElementById('btn-english').addEventListener('click', () => switchLanguage('english'));
+    document.getElementById('btn-hindi').addEventListener('click', () => switchLanguage('hindi'));
+    document.getElementById('btn-tamil').addEventListener('click', () => switchLanguage('tamil'));
+  </script>
+</body>
+</html>

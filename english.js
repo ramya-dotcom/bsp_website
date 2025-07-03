@@ -17,6 +17,7 @@ languageContent = {
         timeline: "Timeline",
         events: "Events",
         updates: "Updates",
+        resources: "Resources", 
         gallery: "Gallery",
         contact: "Contact",
         faq: "FAQ"
