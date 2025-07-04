@@ -26,7 +26,7 @@ const timelineData = [
     {
         year: 1991,
         title: "Commitment to Dalit Rights",
-        description: "Mayawati appears publicly with the statue of Dr. B.R. Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice.",
+        description: "Mayawati appears publicly with the statue of Babasaheb Dr. Bhimrao Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice.",
         image: "assets/timeline/1991.jpg",
         // portrait: "assets/1991.jpg"
     },
@@ -262,7 +262,7 @@ function getEnglishContent() {
         hero: {
             title: "Bahujan Samaj Party",
             subtitle: "Social Transformation & Economic Emancipation",
-            description: "Empowering the Scheduled Castes, Scheduled Tribes, and Other Backward Castes through the ideology of Dr. B.R. Ambedkar",
+            description: "Empowering the Scheduled Castes, Scheduled Tribes, and Other Backward Castes through the ideology of Babasaheb Dr. Bhimrao Ambedkar",
             learnMore: "Learn More",
             joinUs: "Join Us"
         },
@@ -271,9 +271,9 @@ function getEnglishContent() {
         about: {
             title: "About BSP",
             description: {
-                p1: "The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Dr. B.R. Ambedkar, we work towards creating an egalitarian society.",
+                p1: "The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Babasaheb Dr. Bhimrao Ambedkar, we work towards creating an egalitarian society.",
                 p2: "Our movement is rooted in the principles of social justice, equality, and fraternity. We strive to empower the marginalized and ensure their rightful place in society.",
-                p3: "Join us in our mission to build a just and equitable India for all, following the path shown by Dr. B.R. Ambedkar and Kanshi Ram."
+                p3: "Join us in our mission to build a just and equitable India for all, following the path shown by Babasaheb Dr. Bhimrao Ambedkar and Kanshi Ram."
             },
             mission: {
                 title: "Our Mission",
@@ -281,7 +281,7 @@ function getEnglishContent() {
             },
             values: {
                 title: "Our Values", 
-                description: "Equality, justice, brotherhood, and the constitutional principles laid down by Dr. B.R. Ambedkar guide our path forward."
+                description: "Equality, justice, brotherhood, and the constitutional principles laid down by Babasaheb Dr. Bhimrao Ambedkar guide our path forward."
             },
             struggle: {
                 title: "Our Struggle",
@@ -292,7 +292,7 @@ function getEnglishContent() {
         // Vision section content
         vision: {
             title: "Vision & Leadership",
-            description: "Our vision is to build a society where every individual has equal opportunities regardless of their caste, creed, or background. We are committed to the ideals of Dr. B.R. Ambedkar and work towards implementing his vision of a just and equitable society.",
+            description: "Our vision is to build a society where every individual has equal opportunities regardless of their caste, creed, or background. We are committed to the ideals of Babasaheb Dr. Bhimrao Ambedkar and work towards implementing his vision of a just and equitable society.",
             leaderInspiration: "Ideological Inspiration",
             leaderFounder: "Founder (1984)",
             leaderPresident: "National President"
@@ -308,7 +308,7 @@ function getEnglishContent() {
                 },
                 {
                     title: "Commitment to Dalit Rights",
-                    description: "Mayawati appears publicly with the statue of Dr. B.R. Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice."
+                    description: "Mayawati appears publicly with the statue of Babasaheb Dr. Bhimrao Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice."
                 },
                 {
                     title: "Second Chief Minister Term",
@@ -395,7 +395,7 @@ function getEnglishContent() {
                 {
                     id: "event1",
                     title: "Ambedkar Jayanti Celebration",
-                    description: "Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary with rallies and cultural programs across all states.",
+                    description: "Join us for the grand celebration of Babasaheb Dr. Bhimrao Ambedkar's birth anniversary with rallies and cultural programs across all states.",
                     date: "Dec 2024",
                     category: "BSP Rally",
                     image: "assets\events_BG.png",
@@ -459,7 +459,7 @@ function getEnglishContent() {
             items: [
                 {
                     question: "What is the main ideology of BSP?",
-                    answer: "BSP follows the ideology of Dr. B.R. Ambedkar, focusing on social transformation and economic emancipation of the Bahujan Samaj (SC, ST, OBC). We believe in creating an egalitarian society based on principles of Liberty, Equality, Fraternity, and Justice."
+                    answer: "BSP follows the ideology of Babasaheb Dr. Bhimrao Ambedkar, focusing on social transformation and economic emancipation of the Bahujan Samaj (SC, ST, OBC). We believe in creating an egalitarian society based on principles of Liberty, Equality, Fraternity, and Justice."
                 },
                 {
                     question: "How can I become a member of BSP?",
@@ -742,7 +742,7 @@ function loadLanguageFallback(language) {
             hero: {
                 title: "Bahujan Samaj Party",
                 subtitle: "Social Transformation & Economic Emancipation",
-                description: "Empowering the Scheduled Castes, Scheduled Tribes, and Other Backward Castes through the ideology of Dr. B.R. Ambedkar",
+                description: "Empowering the Scheduled Castes, Scheduled Tribes, and Other Backward Castes through the ideology of Babasaheb Dr. Bhimrao Ambedkar",
                 learnMore: "Learn More",
                 joinUs: "Join Us"
             },
@@ -879,7 +879,7 @@ function updateEventsContent() {
         {
             id: "event1",
             title: "Ambedkar Jayanti Celebration",
-            description: "Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary with rallies and cultural programs across all states.",
+            description: "Join us for the grand celebration of Babasaheb Dr. Bhimrao Ambedkar's birth anniversary with rallies and cultural programs across all states.",
             date: "Dec 2024",
             category: "BSP Rally"
         },
@@ -950,7 +950,7 @@ function updateFAQContent() {
     const defaultFAQs = [
         {
             question: "What is the main ideology of BSP?",
-            answer: "BSP follows the ideology of Dr. B.R. Ambedkar, focusing on social transformation and economic emancipation of the Bahujan Samaj (SC, ST, OBC). We believe in creating an egalitarian society based on principles of Liberty, Equality, Fraternity, and Justice."
+            answer: "BSP follows the ideology of Babasaheb Dr. Bhimrao Ambedkar, focusing on social transformation and economic emancipation of the Bahujan Samaj (SC, ST, OBC). We believe in creating an egalitarian society based on principles of Liberty, Equality, Fraternity, and Justice."
         },
         {
             question: "How can I become a member of BSP?",

@@ -51,13 +51,13 @@
         </a>
         <!-- Navigation Menu -->
         <ul class="nav-menu">
-          <li><a href="#hero" onclick="scrollToSection('hero')" id="nav-home">Home</a></li>
-          <li><a href="#timeline" onclick="scrollToSection('timeline')" id="nav-timeline">Timeline</a></li>
-          <li><a href="#events" onclick="scrollToSection('events')" id="nav-events">Events</a></li>
-          <li><a href="#updates" onclick="scrollToSection('updates')" id="nav-updates">Updates</a></li>
-          <li><a href="#gallery" onclick="scrollToSection('gallery')" id="nav-gallery">Gallery</a></li>
-          <li><a href="resources.html" id="nav-resources">Resources</a></li>
-          <li><a href="#contact" onclick="scrollToSection('contact')" id="nav-contact">Contact</a></li>
+          <li><a href="#hero" onclick="hideResources(); scrollToSection('hero'); return false;" id="nav-home">Home</a></li>
+          <li><a href="#timeline" onclick="hideResources(); scrollToSection('timeline'); return false;" id="nav-timeline">Timeline</a></li>
+          <li><a href="#events" onclick="hideResources(); scrollToSection('events'); return false;" id="nav-events">Events</a></li>
+          <li><a href="#updates" onclick="hideResources(); scrollToSection('updates'); return false;" id="nav-updates">Updates</a></li>
+          <li><a href="#gallery" onclick="hideResources(); scrollToSection('gallery'); return false;" id="nav-gallery">Gallery</a></li>
+          <li><a href="#resources" onclick="showResources(); return false;" id="nav-resources">Resources</a></li>
+          <li><a href="#contact" onclick="hideResources(); scrollToSection('contact'); return false;" id="nav-contact">Contact</a></li>
           <li><a href="#" onclick="showFAQ(); return false;" id="nav-faq">FAQ</a></li>
           <!-- Language Switcher -->
           <li class="language-switcher">
@@ -91,7 +91,7 @@
           <div class="hero-content">
             <h1 id="hero-title">Bahujan Samaj Party</h1>
             <h2 id="hero-subtitle">Social Transformation & Economic Emancipation</h2>
-            <p id="hero-description">Empowering the Scheduled Castes, Scheduled Tribes, and Other Backward Castes through the ideology of Dr. B.R. Ambedkar</p>
+            <p id="hero-description">Empowering the Scheduled Castes, Scheduled Tribes, and Other Backward Castes through the ideology of Babasaheb Dr. Bhimrao Ambedkar</p>
 
             <div class="cta-buttons">
               <button class="cta-btn primary" onclick="scrollToSection('about')" id="btn-learn-more">Learn More</button>
@@ -109,7 +109,7 @@
         <div class="section-content">
           <h2 id="about-title">About BSP</h2>
           <p id="about-description-1">
-            The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Dr. B.R. Ambedkar, we work towards creating an egalitarian society.
+            The Bahujan Samaj Party stands for the social transformation and economic emancipation of the Bahujan Samaj, which comprises the Scheduled Castes (SC), Scheduled Tribes (ST), and Other Backward Castes (OBC). Inspired by the philosophy of Babasaheb Dr. Bhimrao Ambedkar, we work towards creating an egalitarian society.
           </p>
           <p id="about-description-2">
             Inspired by the philosophies of great social reformers like Dr. B. R. Ambedkar, Jyotirao Phule, Narayana Guru, Chhatrapati Shahuji Maharaj, and Gautama Buddha, the BSP stands as a beacon of empowerment for the oppressed. Rooted in the ideals of equality, justice, and constitutional rights, the party seeks to uplift and unite these diverse sections of society, ensuring their rightful place in India’s democratic framework.
@@ -126,7 +126,7 @@
             <div class="about-card">
               <i class="fas fa-balance-scale"></i>
               <h3 id="values-title">Our Values</h3>
-              <p id="values-description">Equality, justice, brotherhood, and the constitutional principles laid down by Dr. B.R. Ambedkar guide our path forward.</p>
+              <p id="values-description">Equality, justice, brotherhood, and the constitutional principles laid down by Babasaheb Dr. Bhimrao Ambedkar guide our path forward.</p>
             </div>
             <div class="about-card">
               <i class="fas fa-fist-raised"></i>
@@ -141,12 +141,12 @@
       <section class="section vision" id="vision">
         <div class="section-content">
           <h2 id="vision-title">Vision & Leadership</h2>
-          <p id="vision-description">Our vision is to build a society where every individual has equal opportunities regardless of their caste, creed, or background. We are committed to the ideals of Dr. B.R. Ambedkar and work towards implementing his vision of a just and equitable society.</p>
+          <p id="vision-description">Our vision is to build a society where every individual has equal opportunities regardless of their caste, creed, or background. We are committed to the ideals of Babasaheb Dr. Bhimrao Ambedkar and work towards implementing his vision of a just and equitable society.</p>
 
           <div class="leadership-grid">
             <div class="leader-card">
-              <img src="assets/br_ambedhkar.jpg" alt="Dr. B.R. Ambedkar" />
-              <h3>Dr. B.R. Ambedkar</h3>
+              <img src="assets/br_ambedhkar.jpg" alt="Babasaheb Dr. Bhimrao Ambedkar" />
+              <h3>Babasaheb Dr. Bhimrao Ambedkar</h3>
               <p id="leader-inspiration">Ideological Inspiration</p>
             </div>
             <div class="leader-card">
@@ -209,7 +209,7 @@
                           </div>
                           <div class="event-text">
                               <h3 id="event1-title">Ambedkar Jayanti Celebration</h3>
-                              <p id="event1-description">Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary with rallies and cultural programs across all states.</p>
+                              <p id="event1-description">Join us for the grand celebration of Babasaheb Dr. Bhimrao Ambedkar's birth anniversary with rallies and cultural programs across all states.</p>
                               <button class="read-more-btn" id="btn-read-more-1">Read More</button>
                           </div>
                       </div>
@@ -662,6 +662,252 @@
       </div>
     </div>
 
+    <!-- RESOURCES PAGE (FAQ-style SPA) -->
+    <div class="resources-page" id="resourcesPage" style="display:none;">
+      <style>
+        /* ===== RESOURCES PAGE SPECIFIC STYLES ===== */
+        .resources-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 6rem 2rem 2rem;
+        }
+        .resources-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out;
+        }
+        .resources-header h1 {
+            color: #22419A;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 0.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .resources-header p {
+            font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        .resources-grid {
+            max-width: 600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .resource-category {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(34, 65, 154, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .resource-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #22419A, #4a90e2);
+        }
+        .resource-category:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(34, 65, 154, 0.15);
+        }
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #22419A, #4a90e2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            margin-right: 0.8rem;
+        }
+        .category-title {
+            color: #22419A;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin: 0;
+        }
+        .category-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.85rem;
+        }
+        .resource-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .resource-link {
+            margin-bottom: 0.6rem;
+        }
+        .resource-link a {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0.8rem;
+            background: rgba(34, 65, 154, 0.05);
+            border-radius: 6px;
+            text-decoration: none;
+            color: #22419A;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            font-size: 0.85rem;
+        }
+        .resource-link a:hover {
+            background: rgba(34, 65, 154, 0.1);
+            transform: translateX(3px);
+            border-color: rgba(34, 65, 154, 0.2);
+        }
+        .resource-link i {
+            margin-right: 0.6rem;
+            width: 16px;
+            text-align: center;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .resources-contact {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            max-width: 500px;
+            margin: 2rem auto 0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            border: 1px solid rgba(34, 65, 154, 0.1);
+        }
+        .resources-contact h3 {
+            color: #22419A;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+        .resources-contact p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            font-size: 0.85rem;
+        }
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #22419A, #4a90e2);
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 12px rgba(34, 65, 154, 0.3);
+            font-size: 0.85rem;
+        }
+        .contact-email:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 65, 154, 0.4);
+            text-decoration: none;
+            color: white;
+        }
+        .contact-email i {
+            margin-right: 0.6rem;
+            font-size: 0.9rem;
+        }
+        .back-to-home {
+            background: #22419A;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 20px;
+            font-family: 'Times New Roman', serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: bold;
+            box-shadow: 0 3px 12px rgba(34, 65, 154, 0.3);
+            margin-bottom: 2rem;
+        }
+        .back-to-home:hover {
+            background: #1a3278;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 65, 154, 0.4);
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeInUp 0.6s ease-out; }
+      </style>
+      <div class="resources-container">
+        <button class="back-to-home" onclick="hideResources()">
+          <i class="fas fa-arrow-left"></i>
+          <span id="back-to-home-text">Back to Main Site</span>
+        </button>
+        <header class="resources-header">
+          <h1 id="resources-title">Resources & Downloads</h1>
+          <p id="resources-description">Access important documents and educational materials to support understanding of BSP's vision and activities.</p>
+        </header>
+        <div class="resources-grid">
+          <div class="resource-category fade-in">
+            <div class="category-header">
+              <div class="category-icon"><i class="fas fa-book"></i></div>
+              <h3 class="category-title" id="category-books-title">Books</h3>
+            </div>
+            <p class="category-description" id="category-books-desc">Essential reading materials and publications by BSP leaders and about social justice.</p>
+            <ul class="resource-links">
+              <li class="resource-link">
+                <a href="https://drive.google.com/drive/folders/11UNG5iWjYMTQ_4GMCUQrgEk_tZlnhDaS?usp=sharing" target="_blank">
+                  <i class="fas fa-download"></i>
+                  <span id="resource-books">Download Books Collection</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="resource-category fade-in">
+            <div class="category-header">
+              <div class="category-icon"><i class="fas fa-lightbulb"></i></div>
+              <h3 class="category-title" id="category-ideology-title">Ideology</h3>
+            </div>
+            <p class="category-description" id="category-ideology-desc">Core principles, philosophy, and ideological framework of the Bahujan Samaj Party.</p>
+            <ul class="resource-links">
+              <li class="resource-link">
+                <a href="https://drive.google.com/uc?export=download&id=1jijsMROG0tLPiO43SiO8zBDlurGylASZ" target="_blank">
+                  <i class="fas fa-download"></i>
+                  <span id="resource-ideology">Download Ideology Guide</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="resources-contact">
+          <h3 id="contact-resources-title">Need More Information?</h3>
+          <p id="contact-resources-desc">For additional resources, document requests, or technical support, please don't hesitate to contact our documentation team.</p>
+          <a href="mailto:resources@bspindia.org" class="contact-email">
+            <i class="fas fa-envelope"></i>
+            <span id="contact-email-text">resources@bspindia.org</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- End RESOURCES PAGE -->
+
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
       <div class="loading-spinner"></div>
@@ -704,6 +950,27 @@
         boothAgentModal.addEventListener('click', function(e) {
           if (e.target === boothAgentModal) boothAgentModal.style.display = 'none';
         });
+      }
+
+      // FAQ logic ...
+      function showFAQ() {
+        document.getElementById('faqPage').style.display = 'block';
+        document.getElementById('mainContainer').style.display = 'none';
+        document.getElementById('resourcesPage').style.display = 'none';
+      }
+      function hideFAQ() {
+        document.getElementById('faqPage').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
+      }
+      // RESOURCES logic
+      function showResources() {
+        document.getElementById('resourcesPage').style.display = 'block';
+        document.getElementById('mainContainer').style.display = 'none';
+        document.getElementById('faqPage').style.display = 'none';
+      }
+      function hideResources() {
+        document.getElementById('resourcesPage').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
       }
     </script>
   </body>
