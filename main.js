@@ -60,7 +60,7 @@ const timelineData = [
     },
     {
         year: 2002,
-        title: "Second Term as Chief Minister",
+        title: "Third Term as Chief Minister",
         description: "Mayawati becomes CM of Uttar Pradesh again with BJP's support, demonstrating strategic political alliances for governance.",
         image: "assets/timeline/2002.jpg",
         // portrait: "assets/2002.jpg"
@@ -75,7 +75,7 @@ const timelineData = [
     {
         year: 2007,
         title: "Historic Absolute Majority",
-        description: "Mayawati wins absolute majority and becomes CM of UP again, taking oath in Lucknow in a landmark political victory.",
+        description: "Mayawati wins absolute majority and becomes CM of UP again for the 4th term, taking oath in Lucknow in a landmark political victory.",
         image: "assets/timeline/2007.jpg",
         // portrait: "assets/2007.jpg"
     },
