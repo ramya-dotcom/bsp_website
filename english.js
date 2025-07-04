@@ -80,6 +80,10 @@ languageContent = {
                 description: "Mayawati becomes Chief Minister of Uttar Pradesh for the first time, appearing with prominent leaders including Kanshi Ram, Inder Kumar Gujral, and KR Narayanan."
             },
             {
+                title: "Second Chief Minister Term",
+                description: "Mayawati takes office as Chief Minister for the second time, while Mayawati and Ramesh Bhandari solemnly take their vows."
+            },
+            {
                 title: "National Party Status",
                 description: "BSP is declared a national party in the presence of Prime Minister Inder Kumar Gujral, establishing its significance in Indian politics."
             },

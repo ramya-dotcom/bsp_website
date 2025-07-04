@@ -30,12 +30,19 @@ const timelineData = [
         image: "assets/timeline/1991.jpg",
         // portrait: "assets/1991.jpg"
     },
-    {
-        year: 1997,
+        {
+        year: 1995,
         title: "First Chief Minister Term",
         description: "Mayawati becomes Chief Minister of Uttar Pradesh for the first time, appearing with prominent leaders including Kanshi Ram, Inder Kumar Gujral, and KR Narayanan.",
-        image: "assets/timeline/1997.jpg",
+        image: "assets/timeline/1995.jpg",
         // portrait: "assets/1997.jpg"
+    },
+    {
+        year: 1997,
+        title: "Second Chief Minister Term",
+        description: "Placeholder description.",
+        image: "assets/timeline/1997.jpg",
+        // portrait: "assets/1995.jpg"
     },
     {
         year: 1998,
@@ -302,6 +309,10 @@ function getEnglishContent() {
                 {
                     title: "Commitment to Dalit Rights",
                     description: "Mayawati appears publicly with the statue of Dr. B.R. Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice."
+                },
+                {
+                    title: "Second Chief Minister Term",
+                    description: "Placeholder description."
                 },
                 {
                     title: "First Chief Minister Term",
