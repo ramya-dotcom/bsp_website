@@ -30,12 +30,19 @@ const timelineData = [
         image: "assets/timeline/1991.jpg",
         // portrait: "assets/1991.jpg"
     },
-    {
-        year: 1997,
+        {
+        year: 1995,
         title: "First Chief Minister Term",
         description: "Mayawati becomes Chief Minister of Uttar Pradesh for the first time, appearing with prominent leaders including Kanshi Ram, Inder Kumar Gujral, and KR Narayanan.",
-        image: "assets/timeline/1997.jpg",
+        image: "assets/timeline/1995.jpg",
         // portrait: "assets/1997.jpg"
+    },
+    {
+        year: 1997,
+        title: "Second Chief Minister Term",
+        description: "Placeholder description.",
+        image: "assets/timeline/1997.jpg",
+        // portrait: "assets/1995.jpg"
     },
     {
         year: 1998,
@@ -53,7 +60,7 @@ const timelineData = [
     },
     {
         year: 2002,
-        title: "Second Term as Chief Minister",
+        title: "Third Term as Chief Minister",
         description: "Mayawati becomes CM of Uttar Pradesh again with BJP's support, demonstrating strategic political alliances for governance.",
         image: "assets/timeline/2002.jpg",
         // portrait: "assets/2002.jpg"
@@ -68,7 +75,7 @@ const timelineData = [
     {
         year: 2007,
         title: "Historic Absolute Majority",
-        description: "Mayawati wins absolute majority and becomes CM of UP again, taking oath in Lucknow in a landmark political victory.",
+        description: "Mayawati wins absolute majority and becomes CM of UP again for the 4th term, taking oath in Lucknow in a landmark political victory.",
         image: "assets/timeline/2007.jpg",
         // portrait: "assets/2007.jpg"
     },
@@ -304,6 +311,10 @@ function getEnglishContent() {
                     description: "Mayawati appears publicly with the statue of Babasaheb Dr. Bhimrao Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice."
                 },
                 {
+                    title: "Second Chief Minister Term",
+                    description: "Placeholder description."
+                },
+                {
                     title: "First Chief Minister Term",
                     description: "Mayawati becomes Chief Minister of Uttar Pradesh for the first time, appearing with prominent leaders including Kanshi Ram, Inder Kumar Gujral, and KR Narayanan."
                 },
@@ -387,9 +398,9 @@ function getEnglishContent() {
                     description: "Join us for the grand celebration of Babasaheb Dr. Bhimrao Ambedkar's birth anniversary with rallies and cultural programs across all states.",
                     date: "Dec 2024",
                     category: "BSP Rally",
-                    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
-                    contentTitle: "Celebrating the Legacy of Babasaheb Dr. Bhimrao Ambedkar",
-                    fullContent: "Join us for the grand celebration of Babasaheb Dr. Bhimrao Ambedkar's birth anniversary, a momentous occasion that honors the architect of the Indian Constitution and the champion of social justice. This year's celebration will be held across all states with unprecedented scale and participation.",
+                    image: "assets\events_BG.png",
+                    contentTitle: "Celebrating the Legacy of Dr. B.R. Ambedkar",
+                    fullContent: "Join us for the grand celebration of Dr. B.R. Ambedkar's birth anniversary, a momentous occasion that honors the architect of the Indian Constitution and the champion of social justice. This year's celebration will be held across all states with unprecedented scale and participation.",
                     highlights: "The celebration will feature cultural programs showcasing the rich heritage of the Bahujan community, educational seminars on Dr. Ambedkar's contributions to modern India, and rallies promoting social equality and justice. Distinguished speakers will address the gathering, sharing insights into Dr. Ambedkar's vision for a just and equitable society."
                 },
                 {
@@ -398,7 +409,7 @@ function getEnglishContent() {
                     description: "Monthly state executive committee meeting to discuss upcoming strategies and organizational matters.",
                     date: "Nov 2024",
                     category: "Executive Meet",
-                    image: "https://images.unsplash.com/photo-1551818255-e6e10975cd17?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
+                    image: "assets\events_BG.png",
                     contentTitle: "Strategic Planning and Organizational Development",
                     fullContent: "The monthly State Executive Committee meeting brings together key party leaders to discuss strategic initiatives, organizational strengthening, and upcoming political activities. This crucial gathering ensures coordinated efforts across all state units.",
                     highlights: "The meeting will cover election preparations, membership drive strategies, youth engagement programs, and social welfare initiatives. Special focus will be on strengthening grassroots organization and increasing party presence in rural areas."
@@ -409,7 +420,7 @@ function getEnglishContent() {
                     description: "National conference on Dalit rights and empowerment with prominent leaders and activists.",
                     date: "Oct 2024",
                     category: "Rights Conference",
-                    image: "https://images.unsplash.com/photo-1569025743873-ea3a9ade89f9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
+                    image: "assets\events_BG.png",
                     contentTitle: "National Conference on Dalit Rights and Empowerment",
                     fullContent: "A comprehensive conference focusing on Dalit rights, empowerment strategies, and social justice initiatives. Prominent leaders, activists, and intellectuals will share their insights on advancing the cause of marginalized communities.",
                     highlights: "The conference will address contemporary challenges faced by Dalits, discuss policy reforms, and chalk out future strategies for ensuring equal rights and opportunities for all sections of society."
@@ -420,7 +431,7 @@ function getEnglishContent() {
                     description: "Launch of BSP Youth Wing to engage young minds in the party's ideology and future vision.",
                     date: "Sep 2024",
                     category: "Youth Wing",
-                    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=400&q=80",
+                    image: "assets\events_BG.png",
                     contentTitle: "Launch of BSP Youth Wing",
                     fullContent: "Inaugural launch of the BSP Youth Wing to engage young minds in the party's ideology and future vision. This initiative aims to build the next generation of leaders committed to social justice and equality.",
                     highlights: "The Youth Wing will focus on educational programs, leadership development, and creating awareness about constitutional rights among the younger generation. Special emphasis will be placed on digital outreach and modern communication methods."
@@ -479,7 +490,7 @@ function getEnglishContent() {
             backToEvents: "Back to Events",
             backToMain: "Back to Main Site", 
             shareEvent: "Share Event",
-            downloadDetails: "Download Details"
+            // downloadDetails: "Download Details"
         },
 
         // Event detail page content
