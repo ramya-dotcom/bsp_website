@@ -1015,7 +1015,7 @@ body::-webkit-scrollbar-thumb:hover {
 .events-grid {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1rem; 
     margin-top: 1.5rem;
     max-width: 800px;
     margin-left: auto;
@@ -1026,6 +1026,7 @@ body::-webkit-scrollbar-thumb:hover {
 .event-card {
     background: white;
     border-radius: 12px;
+    max-width: 800px;
     overflow: hidden;
     text-align: left;
     transition: all 0.3s ease;
@@ -1553,6 +1554,8 @@ body::-webkit-scrollbar-thumb:hover {
     .events-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
+        /* max-width: 800px;   
+        margin: 0 auto;     */
     }
 }
 
