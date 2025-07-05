@@ -1737,12 +1737,6 @@ body::-webkit-scrollbar-thumb:hover {
         min-width: 60px;
     }
     
-    .year-number {
-        font-size: 1rem;
-        padding: 0.6rem 0.8rem;
-        min-width: 55px;
-    }
-    
     .timeline-year-strip {
         padding: 0 1rem;
         height: 80px;
@@ -1934,184 +1928,155 @@ body::-webkit-scrollbar-thumb:hover {
     }
 }
 
-/* ===== PRINT STYLES ===== */
-@media print {
-    .navbar,
-    .global-social,
-    .scroll-indicator,
-    .timeline-nav-arrow,
-    .cta-buttons,
-    .share-buttons {
-        display: none !important;
-    }
-    
-    .section {
-        background: white !important;
-        color: black !important;
-        page-break-inside: avoid;
-    }
-    
-    .section::before {
-        display: none !important;
-    }
-    
-    .section-content {
-        color: black !important;
-    }
-}
-
-/* ===== ACCESSIBILITY IMPROVEMENTS ===== */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    .scroll-indicator {
-        animation: none;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .nav-menu a,
-    .cta-btn,
-    .lang-btn {
-        border-width: 2px;
-    }
-    
-    .about-card,
-    .leader-card,
-    .event-card {
-        border: 2px solid #333;
-    }
-}
-
-/* ===== FOCUS STYLES FOR ACCESSIBILITY ===== */
-a:focus,
-button:focus,
-input:focus,
-textarea:focus {
-    outline: 3px solid #22419A;
-    outline-offset: 2px;
-}
-
-.nav-menu a:focus {
-    background: rgba(255,255,255,0.2);
-}
-
-/* ===== UTILITY CLASSES ===== */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-.no-scroll {
-    overflow: hidden;
-}
-
-/* ===== ANIMATION CLASSES ===== */
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.slide-up {
-    animation: slideUp 0.5s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ===== RESPONSIVE ADJUSTMENTS ===== */
+/* Timeline mobile improvements: full image with bottom overlay content */
 @media (max-width: 768px) {
-    .event-content {
-        padding: 1rem;
-        flex-direction: row; /* Keep horizontal layout on mobile */
-    }
+  .timeline,
+  .timeline-fullscreen-container {
+    min-height: 100vh;
+    height: 100vh;
+    padding-bottom: 0;
+    position: relative;
+    overflow: hidden;
+  }
 
-    .event-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.5rem;
-    }
+  .timeline-slide {
+    min-height: 100vh;
+    height: 100vh;
+    width: 100vw;
+    background-size: 130%;           /* Zoom in a bit */
+    background-repeat: no-repeat;
+    background-position: center center; /* Center the image vertically and horizontally */
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    background-color: #222;           /* Optional: fallback color for empty space */
+  }
 
-    .event-content h3 {
-        font-size: 1rem;
-        padding-right: 5rem;
-    }
+  .timeline-slide::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    /* Vignette from bottom to middle */
+    background: linear-gradient(
+      180deg,
+      rgba(0,0,0,0.05) 0%,
+      rgba(0,0,0,0.25) 40%,
+      rgba(0,0,0,0.85) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
 
-    .event-date-badge {
-        top: 1rem;
-        right: 1rem;
-        padding: 0.3rem 0.6rem;
-        font-size: 0.75rem;
-    }
+  .timeline-slide-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 100vw;
+    max-width: 100vw;
+    background: rgba(0,0,0,0.55); /* More transparent */
+    border-radius: 18px 18px 0 0;
+    margin: 0;
+    padding: 1.2rem 1rem 2.5rem 1rem;
+    box-shadow: 0 -8px 32px 8px rgba(0,0,0,0.25);
+    min-height: 32vh;
+    max-height: 55vh;
+    overflow-y: auto;
+    transition: max-height 0.3s;
+    /* Optional: add a drag handle look */
+  }
 
-    /* Hide event card descriptions on phones */
-    .event-content p {
-        display: none;
-    }
+  .timeline-header-text,
+  .timeline-year-display,
+  .timeline-slide-title,
+  .timeline-slide-description {
+    text-align: left;
+    word-break: break-word;
+  }
 
-    /* Hide global social media links on phones */
-    .global-social {
-        display: none !important;
-    }
+  .timeline-header-text {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+  .timeline-year-display {
+    font-size: 2rem;
+    margin-left: 0;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-slide-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+  .timeline-slide-description {
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-portrait {
+    display: none !important;
+  }
+
+  .timeline-nav-arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+    top: unset;
+    bottom: 12vh;
+    transform: none;
+    z-index: 3;
+  }
+  .timeline-prev {
+    left: 1rem;
+    bottom: 12vh;
+    top: unset;
+  }
+  .timeline-next {
+    right: 1rem;
+    bottom: 12vh;
+    top: unset;
+  }
+
+  .timeline-year-strip {
+    height: 70px;
+    min-height: 70px;
+    padding: 0 0.5rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 4;
+    background: linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.7) 70%, transparent);
+    overflow-x: auto;
+  }
+  .year-strip-track {
+    gap: 2.2rem;           /* More space between years */
+    padding: 1rem 0.5rem;
+    display: flex;
+    align-items: center;
+    min-width: max-content;
+  }
+  .year-marker {
+    min-width: 65px;
+    max-width: 80px;
+    flex: 0 0 auto;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .year-number {
+    font-size: 1rem;
+    padding: 0.5rem 0.9rem;
+    min-width: 48px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.13);
+    margin-bottom: 0.2rem;
+    transition: all 0.3s;
+  }
 }
 
-@media (max-width: 480px) {
-    .event-content {
-        padding: 0.8rem;
-    }
-
-    .event-content h3 {
-        padding-right: 4rem;
-        font-size: 0.95rem;
-    }
-
-    .event-date-badge {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.7rem;
-    }
-}
-@media (max-width: 360px) {
-    /* FOR VERY SMALL PHONES */
-    .logo span {
-        font-size: 0.7rem;
-        max-width: 160px;
-        /* Show full party name even on tiny screens */
-        overflow: visible;
-        text-overflow: unset;
-        white-space: normal;
-    }
-
-    .lang-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.8rem;
-        min-width: 50px;
-    }
-
-    .language-buttons {
-        gap: 0.4rem;
-    }
+@media (max-width: 768px) {
+  .global-social {
+    display: none !important;
+  }
 }
