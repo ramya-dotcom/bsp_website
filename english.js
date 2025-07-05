@@ -149,11 +149,11 @@ languageContent = {
             {
                 id: "event1",
                 title: "Anticipation Day & Public Gathering",
-                description: "A tribute to K. Amusthraj, highlighting Tamil Nadu’s role in social justice through the BSP's principles.",
+                description: "A tribute to K. Armstrong, highlighting Tamil Nadu’s role in social justice through the BSP's principles.",
                 date: "July 5, 2025",
                 contentTitle: "Honoring Legacy, Empowering the Future",
                 fullContent: "A powerful and emotionally resonant public gathering, Anticipation Day is being held in solemn remembrance of Thiru. K. Amusthraj, a courageous and unwavering voice in the fight for equality, dignity, and social justice. This event stands as a tribute not only to his legacy but also to the enduring spirit of Tamil Nadu, which has historically resisted caste-based oppression and stood at the forefront of progressive movements in India.\n\nThe gathering will celebrate the immense contributions of Ambedkarite and Periyarist leaders who have paved the way for generations by challenging systemic discrimination and striving for a more egalitarian society. Eminent BSP leaders including Dr. P. Anandhan and R. Boobathi Rajan will address the public to highlight the BSP’s vision for Tamil Nadu.\n\nThe event also marks a renewed call for grassroots mobilization, aiming to strengthen the party's base across the state by engaging local communities and youth. More than just a remembrance, Anticipation Day is a reaffirmation of the BSP’s mission to build a society rooted in equality, justice, and fraternity.",
-                highlights: "Tributes to K. Amusthraj; Speeches by BSP leaders; Celebration of Ambedkarite and Periyarist ideologies; Youth and grassroots mobilization; Call to action for social change and empowerment."
+                highlights: "Tributes to K. Armstrong; Speeches by BSP leaders; Celebration of Ambedkarite and Periyarist ideologies; Youth and grassroots mobilization; Call to action for social change and empowerment."
             },
             {
                 id: "event2",
