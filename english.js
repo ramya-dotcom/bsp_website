@@ -69,19 +69,19 @@ languageContent = {
         items: [
             {
                 title: "Political Foundation Campaign",
-                description: "Kanshi Ram campaigns as BSP's 3rd Party candidate for Parliament in Uttar Pradesh, marking the beginning of serious electoral politics for the party."
+                description: "Manyavar Kanshi Ram campaigns as BSP's 3rd Party candidate for Parliament in Uttar Pradesh, marking the beginning of serious electoral politics for the party."
             },
             {
                 title: "Commitment to Dalit Rights",
-                description: "Mayawati appears publicly with the statue of Babasaheb Dr. Bhimrao Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice."
+                description: "Behen Kumari. Mayawati appears publicly with the statue of Babasaheb Dr. Bhimrao Ambedkar, symbolizing the party's unwavering commitment to Dalit rights and social justice."
             },
             {
                 title: "First Chief Minister Term",
-                description: "Mayawati becomes Chief Minister of Uttar Pradesh for the first time, appearing with prominent leaders including Kanshi Ram, Inder Kumar Gujral, and KR Narayanan."
+                description: "Behen Kumari. Mayawati becomes Chief Minister of Uttar Pradesh for the first time, appearing with prominent leaders including Manyavar Kanshi Ram, Inder Kumar Gujral, and KR Narayanan."
             },
             {
                 title: "Second Chief Minister Term",
-                description: "Mayawati takes office as Chief Minister for the second time, while Mayawati and Ramesh Bhandari solemnly take their vows."
+                description: "Behen Kumari. Mayawati takes office as Chief Minister for the second time, while Behen Kumari. Mayawati and Ramesh Bhandari solemnly take their vows."
             },
             {
                 title: "National Party Status",
@@ -89,19 +89,19 @@ languageContent = {
             },
             {
                 title: "Massive Delhi Rally",
-                description: "Historic BSP rally at Ramlila Grounds in Delhi with Kanshi Ram and Mayawati, demonstrating the party's growing national influence and mass appeal."
+                description: "Historic BSP rally at Ramlila Grounds in Delhi with Manyavar Kanshi Ram and Behen Kumari. Mayawati, demonstrating the party's growing national influence and mass appeal."
             },
             {
-                title: "Second Term as Chief Minister",
-                description: "Mayawati becomes CM of Uttar Pradesh again with BJP's support, demonstrating strategic political alliances for governance."
+                title: "Third Term as Chief Minister",
+                description: "Behen Kumari. Mayawati becomes CM of Uttar Pradesh again with BJP's support, demonstrating strategic political alliances for governance."
             },
             {
                 title: "Golden Jubilee Celebration",
-                description: "Mayawati celebrates her 50th birthday with Kanshi Ram in New Delhi, marking a significant personal and political milestone."
+                description: "Behen Kumari. Mayawati celebrates her 50th birthday with Manyavar Kanshi Ram in New Delhi, marking a significant personal and political milestone."
             },
             {
                 title: "Historic Absolute Majority",
-                description: "Mayawati wins absolute majority and becomes CM of UP again, taking oath in Lucknow in a landmark political victory."
+                description: "Behen Kumari. Mayawati wins absolute majority and becomes CM of UP again, taking oath in Lucknow in a landmark political victory."
             },
             {
                 title: "Sarv Samaj Bhaichara Rally",
@@ -109,7 +109,7 @@ languageContent = {
             },
             {
                 title: "Lok Sabha Campaign",
-                description: "Mayawati campaigns extensively for Lok Sabha elections with public rallies at Ramlila Grounds and across UP, strengthening democratic participation."
+                description: "Behen Kumari. Mayawati campaigns extensively for Lok Sabha elections with public rallies at Ramlila Grounds and across UP, strengthening democratic participation."
             },
             {
                 title: "Democratic Participation",
@@ -117,7 +117,7 @@ languageContent = {
             },
             {
                 title: "Parliamentary Presence",
-                description: "Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights."
+                description: "Behen Kumari. Mayawati attends Monsoon Session of Parliament and responds publicly to RSS Chief's comments on reservation, defending constitutional rights."
             },
             {
                 title: "Ambedkar Anniversary Rally",
@@ -125,11 +125,11 @@ languageContent = {
             },
             {
                 title: "Electoral Campaign",
-                description: "Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation."
+                description: "Behen Kumari. Mayawati waves at supporters in Allahabad ahead of UP Assembly elections, continuing the democratic struggle for representation."
             },
             {
                 title: "Opposition Unity",
-                description: "Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka."
+                description: "Behen Kumari. Mayawati joins opposition leaders including Rahul Gandhi, Sonia Gandhi, and Kejriwal at Kumaraswamy's oath ceremony in Karnataka."
             },
             {
                 title: "Strategic Alliance",
@@ -220,7 +220,7 @@ languageContent = {
             },
             {
                 question: "Who founded BSP and when?",
-                answer: "BSP was founded by Kanshi Ram on April 14, 1984 (Dr. Ambedkar's birth anniversary). The party was established to provide political representation to the Bahujan Samaj and implement Dr. Ambedkar's vision of social justice."
+                answer: "BSP was founded by Manyavar Kanshi Ram on April 14, 1984 (Dr. Ambedkar's birth anniversary). The party was established to provide political representation to the Bahujan Samaj and implement Dr. Ambedkar's vision of social justice."
             },
             {
                 question: "What is the party symbol and what does it represent?",
@@ -228,7 +228,7 @@ languageContent = {
             },
             {
                 question: "How does BSP work for women's empowerment?",
-                answer: "BSP strongly advocates for women's rights and empowerment. We support reservation for women in legislatures, equal opportunities in education and employment, and protection against discrimination and violence. Our leadership includes strong women leaders like Mayawati."
+                answer: "BSP strongly advocates for women's rights and empowerment. We support reservation for women in legislatures, equal opportunities in education and employment, and protection against discrimination and violence. Our leadership includes strong women leaders like Behen Kumari. Mayawati."
             }
         ]
     },

@@ -4,17 +4,17 @@ async function fetchTweets() {
   const container = document.getElementById('tweets-container');
   if (!container) return;
   try {
-    const res = await fetch('http://localhost:3000/api/tweets/Mayawati');
+    const res = await fetch('http://localhost:3000/api/tweets/Behen Kumari. Mayawati');
     if (!res.ok) throw new Error('Network response was not ok: ' + res.status);
     const data = await res.json();
     if (data && data.data && data.data.length > 0) {
       container.innerHTML = data.data.slice(0, 2).map(tweet => {
-        const tweetUrl = `https://twitter.com/Mayawati/status/${tweet.id}`;
+        const tweetUrl = `https://twitter.com/Behen Kumari. Mayawati/status/${tweet.id}`;
         const tweetDate = new Date(tweet.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
         return `
           <blockquote class="twitter-tweet">
             <p lang="en" dir="ltr">${tweet.text}</p>
-            &mdash; Mayawati <a href="${tweetUrl}">${tweetDate}</a>
+            &mdash; Behen Kumari. Mayawati <a href="${tweetUrl}">${tweetDate}</a>
           </blockquote>
         `;
       }).join('');
