@@ -400,7 +400,7 @@ function getEnglishContent() {
                     title: "Anticipation Day & Public Gathering",
                     description: "A tribute to K. Amusthraj, highlighting Tamil Nadu’s role in social justice through the BSP's principles.",
                     date: "July 5, 2025",
-                    image: "assets\\event1.jpeg",
+                    image: "assets\\event_1.jpeg",
                     contentTitle: "Honoring Legacy, Empowering the Future",
                     fullContent: "A powerful and emotionally resonant public gathering, Anticipation Day is being held in solemn remembrance of Thiru. K. Amusthraj, a courageous and unwavering voice in the fight for equality, dignity, and social justice. This event stands as a tribute not only to his legacy but also to the enduring spirit of Tamil Nadu, which has historically resisted caste-based oppression and stood at the forefront of progressive movements in India.\n\nThe gathering will celebrate the immense contributions of Ambedkarite and Periyarist leaders who have paved the way for generations by challenging systemic discrimination and striving for a more egalitarian society. Eminent BSP leaders including Dr. P. Anandhan and R. Boobathi Rajan will address the public to highlight the BSP’s vision for Tamil Nadu.\n\nThe event also marks a renewed call for grassroots mobilization, aiming to strengthen the party's base across the state by engaging local communities and youth. More than just a remembrance, Anticipation Day is a reaffirmation of the BSP’s mission to build a society rooted in equality, justice, and fraternity.",
                     highlights: "Tributes to K. Amusthraj; Speeches by BSP leaders; Celebration of Ambedkarite and Periyarist ideologies; Youth and grassroots mobilization; Call to action for social change and empowerment."
@@ -1378,10 +1378,28 @@ function showEventDetail(eventId) {
  * @param {Object} eventData - Event data object
  */
 function updateEventDetailPage(eventData) {
-    // Update header
+    // Update header with specific background for each event
     const detailHeader = document.getElementById('eventDetailHeader');
     if (detailHeader) {
-        detailHeader.style.backgroundImage = "url('assets/events_BG.png')"; //`url('${eventData.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'}')`;
+        // Set specific background image based on event ID
+        let backgroundImage;
+        switch(eventData.id) {
+            case 'event1':
+                backgroundImage = "url('assets/event_1.jpeg')";
+                break;
+            case 'event2':
+                backgroundImage = "url('assets/events_BG.png')"; // Default for event 2
+                break;
+            case 'event3':
+                backgroundImage = "url('assets/events_BG.png')"; // Default for event 3
+                break;
+            case 'event4':
+                backgroundImage = "url('assets/events_BG.png')"; // Default for event 4
+                break;
+            default:
+                backgroundImage = "url('assets/events_BG.png')"; // Default fallback
+        }
+        detailHeader.style.backgroundImage = backgroundImage;
     }
     
     // Update meta information
@@ -1404,7 +1422,7 @@ function updateEventDetailPage(eventData) {
                     <i class="fas fa-share"></i> ${languageContent.buttons?.shareEvent || 'Share Event'}
                 </button>
             </div>
-        `; // Removed Download details button
+        `;
     }
 }
 
