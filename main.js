@@ -803,6 +803,9 @@ function updatePageContent() {
         updateElement('leader-inspiration', languageContent.vision?.leaderInspiration);
         updateElement('leader-founder', languageContent.vision?.leaderFounder);
         updateElement('leader-president', languageContent.vision?.leaderPresident);
+        updateElement('leader-inspiration-name', languageContent.vision?.leaderNamesInspiration);
+        updateElement('leader-founder-name', languageContent.vision?.leaderNamesFounder);
+        updateElement('leader-president-name', languageContent.vision?.leaderNamesPresident);
         
         // Update events section
         updateElement('events-title', languageContent.events?.title);
