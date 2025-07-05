@@ -273,8 +273,7 @@ window.galleryTranslations = {
 
 // ===== AUTO-UPDATE PAGE CONTENT =====
 // Update the page content immediately when this file loads
-window.languageContent = getEnglishContent();
-if (typeof updatePageContent === 'function') updatePageContent();
+if (typeof updatePageContent === 'function') { updatePageContent(); }
 if (typeof updateGalleryContent === 'function') updateGalleryContent();
 
 console.log('English language content loaded and applied');
