@@ -2090,4 +2090,30 @@ body::-webkit-scrollbar-thumb:hover {
   .global-social {
     display: none !important;
   }
+  
+  /* Make embedded Facebook post area bigger and more readable on mobile */
+  .facebook-post,
+  .fb-post,
+  .fb_iframe_widget,
+  .fb-post-embed,
+  .fb-post-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    height: 450px !important;
+    min-height: 350px !important;
+    margin: 1.5rem auto !important;
+    display: block !important;
+  }
+  /* If using iframe directly */
+  .facebook-post iframe,
+  .fb-post iframe,
+  .fb_iframe_widget iframe {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    height: 450px !important;
+    min-height: 350px !important;
+    display: block !important;
+  }
 }
