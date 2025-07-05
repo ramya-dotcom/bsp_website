@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSP - Enhanced Contact Section</title>
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', serif;
+            background: linear-gradient(180deg, #22419A 0%, #1a3278 100%);
+            /* background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); */
+            color: #fff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ===== CONTACT SECTION STYLES ===== */
+        .contact-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background particles */
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(34, 65, 154, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(74, 144, 226, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            animation: particles 20s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes particles {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-20px) rotate(360deg); }
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        /* ===== HEADER STYLES ===== */
+        .contact-header {
+            margin-bottom: 3rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .contact-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .contact-description {
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== INTERACTIVE BUTTONS STYLES ===== */
+        .contact-buttons-container {
+            margin: 3rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.3s both;
+        }
+
+        .interactive-btn {
+            position: relative;
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, #22419A 0%, #4a90e2 100%);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 
+                0 8px 25px rgba(34, 65, 154, 0.4),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+            overflow: hidden;
+            font-family: 'Times New Roman', serif;
+            min-width: 200px;
+            justify-content: center;
+        }
+
+        /* Ripple effect */
+        .interactive-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .interactive-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .interactive-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 15px 35px rgba(34, 65, 154, 0.6),
+                inset 0 1px 0 rgb(255, 255, 255);
+        }
+
+        .interactive-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .interactive-btn i {
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .interactive-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== CONTACT INFO STYLES ===== */
+        .contact-info-section {
+            margin-top: 4rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .contact-info-title {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            margin-bottom: 2rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        .contact-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-info-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .contact-info-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+        }
+
+        .contact-item i {
+            font-size: 1.3rem;
+            color: #4a90e2;
+            width: 25px;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item a {
+            color: #4a90e2;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: #fff;
+            text-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+        }
+
+        /* ===== SOCIAL LINKS STYLES ===== */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #22419A 0%, #4a90e2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.4s ease;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .social-link:hover::before {
+            left: 100%;
+        }
+
+        .social-link:hover {
+            transform: scale(1.2) rotateY(15deg);
+            box-shadow: 0 10px 25px rgba(34, 65, 154, 0.5);
+        }
+
+        /* ===== MODAL STYLES ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: linear-gradient(135deg, #22419A 0%, #1a3278 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.2);
+            transform: rotate(90deg);
+        }
+
+        /* ===== CONTACT FORM STYLES ===== */
+        .contact-form {
+            width: 100%;
+        }
+
+        .contact-form h3 {
+            color: white;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-family: 'Times New Roman', serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4a90e2;
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #4a90e2 0%, #22419A 100%);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+        }
+
+        /* ===== BLA LINKS MODAL STYLES ===== */
+        .bla-links-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .bla-links-container h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .bla-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #4a90e2 0%, #22419A 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .bla-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .contact-buttons-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .interactive-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .contact-info-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .contact-info-card {
+                padding: 1.5rem;
+            }
+
+            .modal-box {
+                padding: 2rem;
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-section {
+                padding: 1rem;
+            }
+
+            .contact-title {
+                font-size: 2rem;
+            }
+
+            .contact-description {
+                font-size: 1rem;
+            }
+
+            .interactive-btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== SUCCESS MESSAGE STYLES ===== */
+        .success-message {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+        }
+
+        .success-message.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- CONTACT SECTION -->
+    <section class="contact-section" id="contact">
+        <div class="contact-container">
+            <!-- Header -->
+            <div class="contact-header">
+                <h2 class="contact-title" id="contact-title">Get in Touch</h2>
+                <p class="contact-description" id="contact-description">
+                    Connect with us to be part of the movement for social transformation.
+                </p>
+            </div>
+
+            <!-- Interactive Buttons -->
+            <div class="contact-buttons-container">
+                <button id="boothAgentBtn" class="interactive-btn" type="button">
+                    <i class="fas fa-link"></i>
+                    <span>BLA - Booth Level Agent</span>
+                </button>
+                <button id="openContactModalBtn" class="interactive-btn" type="button">
+                    <i class="fas fa-envelope"></i>
+                    <span>Send Us A Message Here!</span>
+                </button>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="contact-info-section">
+                <h3 class="contact-info-title" id="contact-info-title">Contact Information</h3>
+                
+                <div class="contact-info-grid">
+                    <!-- Central Office -->
+                    <div class="contact-info-card">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>
+                                <strong>Central Office:</strong><br>
+                                Bahujan Samaj Party, Bungalow No.29,<br>
+                                Lodhi Estate New Delhi - 110003
+                            </span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <a href="tel:+91-011-24640183">+91 011-24640183</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:info@bspindia.org">info@bspindia.org</a>
+                        </div>
+                    </div>
+
+                    <!-- Tamil Nadu Office -->
+                    <div class="contact-info-card">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>
+                                <strong>Tamil Nadu State Unit:</strong><br>
+                                Dadasaheb Kanshiram Bhavan, 2/14 A<br>
+                                Veteran Lines, Pallavaram Cantonment,<br>
+                                Near St.Stephen's School, Chennai - 600043
+                            </span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-globe"></i>
+                            <a href="https://bahujansamajparty.net/" target="_blank">
+                                bahujansamajparty.net
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="social-links">
+                    <a href="https://www.facebook.com/bsp4up/" class="social-link" target="_blank" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://x.com/bspindia?lang=en" class="social-link" target="_blank" title="Twitter/X">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.instagram.com/bahujan.samaj.party/?hl=en" class="social-link" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.youtube.com/@bahujansamajparty_BSP" class="social-link" target="_blank" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://bahujansamajparty.net/" class="social-link" target="_blank" title="Website">
+                        <i class="fas fa-globe"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Modal -->
+    <div class="modal-overlay" id="contactModalOverlay">
+        <div class="modal-box">
+            <button class="modal-close" id="closeContactModalBtn" aria-label="Close">&times;</button>
+            <form class="contact-form" id="contactForm">
+                <h3 id="contact-form-title">Send us a Message</h3>
+                <div class="form-group">
+                    <label for="name" id="form-name-label">Name *</label>
+                    <input type="text" id="name" name="name" required placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label for="email" id="form-email-label">Email *</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="subject" id="form-subject-label">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Subject of your message">
+                </div>
+                <div class="form-group">
+                    <label for="message" id="form-message-label">Message *</label>
+                    <textarea id="message" name="message" required placeholder="Your message here..."></textarea>
+                </div>
+                <button class="submit-btn" id="btn-send-message" type="submit">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booth Agent Links Modal -->
+    <div class="modal-overlay" id="boothAgentModal">
+        <div class="modal-box">
+            <button class="modal-close" id="closeBoothAgentModalBtn" aria-label="Close">&times;</button>
+            <div class="bla-links-container">
+                <h3>Choose Booth Agent Link</h3>
+                <a href="https://www.erolls.tn.gov.in/blo/BLA1.aspx" target="_blank" class="bla-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    BLA 1 Link - Tamil Nadu Electoral Rolls
+                </a>
+                <a href="https://www.erolls.tn.gov.in/blo/BLA2.aspx" target="_blank" class="bla-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    BLA 2 Link - Tamil Nadu Electoral Rolls
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i> Message sent successfully!
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        /* ===== MODAL FUNCTIONALITY ===== */
+        
+        // Get modal elements
+        const contactModal = document.getElementById('contactModalOverlay');
+        const boothAgentModal = document.getElementById('boothAgentModal');
+        
+        // Get button elements
+        const openContactModalBtn = document.getElementById('openContactModalBtn');
+        const boothAgentBtn = document.getElementById('boothAgentBtn');
+        const closeContactModalBtn = document.getElementById('closeContactModalBtn');
+        const closeBoothAgentModalBtn = document.getElementById('closeBoothAgentModalBtn');
+        
+        // Get form and success message elements
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        /* ===== EVENT LISTENERS FOR MODAL OPENING ===== */
+        
+        // Open contact form modal
+        openContactModalBtn.addEventListener('click', function() {
+            console.log('Opening contact modal');
+            openModal(contactModal);
+        });
+
+        // Open booth agent modal
+        boothAgentBtn.addEventListener('click', function() {
+            console.log('Opening booth agent modal');
+            openModal(boothAgentModal);
+        });
+
+        /* ===== EVENT LISTENERS FOR MODAL CLOSING ===== */
+        
+        // Close contact form modal
+        closeContactModalBtn.addEventListener('click', function() {
+            console.log('Closing contact modal');
+            closeModal(contactModal);
+        });
+
+        // Close booth agent modal
+        closeBoothAgentModalBtn.addEventListener('click', function() {
+            console.log('Closing booth agent modal');
+            closeModal(boothAgentModal);
+        });
+
+        /* ===== MODAL UTILITY FUNCTIONS ===== */
+        
+        /**
+         * Open modal with animation and accessibility features
+         * @param {HTMLElement} modal - The modal element to open
+         */
+        function openModal(modal) {
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Focus management for accessibility
+            const firstFocusableElement = modal.querySelector('input, button, textarea, [tabindex]');
+            if (firstFocusableElement) {
+                setTimeout(() => firstFocusableElement.focus(), 100);
+            }
+            
+            // Add ripple effect to button
+            addRippleEffect(event.target);
+        }
+
+        /**
+         * Close modal with animation
+         * @param {HTMLElement} modal - The modal element to close
+         */
+        function closeModal(modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        /**
+         * Add ripple effect to button clicks
+         * @param {HTMLElement} button - The button element
+         */
+        function addRippleEffect(button) {
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255,255,255,0.5);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            `;
+            
+            // Add ripple animation CSS if not exists
+            if (!document.querySelector('#ripple-styles')) {
+                const style = document.createElement('style');
+                style.id = 'ripple-styles';
+                style.textContent = `
+                    @keyframes ripple {
+                        to {
+                            transform: scale(4);
+                            opacity: 0;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            button.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        }
+
+        /* ===== CLICK OUTSIDE TO CLOSE MODALS ===== */
+        
+        // Close modal when clicking outside
+        contactModal.addEventListener('click', function(e) {
+            if (e.target === contactModal) {
+                closeModal(contactModal);
+            }
+        });
+
+        boothAgentModal.addEventListener('click', function(e) {
+            if (e.target === boothAgentModal) {
+                closeModal(boothAgentModal);
+            }
+        });
+
+        /* ===== KEYBOARD ACCESSIBILITY ===== */
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (contactModal.classList.contains('active')) {
+                    closeModal(contactModal);
+                }
+                if (boothAgentModal.classList.contains('active')) {
+                    closeModal(boothAgentModal);
+                }
+            }
+        });
+
+        /* ===== CONTACT FORM HANDLING ===== */
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            console.log('Form submitted');
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            
+            console.log('Form data:', formObject);
+            
+            // Simulate form submission (replace with actual form handling)
+            simulateFormSubmission(formObject);
+        });
+
+        /**
+         * Simulate form submission with success message
+         * @param {Object} formData - The form data object
+         */
+        function simulateFormSubmission(formData) {
+            // Add loading state to submit button
+            const submitBtn = document.getElementById('btn-send-message');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Reset button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Show success message
+                showSuccessMessage('Message sent successfully! We will get back to you soon.');
+                
+                // Reset form and close modal
+                contactForm.reset();
+                closeModal(contactModal);
+            }, 2000);
+        }
+
+        /**
+         * Show success message with animation
+         * @param {string} message - The success message to display
+         */
+        function showSuccessMessage(message) {
+            successMessage.textContent = message;
+            successMessage.classList.add('show');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 5000);
+        }
+
+        /* ===== ENHANCED BUTTON INTERACTIONS ===== */
+        
+        // Add enhanced hover effects to all interactive buttons
+        document.querySelectorAll('.interactive-btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add click sound effect (optional - uncomment if you want sound)
+        /*
+        function playClickSound() {
+            const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmcdBTexzvDIeisGL4PP8dqLOggceML35ZNREAhLp+DytGIaBDBFxfHNeS0EBgAA');
+            audio.volume = 0.1;
+            audio.play().catch(() => {}); // Ignore errors if autoplay is blocked
+        }
+        */
+
+        /* ===== INITIALIZE ON LOAD ===== */
+        
+        // Page load animations and initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Contact section initialized');
+            
+            // Add entrance animations to elements
+            const animatedElements = document.querySelectorAll('.contact-header, .contact-buttons-container, .contact-info-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        /* ===== UTILITY FUNCTIONS ===== */
+        
+        /**
+         * Validate email format
+         * @param {string} email - Email to validate
+         * @returns {boolean} - True if valid email
+         */
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        /**
+         * Show error message for form validation
+         * @param {string} message - Error message to display
+         */
+        function showErrorMessage(message) {
+            // Create or update error message element
+            let errorDiv = document.getElementById('error-message');
+            if (!errorDiv) {
+                errorDiv = document.createElement('div');
+                errorDiv.id = 'error-message';
+                errorDiv.style.cssText = `
+                    position: fixed;
+                    top: 2rem;
+                    right: 2rem;
+                    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 10px;
+                    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.3);
+                    transform: translateX(400px);
+                    transition: transform 0.3s ease;
+                    z-index: 1001;
+                `;
+                document.body.appendChild(errorDiv);
+            }
+            
+            errorDiv.textContent = message;
+            errorDiv.style.transform = 'translateX(0)';
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                errorDiv.style.transform = 'translateX(400px)';
+            }, 5000);
+        }
+
+        console.log('BSP Contact Section with Enhanced Functionality Loaded Successfully!');
+    </script>
+</body>
+</html>
