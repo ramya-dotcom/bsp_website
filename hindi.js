@@ -61,7 +61,11 @@ languageContent = {
         description: "हमारा दृष्टिकोण ऐसे समाज का निर्माण करना है जहाँ हर व्यक्ति को जाति, धर्म या पृष्ठभूमि की परवाह किए बिना समान अवसर मिलें। हम डॉ. बी.आर. अम्बेडकर के आदर्शों के प्रति प्रतिबद्ध हैं और एक न्यायसंगत और समतावादी समाज के उनके दृष्टिकोण को लागू करने की दिशा में काम करते हैं।",
         leaderInspiration: "वैचारिक प्रेरणा",
         leaderFounder: "संस्थापक (1984)",
-        leaderPresident: "राष्ट्रीय अध्यक्ष"
+        leaderPresident: "राष्ट्रीय अध्यक्ष",
+        leaderNamesInspiration: "बाबासाहेब डॉ. भीमराव अंबेडकर",
+        leaderNamesFounder: "मान्यवर कांशीराम",
+        leaderNamesPresident: "बहन कुमारी. मायावती जी"
+        
     },
 
     // Timeline section content
@@ -273,8 +277,8 @@ languageContent = {
 
 // ===== GALLERY TRANSLATIONS =====
 window.galleryTranslations = {
-    title: "गैलरी शीर्षक",
-    description: "[गैलरी विवरण]"
+    title: "फोटो गैलरी",
+    description: "शक्तिशाली क्षणों और ऐतिहासिक उपलब्धियों के माध्यम से बीएसपी की यात्रा का अन्वेषण करें"
 };
 
 // ===== AUTO-UPDATE PAGE CONTENT =====

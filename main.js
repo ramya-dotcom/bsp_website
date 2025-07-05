@@ -295,7 +295,10 @@ function getEnglishContent() {
             description: "Our vision is to build a society where every individual has equal opportunities regardless of their caste, creed, or background. We are committed to the ideals of Babasaheb Dr. Bhimrao Ambedkar and work towards implementing his vision of a just and equitable society.",
             leaderInspiration: "Ideological Inspiration",
             leaderFounder: "Founder (1984)",
-            leaderPresident: "National President"
+            leaderPresident: "National President",
+            leaderNamesInspiration: "Babasaheb Dr. Bhimrao Ambedkar",
+            leaderNamesFounder: "Manyavar Kanshi Ram",
+            leaderNamesPresident: "Behen Kumari. Mayawati Ji"
         },
 
         // Timeline section content
@@ -803,6 +806,9 @@ function updatePageContent() {
         updateElement('leader-inspiration', languageContent.vision?.leaderInspiration);
         updateElement('leader-founder', languageContent.vision?.leaderFounder);
         updateElement('leader-president', languageContent.vision?.leaderPresident);
+        updateElement('leader-inspiration-name', languageContent.vision?.leaderNamesInspiration);
+        updateElement('leader-founder-name', languageContent.vision?.leaderNamesFounder);
+        updateElement('leader-president-name', languageContent.vision?.leaderNamesPresident);
         
         // Update events section
         updateElement('events-title', languageContent.events?.title);
