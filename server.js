@@ -74,10 +74,10 @@ async function fetchTweets(username, max_results = 5) {
 }
 
 // API endpoint to get tweets for a handle
-app.get('/api/tweets/Mayawati', async (req, res) => { 
+app.get('/api/tweets/Behen Kumari. Mayawati', async (req, res) => { 
   const max = req.query.max || 5;
   try {
-    const tweets = await fetchTweets('Mayawati', max);
+    const tweets = await fetchTweets('Behen Kumari. Mayawati', max);
     res.json(tweets);
   } catch (err) {
     console.error('API endpoint error:', err.response ? err.response.data : err.message);
