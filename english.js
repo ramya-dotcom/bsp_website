@@ -66,7 +66,7 @@ languageContent = {
         leaderNamesPresident: "Behen Kumari. Mayawati Ji"
     },
 
-    // Timeline section content
+    // Timeline section content Comment
     timeline: {
         headerText: "OUR JOURNEY",
         items: [
