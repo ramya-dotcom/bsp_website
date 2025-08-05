@@ -552,54 +552,86 @@
 
       <!-- CONTACT SECTION -->
       <section class="section contact" id="contact">
-        <div class="section-content" style="display: flex; flex-direction: column; align-items: center;">
-          <h2 id="contact-title">Get in Touch</h2>
-          <p id="contact-description">Connect with us to be part of the movement for social transformation.</p>
-          <div class="contact-grid" style="display: flex; flex-direction: column; gap: 0; width: 100%;">
-            <div class="contact-btn-row" style="display: flex; justify-content: center; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; width: 100%;">
-              <a href="https://www.erolls.tn.gov.in/blo/BLA1.aspx" target="_blank" class="cta-btn primary" style="text-align:center;">BLA 1 Link</a>
-              <a href="https://www.erolls.tn.gov.in/blo/BLA2.aspx" target="_blank" class="cta-btn primary" style="text-align:center;">BLA 2 Link</a>
-            </div>
-            <!-- 👇 New TN link -->
-            <div class="contact-btn-row" style="display: flex; justify-content: center; width: 100%;">
-              <div style="display: flex; width: calc(2 * 150px + 1.2rem); justify-content: center;">
-                <a href="https://electoralsearch.eci.gov.in/" target="_blank" class="cta-btn primary" style="text-align: center; width: 100%;">
-                  TN Election Database Link
-                </a>
-              </div>
-            </div>
-            <!-- <div class="contact-btn-row" style="display: flex; justify-content: center; align-items: center; gap: 1.2rem; margin-bottom: 1.5rem; width: 100%;">
-              <button id="boothAgentBtn" class="cta-btn primary" type="button">BLA - Booth Level Agent</button>
-              <button id="openContactModalBtn" class="cta-btn primary" type="button">Send Us A Message Here!</button>
-            </div> -->
-            <!-- Contact Info Footer -->
-            <footer class="contact-footer" style="margin-top: 2.5rem; width: 100%;">
-              <div class="contact-info contact-info-grid" style="text-align: center; color: #fff;">
-                <h3 id="contact-info-title" style="color: #fff;">Contact Information</h3>
-                <div class="contact-info-row" style="display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap;">
-                  <div class="contact-info-col" style="min-width: 220px;">
-                    <div class="contact-item" style="color: #fff;"><i class="fas fa-map-marker-alt"></i> <span>Bahujan Samaj Party, Central Office Bungalow No.29, Lodhi Estate New Delhi - 110003</span></div>
-                    <div class="contact-item" style="color: #fff;"><i class="fas fa-map-marker-alt"></i> <span style="white-space: pre-line; word-break: break-word;">Bahujan Samaj Party (BSP) Tamil Nadu State Unit Head office, Dadasaheb Kanshiram Bhavan, 2/14 
-                      A veteran lines, Pallavaram Cantonment, Near St.Stephen's School, Chennai, Tamil Nadu 600043</span></div>
-                  </div>
-                  <div class="contact-info-col" style="min-width: 220px;">
-                    <div class="contact-item" style="color: #fff;"><i class="fas fa-phone"></i> <span>+91 011-24640183</span></div>
-                    <div class="contact-item" style="color: #fff;"><i class="fas fa-envelope"></i> <a href="mailto:info@bspindia.org" style="color: #fff; text-decoration: underline;">info@bspindia.org</a></div>
-                    <div class="contact-item" style="color: #fff;"><i class="fas fa-globe"></i> <a href="https://bahujansamajparty.net/" target="_blank" style="color: #fff; text-decoration: underline;">bahujansamajparty.net</a></div>
-                  </div>
-                </div>
-                <div class="social-links" style="justify-content: center; margin-top: 1rem;">
-                  <a href="https://www.facebook.com/bsp4up/" style="color: #fff;"><i class="fab fa-facebook"></i></a>
-                  <a href="https://x.com/bspindia?lang=en" style="color: #fff;"><i class="fab fa-twitter"></i></a>
-                  <a href="https://www.instagram.com/bahujan.samaj.party/?hl=en" style="color: #fff;"><i class="fab fa-instagram"></i></a>
-                  <a href="https://www.youtube.com/@bahujansamajparty_BSP" style="color: #fff;"><i class="fab fa-youtube"></i></a>
-                  <a href="https://bahujansamajparty.net/" style="color: #fff;"><i class="fas fa-envelope"></i></a>
-                </div>
-              </div>
-            </footer>
+        <div class="section-content" style="width: 100%; max-width: 2000px">
+          <!-- Shared Title Section -->
+          <div>
+            <h2>Get in Touch</h2>
+            <p>Connect with us using the form or through the contact details below.</p>
           </div>
+
+          <!-- Flex container for form + info -->
+          <div class="contact-container">
+            <!-- Contact Form (Left - 40%) -->
+            <div class="contact-form">
+              <h3 id="contact-form-title">Send us a Message</h3>
+
+              <form id="contactForm">
+                <div class="form-group">
+                  <label for="name" id="form-name-label">Name</label>
+                  <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="email" id="form-email-label">Email</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="message" id="form-message-label">Message</label>
+                  <textarea id="message" name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="cta-btn primary">Submit</button>
+              </form>
+            </div>
+
+            <!-- Contact Info (Right - 60%) -->
+            <div class="contact-info">
+              <!-- BLA links -->
+              <div class="contact-btn-row">
+                <a href="https://www.erolls.tn.gov.in/blo/BLA1.aspx" target="_blank" class="cta-btn primary">BLA 1 Link</a>
+                <a href="https://www.erolls.tn.gov.in/blo/BLA2.aspx" target="_blank" class="cta-btn primary">BLA 2 Link</a>
+              </div>
+
+              <div class="contact-btn-row single">
+                <a href="https://electoralsearch.eci.gov.in/" target="_blank" class="cta-btn primary">TN Election Database</a>
+              </div>
+
+              <h3 id="contact-info-title">Contact Information</h3>
+              <div class="contact-info-row">
+                <div class="contact-info-col">
+                  <div class="contact-item"><i class="fas fa-map-marker-alt"></i> 
+                    <span>Bahujan Samaj Party, Central Office Bungalow No.29, Lodhi Estate New Delhi - 110003</span>
+                  </div>
+                  <div class="contact-item"><i class="fas fa-map-marker-alt"></i> 
+                    <span style="white-space: pre-line;">Bahujan Samaj Party (BSP) Tamil Nadu State Unit Head office, Dadasaheb Kanshiram Bhavan, 2/14 A veteran lines, Pallavaram Cantonment, Near St.Stephen's School, Chennai, Tamil Nadu 600043</span>
+                  </div>
+                </div>
+                <div class="contact-info-col">
+                  <div class="contact-item"><i class="fas fa-phone"></i> <span>+91 011-24640183</span></div>
+                  <div class="contact-item"><i class="fas fa-envelope"></i> 
+                    <a href="mailto:info@bspindia.org">info@bspindia.org</a>
+                  </div>
+                  <div class="contact-item"><i class="fas fa-globe"></i> 
+                    <a href="https://bahujansamajparty.net/" target="_blank">bahujansamajparty.net</a>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Social Links -->
+              <div class="social-links">
+                <a href="https://www.facebook.com/bsp4up/"><i class="fab fa-facebook"></i></a>
+                <a href="https://x.com/bspindia?lang=en"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.instagram.com/bahujan.samaj.party/?hl=en"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@bahujansamajparty_BSP"><i class="fab fa-youtube"></i></a>
+                <a href="https://bahujansamajparty.net/"><i class="fas fa-envelope"></i></a>
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
+
       <!-- Contact Form Modal -->
       <div class="contact-modal-overlay" id="contactModalOverlay">
         <div class="contact-modal-box">
