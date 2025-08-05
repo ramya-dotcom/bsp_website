@@ -1117,7 +1117,10 @@ function scrollToSection(sectionId) {
             if (progress < 1) {
                 requestAnimationFrame(animateScroll);
             } else {
-                updateHistory('main', targetScrollTop);
+                updateHistory(sectionId || 'main', targetScrollTop);
+
+                // Trigger hash so browser can remember it on reload
+                if (sectionId) location.hash = sectionId;
 
                 // Ensure language consistency immediately after navigation animation completes
                 ensureLanguageConsistency(); // Removed setTimeout
@@ -1566,7 +1569,7 @@ function updateHistory(page, scrollPos = null) {
         language: currentLanguage
     };
     
-    const url = page === 'main' ? '/' : '#' + page;
+    const url = page === 'main' ? `/` : '#' + page;
     history.pushState(state, '', url);
 }
 
@@ -1710,12 +1713,36 @@ function initScrollEffects() {
             
             // Update current scroll position
             currentScrollPosition = mainContainer.scrollTop;
-            
+            //localStorage.setItem('scrollPosition', currentScrollPosition);
+                        
             // Update global social media visibility
             updateGlobalSocialVisibility();
             
             // Update active navigation item
             updateActiveNavItem();
+
+            // Section-aware URL updater
+            const sections = ['hero', 'timeline', 'events', 'updates', 'gallery', 'contact']; // Your top-level section IDs
+            let currentVisibleSection = null;
+
+            for (const id of sections) {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    // Check if section is mostly in view (adjust as needed)
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        currentVisibleSection = id;
+                        break;
+                    }
+                }
+            }
+
+            // If section has changed, update hash and history
+            if (currentVisibleSection && location.hash !== `#${currentVisibleSection}`) {
+                const scrollPos = mainContainer.scrollTop;
+                updateHistory(currentVisibleSection, scrollPos);
+                location.hash = currentVisibleSection;
+            }
         });
     }
 }
@@ -1818,10 +1845,7 @@ function initWebsite() {
                 handleBackNavigation('main', 0, '1988', currentLanguage);
             }
         });
-        
-        // Initialize page state
-        updateHistory('main');
-        
+
         // Handle initial URL hash
         if (window.location.hash) {
             const section = window.location.hash.substring(1);
@@ -1832,6 +1856,9 @@ function initWebsite() {
                     ensureLanguageConsistency();
                 }, 200);
             }, 500);
+        } else {
+            // Only update history to 'main' if there's no hash
+            updateHistory('main');
         }
         
         // Enhance scroll behavior
@@ -1842,7 +1869,11 @@ function initWebsite() {
         }
         
         console.log('BSP website initialized successfully');
-        
+
+        /*if(localStorage.getItem('scrollPosition') !== 0){
+            mainContainer.scrollTop = localStorage.getItem('scrollPosition');
+        }*/
+                
     } catch (error) {
         console.error('Error initializing website:', error);
     }
