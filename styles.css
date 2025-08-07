@@ -1232,18 +1232,6 @@ body::-webkit-scrollbar-thumb:hover {
   text-align: center;
 }
 
-.contact-btn-row {
-  display: flex;
-  justify-content: center;
-  gap: 1.2rem;
-  margin-bottom: 1rem;
-}
-
-.contact-btn-row.single {
-  justify-content: center;
-  margin-bottom: 1.5rem;
-}
-
 .contact-info-row {
   display: flex;
   gap: 2rem;
@@ -1256,6 +1244,7 @@ body::-webkit-scrollbar-thumb:hover {
 
 .social-links {
     display: flex;
+    justify-content: center;
     gap: 1.5rem;
     margin-top: 3rem;
     flex-wrap: wrap;
@@ -1692,6 +1681,51 @@ body::-webkit-scrollbar-thumb:hover {
     opacity: 0.7;
     font-size: 0.9rem;
 }
+
+.external-resources {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem auto;
+    max-width: 600px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border: 1px solid rgba(34, 65, 154, 0.1);
+    text-align: center;
+}
+
+.external-resources h3 {
+    color: #22419A;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.external-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+
+.external-links li a {
+    display: inline-block;
+    background: rgba(34, 65, 154, 0.05);
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    color: #22419A;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+}
+
+.external-links li a:hover {
+    background: rgba(34, 65, 154, 0.1);
+    border-color: rgba(34, 65, 154, 0.2);
+    transform: translateY(-2px);
+}
+
 .resources-contact {
     background: white;
     border-radius: 12px;
