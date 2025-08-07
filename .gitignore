@@ -2,3 +2,6 @@
 
 *.code-workspace
 *.env
+venv/
+__pycache__/
+temp_files/
