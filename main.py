@@ -28,12 +28,11 @@ PHOTO_UPLOAD_DIR = Path("/home/mfnssihw/volunteers_files/photos")
 # --- Initialize FastAPI App ---
 app = FastAPI(
     title="Membership Creation API",
-    description="An API to verify documents, create new members, and return their unique ID.",
-    version="1.2.0"
+    description="An API to verify documents, create new members, and return their complete profile.",
+    version="1.3.0" # Version bump for the change
 )
 
 # --- Pydantic Model for Member Data ---
-# This model defines the data expected from the form.
 class MemberCreate(BaseModel):
     name: str = Field(..., description="Full Name")
     membership_no: str = Field(..., description="Membership Number")
@@ -84,11 +83,9 @@ def create_member_in_db(member_data: MemberCreate, pdf_path: str, photo_path: st
         )
         cursor.execute(sql, values)
         conn.commit()
-        # Return the ID of the newly created record
         return cursor.lastrowid
     except mysql.connector.Error as err:
-        # Handle specific errors, like a duplicate membership number
-        if err.errno == 1062: # Duplicate entry
+        if err.errno == 1062:
             raise HTTPException(status_code=409, detail=f"A member with membership number '{member_data.membership_no}' already exists.")
         print(f"Database INSERT error: {err}")
         raise HTTPException(status_code=500, detail="Failed to create member in the database.")
@@ -145,7 +142,7 @@ async def create_member_endpoint(
     epic_number: Annotated[str, Form()], 
     pdf_file: Annotated[UploadFile, File()],
     photo_file: Annotated[UploadFile, File()],
-    member_data: MemberCreate = Depends() # Injects form data into the Pydantic model
+    member_data: MemberCreate = Depends()
 ):
     unique_id = str(uuid.uuid4().hex)[:8]; safe_epic = epic_number.strip().upper()
     pdf_filename = f"{safe_epic}_{unique_id}_{Path(pdf_file.filename).name}"
@@ -170,17 +167,25 @@ async def create_member_endpoint(
         cleanup_files(files_to_cleanup)
         raise HTTPException(status_code=400, detail=f"Mismatch: Entered EPIC '{safe_epic}' does not match PDF EPIC '{extracted_epic}'.")
 
-    # If verification is successful, create the member
     try:
         new_member_id = create_member_in_db(member_data, str(saved_pdf_path), str(saved_photo_path))
     except HTTPException as e:
-        # If DB insertion fails (e.g., duplicate member), clean up the files and re-raise the exception
         cleanup_files(files_to_cleanup)
         raise e
 
+    # --- UPDATED RESPONSE ---
+    # Return a complete profile for the membership card.
     return {
         "message": "Member created successfully.",
-        "member_id": new_member_id, # This is the primary key from the database
+        "id_no": new_member_id,
+        "membership_no": member_data.membership_no,
+        "active_no": member_data.active_no,
         "name": member_data.name,
-        "membership_no": member_data.membership_no
+        "profession": member_data.profession,
+        "designation": member_data.designation,
+        "mandal": member_data.mandal,
+        "dob": member_data.dob,
+        "blood_group": member_data.blood_group,
+        "contact_no": member_data.contact_no,
+        "address": member_data.address
     }
