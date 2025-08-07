@@ -1146,7 +1146,7 @@ body::-webkit-scrollbar-thumb:hover {
     color: white;
 }
 
-.contact h2 {
+.contact-title {
     color: white;
     font-size: clamp(2rem, 4vw, 2.5rem);
     margin-bottom: 1rem;
@@ -1154,7 +1154,7 @@ body::-webkit-scrollbar-thumb:hover {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
-.contact > .section-content > p {
+.contact-description {
     font-size: clamp(1rem, 2vw, 1.1rem);
     margin-bottom: 2rem;
     text-align: center;
