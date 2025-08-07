@@ -1,0 +1,13 @@
+# FastAPI and Server
+fastapi
+uvicorn
+python-multipart
+
+# Database
+mysql-connector-python
+python-dotenv
+
+# PDF and OCR Processing
+PyMuPDF
+pytesseract
+Pillow
