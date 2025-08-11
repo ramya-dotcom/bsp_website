@@ -1,13 +1,10 @@
-# FastAPI and Server
 fastapi
 uvicorn
 python-multipart
-
-# Database
-mysql-connector-python
-python-dotenv
-
-# PDF and OCR Processing
-PyMuPDF
+pydantic
 pytesseract
 Pillow
+PyMuPDF
+python-dotenv
+mysql-connector-python
+a2wsgi
