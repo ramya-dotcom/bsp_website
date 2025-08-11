@@ -1117,7 +1117,10 @@ function scrollToSection(sectionId) {
             if (progress < 1) {
                 requestAnimationFrame(animateScroll);
             } else {
-                updateHistory('main', targetScrollTop);
+                updateHistory(sectionId || 'main', targetScrollTop);
+
+                // Trigger hash so browser can remember it on reload
+                if (sectionId) location.hash = sectionId;
 
                 // Ensure language consistency immediately after navigation animation completes
                 ensureLanguageConsistency(); // Removed setTimeout
@@ -1454,24 +1457,24 @@ function hideEventDetail() {
  */
 function showFAQ() {
     console.log('Showing FAQ page');
-    
-    const mainContainer = document.getElementById('mainContainer');
-    currentScrollPosition = mainContainer.scrollTop;
-    
-    // Store current page state
-    currentPage = 'faq';
-    
+         
+    // Show FAQ page
+    document.getElementById('faqPage').style.display = 'block';
+
     // Hide main container
     document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('resourcesPage').style.display = 'none';
     
     // Hide any active detail pages
     document.querySelectorAll('.detail-page').forEach(page => {
         page.classList.remove('active');
     });
     
-    // Show FAQ page
-    document.getElementById('faqPage').classList.add('active');
-    updateHistory('faq', currentScrollPosition);
+    // Store current page state
+    currentPage = 'faq';
+    currentScrollPosition = document.getElementById('faqPage').scrollTop;
+    updateHistory(currentPage, currentScrollPosition);
+    location.hash = currentPage;
     
     // Close mobile menu if open
     const navMenu = document.querySelector('.nav-menu');
@@ -1546,6 +1549,44 @@ function toggleFAQ(element) {
     }
 }
 
+// ===== RESOURCES FUNCTION =====
+
+function showResources() {
+    document.getElementById('resourcesPage').style.display = 'block';
+    document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('faqPage').style.display = 'none';
+    document.querySelectorAll('.detail-page').forEach(page => {page.classList.remove('active');});
+    
+    currentPage = 'resources';
+    currentScrollPosition = document.getElementById('resourcesPage').scrollTop;
+    updateHistory(currentPage, currentScrollPosition);
+    location.hash = currentPage;
+
+    // Close mobile menu if open
+    const navMenu = document.querySelector('.nav-menu');
+    const hamburger = document.querySelector('.hamburger');
+    if (navMenu && hamburger) {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+    }
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Ensure language consistency in FAQ page
+    setTimeout(() => {
+        ensureLanguageConsistency();
+    }, 200);
+    
+    return false;
+}
+
+function hideResources() {
+    document.getElementById('resourcesPage').style.display = 'none';
+    document.getElementById('mainContainer').style.display = 'block';
+}
+
 // ===== HISTORY MANAGEMENT =====
 
 /**
@@ -1566,7 +1607,7 @@ function updateHistory(page, scrollPos = null) {
         language: currentLanguage
     };
     
-    const url = page === 'main' ? '/' : '#' + page;
+    const url = page === 'main' ? `/` : '#' + page;
     history.pushState(state, '', url);
 }
 
@@ -1661,14 +1702,16 @@ function downloadDetails() {
  */
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
+    const WEB3_ACCESS_KEY = "084b7df7-9829-4753-8009-f9e18ffaf5fe";
+
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', function (e) {
             e.preventDefault();
-            
-            // Basic form validation
+
             const inputs = this.querySelectorAll('input[required], textarea[required]');
             let isValid = true;
-            
+
+            // Validation: check required fields
             inputs.forEach(input => {
                 if (!input.value.trim()) {
                     isValid = false;
@@ -1677,13 +1720,47 @@ function initContactForm() {
                     input.style.borderColor = '';
                 }
             });
-            
-            if (isValid) {
-                alert(languageContent.messages?.messageSent || 'Thank you for your message! We will get back to you soon.');
-                this.reset();
-            } else {
+
+            if (!isValid) {
                 alert(languageContent.messages?.fillRequired || 'Please fill all required fields.');
+                return;
             }
+
+            // Prepare form data
+            const formData = new FormData(contactForm);
+            formData.append("access_key", WEB3_ACCESS_KEY);
+            formData.append("replyto", contactForm.querySelector('#email').value);
+
+            const jsonData = JSON.stringify(Object.fromEntries(formData));
+
+            // Disable the form during submission
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = true;
+
+            // Submit to Web3Forms
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: jsonData
+            })
+            .then(async (response) => {
+                const result = await response.json();
+                if (response.ok) {
+                    alert(languageContent.messages?.messageSent || 'Thank you for your message! We will get back to you soon.');
+                    contactForm.reset();
+                } else {
+                    alert(result.message || "Something went wrong. Please try again.");
+                }
+            })
+            .catch(() => {
+                alert("Something went wrong while submitting the form.");
+            })
+            .finally(() => {
+                if (submitBtn) submitBtn.disabled = false;
+            });
         });
     }
 }
@@ -1710,12 +1787,36 @@ function initScrollEffects() {
             
             // Update current scroll position
             currentScrollPosition = mainContainer.scrollTop;
-            
+            //localStorage.setItem('scrollPosition', currentScrollPosition);
+                        
             // Update global social media visibility
             updateGlobalSocialVisibility();
             
             // Update active navigation item
             updateActiveNavItem();
+
+            // Section-aware URL updater
+            const sections = ['hero', 'timeline', 'events', 'updates', 'gallery', 'contact']; // Your top-level section IDs
+            let currentVisibleSection = null;
+
+            for (const id of sections) {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    // Check if section is mostly in view (adjust as needed)
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        currentVisibleSection = id;
+                        break;
+                    }
+                }
+            }
+
+            // If section has changed, update hash and history
+            if (currentVisibleSection && location.hash !== `#${currentVisibleSection}`) {
+                const scrollPos = mainContainer.scrollTop;
+                updateHistory(currentVisibleSection, scrollPos);
+                location.hash = currentVisibleSection;
+            }
         });
     }
 }
@@ -1818,20 +1919,26 @@ function initWebsite() {
                 handleBackNavigation('main', 0, '1988', currentLanguage);
             }
         });
-        
-        // Initialize page state
-        updateHistory('main');
-        
+
         // Handle initial URL hash
         if (window.location.hash) {
             const section = window.location.hash.substring(1);
             setTimeout(() => {
-                scrollToSection(section);
+                if (section === 'faq') {
+                showFAQ(); // open FAQ directly
+            } else if (section === 'resources') {
+                showResources(); // open Resources directly
+            } else {
+                scrollToSection(section); // normal section scroll for main page
+            }
                 // Ensure language consistency after initial navigation
                 setTimeout(() => {
                     ensureLanguageConsistency();
                 }, 200);
             }, 500);
+        } else {
+            // Only update history to 'main' if there's no hash
+            updateHistory('main');
         }
         
         // Enhance scroll behavior
@@ -1842,7 +1949,7 @@ function initWebsite() {
         }
         
         console.log('BSP website initialized successfully');
-        
+                
     } catch (error) {
         console.error('Error initializing website:', error);
     }
