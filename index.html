@@ -59,7 +59,7 @@
           <li><a href="#gallery" onclick="hideResources(); scrollToSection('gallery'); return false;" id="nav-gallery">Gallery</a></li>
           <li><a href="#resources" onclick="showResources(); return false;" id="nav-resources">Resources</a></li>
           <li><a href="#contact" onclick="hideResources(); scrollToSection('contact'); return false;" id="nav-contact">Contact</a></li>
-          <li><a href="#" onclick="showFAQ(); return false;" id="nav-faq">FAQ</a></li>
+          <li><a href="#faq" onclick="showFAQ(); return false;" id="nav-faq">FAQ</a></li>
           <!-- Language Switcher -->
           <li class="language-switcher">
             <div class="language-buttons">
@@ -816,28 +816,7 @@
         boothAgentModal.addEventListener('click', function(e) {
           if (e.target === boothAgentModal) boothAgentModal.style.display = 'none';
         });
-      }
-
-      // FAQ logic ...
-      function showFAQ() {
-        document.getElementById('faqPage').style.display = 'block';
-        document.getElementById('mainContainer').style.display = 'none';
-        document.getElementById('resourcesPage').style.display = 'none';
-      }
-      function hideFAQ() {
-        document.getElementById('faqPage').style.display = 'none';
-        document.getElementById('mainContainer').style.display = 'block';
-      }
-      // RESOURCES logic
-      function showResources() {
-        document.getElementById('resourcesPage').style.display = 'block';
-        document.getElementById('mainContainer').style.display = 'none';
-        document.getElementById('faqPage').style.display = 'none';
-      }
-      function hideResources() {
-        document.getElementById('resourcesPage').style.display = 'none';
-        document.getElementById('mainContainer').style.display = 'block';
-      }
+      }      
     </script>
   </body>
 </html>

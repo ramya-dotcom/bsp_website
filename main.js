@@ -1457,24 +1457,24 @@ function hideEventDetail() {
  */
 function showFAQ() {
     console.log('Showing FAQ page');
-    
-    const mainContainer = document.getElementById('mainContainer');
-    currentScrollPosition = mainContainer.scrollTop;
-    
-    // Store current page state
-    currentPage = 'faq';
-    
+         
+    // Show FAQ page
+    document.getElementById('faqPage').style.display = 'block';
+
     // Hide main container
     document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('resourcesPage').style.display = 'none';
     
     // Hide any active detail pages
     document.querySelectorAll('.detail-page').forEach(page => {
         page.classList.remove('active');
     });
     
-    // Show FAQ page
-    document.getElementById('faqPage').classList.add('active');
-    updateHistory('faq', currentScrollPosition);
+    // Store current page state
+    currentPage = 'faq';
+    currentScrollPosition = document.getElementById('faqPage').scrollTop;
+    updateHistory(currentPage, currentScrollPosition);
+    location.hash = currentPage;
     
     // Close mobile menu if open
     const navMenu = document.querySelector('.nav-menu');
@@ -1547,6 +1547,44 @@ function toggleFAQ(element) {
             icon.style.transform = 'rotate(180deg)';
         }
     }
+}
+
+// ===== RESOURCES FUNCTION =====
+
+function showResources() {
+    document.getElementById('resourcesPage').style.display = 'block';
+    document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('faqPage').style.display = 'none';
+    document.querySelectorAll('.detail-page').forEach(page => {page.classList.remove('active');});
+    
+    currentPage = 'resources';
+    currentScrollPosition = document.getElementById('resourcesPage').scrollTop;
+    updateHistory(currentPage, currentScrollPosition);
+    location.hash = currentPage;
+
+    // Close mobile menu if open
+    const navMenu = document.querySelector('.nav-menu');
+    const hamburger = document.querySelector('.hamburger');
+    if (navMenu && hamburger) {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+    }
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Ensure language consistency in FAQ page
+    setTimeout(() => {
+        ensureLanguageConsistency();
+    }, 200);
+    
+    return false;
+}
+
+function hideResources() {
+    document.getElementById('resourcesPage').style.display = 'none';
+    document.getElementById('mainContainer').style.display = 'block';
 }
 
 // ===== HISTORY MANAGEMENT =====
@@ -1886,7 +1924,13 @@ function initWebsite() {
         if (window.location.hash) {
             const section = window.location.hash.substring(1);
             setTimeout(() => {
-                scrollToSection(section);
+                if (section === 'faq') {
+                showFAQ(); // open FAQ directly
+            } else if (section === 'resources') {
+                showResources(); // open Resources directly
+            } else {
+                scrollToSection(section); // normal section scroll for main page
+            }
                 // Ensure language consistency after initial navigation
                 setTimeout(() => {
                     ensureLanguageConsistency();
@@ -1905,10 +1949,6 @@ function initWebsite() {
         }
         
         console.log('BSP website initialized successfully');
-
-        /*if(localStorage.getItem('scrollPosition') !== 0){
-            mainContainer.scrollTop = localStorage.getItem('scrollPosition');
-        }*/
                 
     } catch (error) {
         console.error('Error initializing website:', error);
