@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TNBSP - Create Membership</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #1565c0;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background-color: #f5f5f5;
+            height: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: #1565c0;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #1565c0;
+        }
+
+        .form-group input:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            border-color: #ccc;
+        }
+
+        .locked-field {
+            position: relative;
+        }
+
+        .locked-field::after {
+            content: "🔒";
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+            font-size: 14px;
+        }
+
+        .epic-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .epic-input {
+            max-width: 400px;
+            margin: 0 auto 30px;
+        }
+
+        .epic-display {
+            background-color: #e3f2fd;
+            border: 2px solid #1565c0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .epic-display h3 {
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+
+        .epic-display .epic-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #0d47a1;
+            letter-spacing: 2px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .btn {
+            background-color: #1565c0;
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn:hover {
+            background-color: #0d47a1;
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: #757575;
+        }
+
+        .btn-secondary:hover {
+            background-color: #616161;
+        }
+
+        /* NEW: Reset button styling */
+        .btn-reset {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn-reset:hover {
+            background-color: #f57c00;
+        }
+
+        .verification-info {
+            background-color: #fff3e0;
+            border: 2px solid #ff9800;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .verification-info h3 {
+            color: #e65100;
+            margin-bottom: 10px;
+        }
+
+        .verification-info ol {
+            margin-left: 20px;
+        }
+
+        .verification-info li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .verification-link {
+            background-color: #1565c0;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .verification-link:hover {
+            background-color: #0d47a1;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 40px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: #1565c0;
+        }
+
+        .upload-area.dragover {
+            border-color: #1565c0;
+            background-color: #e3f2fd;
+        }
+
+        .upload-preview {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .upload-preview img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1565c0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background-color: #e8f5e8;
+            border: 2px solid #4caf50;
+            color: #2e7d32;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* NEW: Inline error message styling */
+        .inline-error {
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-top: 8px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .inline-error.show {
+            display: block;
+        }
+
+        /* NEW: Input field error state */
+        .input-error {
+            border-color: #f44336 !important;
+            background-color: #ffebee !important;
+        }
+
+        /* NEW: Input field locked state */
+        .input-locked {
+            background-color: #f5f5f5 !important;
+            cursor: not-allowed !important;
+            border-color: #4caf50 !important;
+            position: relative;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .receipt {
+            background-color: white;
+            border: 2px solid #1565c0;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px solid #1565c0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .flow-indicator {
+            background-color: #e3f2fd;
+            border-left: 4px solid #1565c0;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+        /* NEW: Hidden elements */
+        .hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .epic-container {
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TNBSP Membership Registration</h1>
+            <p>Tamil Nadu BSP - Create Your Membership Account</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="content">
+            <!-- Step 1: EPIC Number Entry + File Upload (Following Flowchart) -->
+            <div class="step active" id="step1">
+                <div class="step-title">Enter EPIC Number & Upload Verification</div>
+                
+                <div class="flow-indicator">
+                    <strong>Step 1:</strong> Enter your Voter ID (EPIC) Number and upload verification document. Once entered, the EPIC field will be locked for security.
+                </div>
+
+                <div class="epic-container">
+                    <div class="form-group epic-input">
+                        <label for="epicNumber">Voter ID Number (EPIC No.) - Exactly 10 Characters *</label>
+                        <!-- NEW: Updated EPIC input with proper ID and ARIA attributes -->
+                        <input type="text" id="epicNumber" name="voterID" required maxlength="10" 
+                               placeholder="Enter 10-character EPIC (e.g., ABC1234567)" 
+                               autofocus 
+                               style="text-transform: uppercase; letter-spacing: 1px; font-weight: bold;"
+                               aria-describedby="epicError epicHelp"
+                               autocomplete="off">
+                        <small id="epicHelp" style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+                            ℹ️ Only uppercase letters (A-Z) and numbers (0-9) allowed. No spaces or special characters.
+                        </small>
+                        <!-- NEW: Error message container for EPIC input -->
+                        <div id="epicError" class="inline-error" role="alert" aria-live="polite"></div>
+                    </div>
+                    
+                    <!-- NEW: Reset button (initially hidden) -->
+                    <div class="button-group">
+                        <button type="button" id="resetBtn" class="btn-reset hidden" onclick="resetForm()">
+                            🔄 Reset & Start Over
+                        </button>
+                    </div>
+                    
+                    <div style="margin: 30px 0;">
+                        <div class="verification-info">
+                            <h3>Verification Instructions:</h3>
+                            <ol>
+                                <!-- <li>First, enter your EPIC number above</li> -->
+                                <li>Visit <strong><a href="https://electoralsearch.eci.gov.in" target="_blank">https://electoralsearch.eci.gov.in</a></strong></li>
+                                <!-- <li>Search for your voter information using your EPIC Number</li> -->
+                                <!-- <li>Take a document of the complete search results page</li> -->
+                                <!-- <li>Upload the document below</li> -->
+                                <li>Download Document with your Voter ID details and Upload the file below</li>
+                            </ol>
+                            
+                            <div style="text-align: center; margin: 20px 0;">
+                                <a href="https://electoralsearch.eci.gov.in" target="_blank" class="verification-link">
+                                    🔗 Verify on Electoral Portal
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="uploadFile">Upload Voter ID Verification Document *</label>
+                            <div class="upload-area" id="uploadArea">
+                                <p><strong>Click here to select image</strong> or drag and drop</p>
+                                <p>Supported formats: JPG, PNG, PDF (Max size: 5MB)</p>
+                                <!-- NEW: Updated file input with proper ID and ARIA attributes -->
+                                <input type="file" id="uploadFile" accept=".jpg,.jpeg,.png,.pdf" 
+                                       style="display: none;" 
+                                       aria-describedby="uploadError uploadHelp">
+                            </div>
+                            <small id="uploadHelp" style="color: #666; font-size: 12px; margin-top: 5px; display: block;">
+                                📁 Accepted formats: JPG, PNG, PDF • Maximum size: 5MB
+                            </small>
+                            <!-- NEW: Error message container for upload input -->
+                            <div id="uploadError" class="inline-error" role="alert" aria-live="polite"></div>
+                            <div class="upload-preview" id="uploadPreview"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="btn" onclick="lockEpicAndProceed()" id="proceedBtn" disabled>Lock EPIC & Proceed to Verification</button>
+                    </div>
+                    
+                    <p style="margin-top: 20px; color: #666; font-size: 14px;">
+                        ⚠️ <strong>Important:</strong> Once you proceed, the EPIC number will be permanently locked and cannot be changed unless you refresh the page.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 2: Self Verification (Following Flowchart) -->
+            <div class="step" id="step2">
+                <div class="step-title">Self Verification via Electoral Portal</div>
+                
+                <div class="flow-indicator">
+                    <strong>Step 2:</strong> Verify your voter details on the official government portal and upload document.
+                </div>
+
+                <div class="epic-display">
+                    <h3>Your EPIC Number (Locked)</h3>
+                    <div class="epic-number" id="displayVoterID"></div>
+                    <p style="margin-top: 10px; color: #666; font-size: 14px;">🔒 This number is now locked and cannot be changed</p>
+                </div>
+                
+                <div class="verification-info">
+                    <h3>Verification Instructions:</h3>
+                    <ol>
+                        <li>Click the button below to visit the official Electoral Search portal</li>
+                        <li>Search for your voter information using your EPIC Number</li>
+                        <li>Take a document of the complete search results page</li>
+                        <li>Return here and upload the document below</li>
+                        <li>Ensure the document clearly shows your voter details</li>
+                    </ol>
+                    
+                    <div style="text-align: center; margin: 20px 0;">
+                        <a href="https://electoralsearch.eci.gov.in" target="_blank" class="verification-link">
+                            🔗 Verify on Electoral Portal
+                        </a>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Voter ID Verification document *</label>
+                    <div class="upload-area" id="uploadArea">
+                        <p><strong>Click here to select image</strong> or drag and drop</p>
+                        <p>Supported formats: JPG, PNG, PDF (Max size: 5MB)</p>
+                        <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                    </div>
+                    <div class="upload-preview" id="uploadPreview"></div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn" id="uploadBtn" onclick="proceedToVerification()" disabled>Proceed to Verification</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Python Image Verification (Following Flowchart) -->
+            <div class="step" id="step3">
+                <div class="step-title">Image Verification in Progress</div>
+                
+                <div class="flow-indicator">
+                    <strong>Step 2:</strong> Python image libraries are verifying your uploaded document.
+                </div>
+
+                <div class="epic-display">
+                    <h3>Processing EPIC Number</h3>
+                    <div class="epic-number" id="processingEpicDisplay"></div>
+                    <p style="margin-top: 10px; color: #666; font-size: 14px;">🔒 This number is now locked and cannot be changed</p>
+                </div>
+
+                <div class="loading active">
+                    <div class="spinner"></div>
+                    <h3>Verifying Your document...</h3>
+                    <p>Our Python image processing system is analyzing your voter ID document.</p>
+                    <p style="margin-top: 10px; font-size: 14px; color: #666;">This process typically takes 10-30 seconds.</p>
+                </div>
+            </div>
+
+            <!-- Step 4: Payment Portal (Following Flowchart) -->
+            <div class="step" id="step4">
+                <div class="step-title">Payment Portal</div>
+                
+                <div class="flow-indicator">
+                    <strong>Step 4:</strong> Verification successful! Proceed with payment to continue.
+                </div>
+                
+                <div class="success-message">
+                    <h3>✓ Image Verification Successful!</h3>
+                    <p>Your voter ID document has been verified by our Python image processing system.</p>
+                </div>
+
+                <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                    <h3 style="margin-bottom: 15px;">Membership Fee Details:</h3>
+                    <div class="receipt-item">
+                        <span>TNBSP Annual Membership Fee:</span>
+                        <span><strong>₹500</strong></span>
+                    </div>
+                    <div class="receipt-item">
+                        <span>Processing Fee:</span>
+                        <span><strong>₹50</strong></span>
+                    </div>
+                    <div class="receipt-item" style="border-top: 2px solid #1565c0; font-size: 1.2em; font-weight: bold;">
+                        <span>Total Amount:</span>
+                        <span><strong>₹550</strong></span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn" onclick="processPayment()">Proceed to Payment Gateway</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Data Collection for Database (Following Flowchart) -->
+            <div class="step" id="step5">
+                <div class="step-title">Complete Your Profile</div>
+                
+                <div class="flow-indicator">
+                    <strong>Step 5:</strong> Payment successful! Please complete your profile details for database entry.
+                </div>
+
+                <div class="success-message">
+                    <h3>💳 Payment Successful!</h3>
+                    <p>Now please provide your details to complete the membership registration.</p>
+                </div>
+
+                <div class="epic-display">
+                    <h3>Verified EPIC Number</h3>
+                    <div class="epic-number" id="finalEpicDisplay"></div>
+                </div>
+
+                <form id="memberDetailsForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="profession">Profession *</label>
+                            <input type="text" id="profession" name="profession" required placeholder="Enter your profession">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="designation">Designation</label>
+                            <input type="text" id="designation" name="designation" placeholder="Enter your designation">
+                        </div>
+                        <div class="form-group">
+                            <label for="mandal">Mandal *</label>
+                            <input type="text" id="mandal" name="mandal" required placeholder="Enter your mandal">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dob">Date of Birth *</label>
+                            <input type="date" id="dob" name="dob" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bloodGroup">Blood Group</label>
+                            <select id="bloodGroup" name="bloodGroup">
+                                <option value="">Select Blood Group</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact">Contact Number *</label>
+                            <input type="tel" id="contact" name="contact" required pattern="[0-9]{10}" placeholder="Enter 10-digit mobile number">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email address">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Complete Address *</label>
+                        <textarea id="address" name="address" required rows="3" placeholder="Enter your complete address with pin code"></textarea>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn">Push Data to Database</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 6: Receipt & Membership Card Generation (Following Flowchart) -->
+            <div class="step" id="step6">
+                <div class="step-title">Membership Created Successfully!</div>
+                
+                <div class="flow-indicator">
+                    <strong>Final Step:</strong> Data saved to database. Receipt and membership card ready for download.
+                </div>
+                
+                <div class="success-message">
+                    <h3>🎉 Welcome to TNBSP!</h3>
+                    <p>Your membership has been created successfully and data has been saved to our database.</p>
+                </div>
+
+                <div class="receipt">
+                    <div class="receipt-header">
+                        <h2>TNBSP MEMBERSHIP RECEIPT</h2>
+                        <p>Membership ID: <span id="membershipId"></span></p>
+                        <p>Receipt #: <span id="receiptNumber"></span></p>
+                        <p>Date: <span id="receiptDate"></span></p>
+                    </div>
+                    
+                    <div id="receiptDetails"></div>
+                    
+                    <div class="receipt-item" style="border-top: 2px solid #1565c0; font-size: 1.2em; font-weight: bold; margin-top: 20px;">
+                        <span>Total Paid:</span>
+                        <span>₹550</span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn" onclick="downloadReceipt()">📄 Download Receipt</button>
+                    <button type="button" class="btn" onclick="downloadMembershipCard()">🆔 Download Membership Card</button>
+                    <button type="button" class="btn btn-secondary" onclick="goToHome()">🏠 Back to Home</button>
+                </div>
+            </div>
+
+            <!-- Error Step -->
+            <div class="step" id="errorStep">
+                <div class="step-title">Verification Failed</div>
+                
+                <div class="error-message">
+                    <h3>❌ Image Verification Failed</h3>
+                    <p id="errorMessage">Our Python image verification system could not verify your voter ID document. Please ensure the image clearly shows your voter information from the electoral portal.</p>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn" onclick="goToStep(1)">🔄 Upload New document</button>
+                    <button type="button" class="btn btn-secondary" onclick="contactSupport()">📞 Contact Support</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let currentStep = 1;
+        let userData = {};
+        let uploadedFile = null;
+        let lockedEpicNumber = '';
+        let paymentTransactionId = '';
+        let isEpicLocked = false; // NEW: Track EPIC lock status
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgressBar();
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            // NEW: Enhanced EPIC number input validation with locking functionality
+            const epicInput = document.getElementById('epicNumber');
+            const proceedBtn = document.getElementById('proceedBtn');
+            const epicError = document.getElementById('epicError');
+            
+            // Real-time EPIC validation and formatting
+            epicInput.addEventListener('input', function(e) {
+                if (isEpicLocked) return; // Prevent changes if locked
+                
+                // Remove any invalid characters and convert to uppercase
+                let value = e.target.value.replace(/[^A-Z0-9]/g, '').toUpperCase();
+                
+                // Limit to 10 characters
+                if (value.length > 10) {
+                    value = value.substring(0, 10);
+                }
+                
+                e.target.value = value;
+                clearEpicError(); // Clear any previous errors
+                checkFormValidity();
+            });
+            
+            // Handle keypress for real-time validation
+            epicInput.addEventListener('keypress', function(e) {
+                if (isEpicLocked) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                // Allow only alphanumeric characters
+                const char = String.fromCharCode(e.which);
+                if (!/[A-Z0-9a-z]/.test(char)) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                // Handle Enter key
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (proceedBtn && !proceedBtn.disabled) {
+                        lockEpicAndProceed();
+                    }
+                }
+            });
+
+            // NEW: Blur event for strict validation and locking
+            epicInput.addEventListener('blur', function(e) {
+                if (isEpicLocked) return;
+                
+                const epicValue = e.target.value.trim();
+                
+                if (epicValue.length === 0) {
+                    clearEpicError();
+                    return;
+                }
+                
+                if (!validateEpicNumber(epicValue)) {
+                    showEpicError('Invalid EPIC number. Must be exactly 10 characters with only uppercase letters (A-Z) and digits (0-9).');
+                    e.target.focus(); // Keep focus on field
+                    return;
+                }
+                
+                // If validation passes, lock the EPIC number
+                lockEpicNumber(epicValue);
+            });
+
+            // Paste event handler
+            epicInput.addEventListener('paste', function(e) {
+                if (isEpicLocked) {
+                    e.preventDefault();
+                    return;
+                }
+                
+                e.preventDefault();
+                const paste = (e.clipboardData || window.clipboardData).getData('text');
+                const cleaned = paste.replace(/[^A-Z0-9]/g, '').toUpperCase().substring(0, 10);
+                e.target.value = cleaned;
+                clearEpicError();
+                checkFormValidity();
+            });
+
+            // Member details form submission
+            const memberForm = document.getElementById('memberDetailsForm');
+            if (memberForm) {
+                memberForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (validateMemberDetails()) {
+                        pushToDatabase();
+                    }
+                });
+            }
+
+            // NEW: Enhanced file upload functionality with validation
+            setupFileUpload();
+        }
+
+        // NEW: EPIC number validation function
+        function validateEpicNumber(epic) {
+            // Must be exactly 10 characters
+            if (epic.length !== 10) return false;
+            
+            // Must contain only uppercase letters and digits
+            if (!/^[A-Z0-9]{10}$/.test(epic)) return false;
+            
+            return true;
+        }
+
+        // NEW: Show EPIC error message
+        function showEpicError(message) {
+            const epicInput = document.getElementById('epicNumber');
+            const epicError = document.getElementById('epicError');
+            
+            epicInput.classList.add('input-error');
+            epicError.textContent = message;
+            epicError.classList.add('show');
+        }
+
+        // NEW: Clear EPIC error message
+        function clearEpicError() {
+            const epicInput = document.getElementById('epicNumber');
+            const epicError = document.getElementById('epicError');
+            
+            epicInput.classList.remove('input-error');
+            epicError.classList.remove('show');
+        }
+
+        // NEW: Lock EPIC number function
+        function lockEpicNumber(epicValue) {
+            const epicInput = document.getElementById('epicNumber');
+            const resetBtn = document.getElementById('resetBtn');
+            
+            lockedEpicNumber = epicValue;
+            isEpicLocked = true;
+            userData.voterID = epicValue;
+            
+            // Visually lock the input
+            epicInput.classList.add('input-locked');
+            epicInput.disabled = true;
+            epicInput.style.position = 'relative';
+            
+            // Add lock icon if not present
+            if (!epicInput.parentElement.querySelector('.lock-icon')) {
+                const lockIcon = document.createElement('div');
+                lockIcon.className = 'lock-icon';
+                lockIcon.innerHTML = '🔒';
+                lockIcon.style.position = 'absolute';
+                lockIcon.style.right = '12px';
+                lockIcon.style.top = '50%';
+                lockIcon.style.transform = 'translateY(-50%)';
+                lockIcon.style.fontSize = '18px';
+                lockIcon.style.color = '#4caf50';
+                lockIcon.style.zIndex = '10';
+                epicInput.parentElement.style.position = 'relative';
+                epicInput.parentElement.appendChild(lockIcon);
+            }
+            
+            // Show reset button
+            resetBtn.classList.remove('hidden');
+            
+            // Show success alert
+            setTimeout(() => {
+                alert('✅ EPIC number locked successfully! Use the Reset button if you need to change it.');
+            }, 100);
+            
+            checkFormValidity();
+        }
+
+        // NEW: Reset form function
+        function resetForm() {
+            const epicInput = document.getElementById('epicNumber');
+            const uploadInput = document.getElementById('uploadFile');
+            const resetBtn = document.getElementById('resetBtn');
+            const uploadPreview = document.getElementById('uploadPreview');
+            const proceedBtn = document.getElementById('proceedBtn');
+            
+            // Reset EPIC input
+            epicInput.value = '';
+            epicInput.disabled = false;
+            epicInput.classList.remove('input-locked', 'input-error');
+            epicInput.style.backgroundColor = '';
+            epicInput.style.cursor = '';
+            epicInput.style.borderColor = '';
+            
+            // Remove lock icon
+            const lockIcon = epicInput.parentElement.querySelector('.lock-icon');
+            if (lockIcon) {
+                lockIcon.remove();
+            }
+            
+            // Reset upload input
+            uploadInput.value = '';
+            uploadPreview.innerHTML = '';
+            
+            // Clear errors
+            clearEpicError();
+            clearUploadError();
+            
+            // Reset variables
+            isEpicLocked = false;
+            lockedEpicNumber = '';
+            uploadedFile = null;
+            
+            // Hide reset button
+            resetBtn.classList.add('hidden');
+            
+            // Reset proceed button
+            proceedBtn.disabled = true;
+            proceedBtn.textContent = 'Enter EPIC & Upload document';
+            proceedBtn.style.backgroundColor = '#ccc';
+            
+            // Focus on EPIC input
+            epicInput.focus();
+        }
+
+        // NEW: Enhanced file upload setup with validation
+        function setupFileUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('uploadFile');
+
+            if (!uploadArea || !fileInput) {
+                console.error('Upload elements not found');
+                return;
+            }
+
+            console.log('Setting up file upload listeners'); // Debug log
+
+            // Click to upload
+            document.getElementById("uploadArea").addEventListener("click", function() {
+                console.log("Upload area clicked, triggering file input");
+                const fileInput = document.querySelector('input[type="file"]');
+                if (fileInput) {
+                    fileInput.click(); // Trigger immediately within this handler
+                }
+            });
+
+            // uploadArea.addEventListener('click', function(e) {
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //     console.log('Upload area clicked, triggering file input'); // Debug log
+            //     fileInput.click();
+            // });
+
+            // File input change
+            fileInput.addEventListener('change', function(e) {
+                console.log('File input changed, files:', e.target.files.length); // Debug log
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                uploadArea.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFile(files[0]);
+                }
+            });
+
+            // Prevent default drag behaviors on document
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                document.addEventListener(eventName, function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                });
+            });
+
+            // Make sure the file input is properly configured
+            fileInput.style.display = 'none';
+            fileInput.setAttribute('accept', '.jpg,.jpeg,.png,.pdf');
+        }
+
+        // NEW: Show upload error message
+        function showUploadError(message) {
+            const uploadError = document.getElementById('uploadError');
+            uploadError.textContent = message;
+            uploadError.classList.add('show');
+        }
+
+        // NEW: Clear upload error message
+        function clearUploadError() {
+            const uploadError = document.getElementById('uploadError');
+            uploadError.classList.remove('show');
+        }
+
+        function checkFormValidity() {
+            const epicInput = document.getElementById('epicNumber');
+            const proceedBtn = document.getElementById('proceedBtn');
+            
+            if (!epicInput || !proceedBtn) return;
+            
+            const epicValue = epicInput.value.trim();
+            
+            // Check if EPIC is locked and valid, and file is uploaded
+            const isEpicValid = isEpicLocked && lockedEpicNumber.length === 10;
+            
+            // Enable button only if EPIC is locked and file is uploaded
+            if (isEpicValid && uploadedFile) {
+                proceedBtn.disabled = false;
+                proceedBtn.textContent = 'Proceed to Verification';
+                proceedBtn.style.backgroundColor = '#1565c0';
+            } else {
+                proceedBtn.disabled = true;
+                if (!isEpicLocked && epicValue.length > 0) {
+                    proceedBtn.textContent = `Complete EPIC entry (${epicValue.length}/10)`;
+                } else if (!isEpicLocked) {
+                    proceedBtn.textContent = 'Enter & validate EPIC number';
+                } else if (!uploadedFile) {
+                    proceedBtn.textContent = 'Upload document to proceed';
+                } else {
+                    proceedBtn.textContent = 'Complete required fields';
+                }
+                proceedBtn.style.backgroundColor = '#ccc';
+            }
+        }
+
+        // NEW: Enhanced file handling with validation
+        function handleFile(file) {
+            console.log('File selected:', file.name, file.size, file.type);
+            
+            clearUploadError(); // Clear any previous errors
+            
+            if (!validateFile(file)) {
+                // Reset file input on validation failure
+                const fileInput = document.getElementById('uploadFile');
+                fileInput.value = '';
+                uploadedFile = null;
+                checkFormValidity();
+                return;
+            }
+
+            uploadedFile = file;
+            displayFilePreview(file);
+            
+            // Check if form is now valid
+            checkFormValidity();
+            
+            console.log('File successfully uploaded and stored');
+        }
+
+        // NEW: Enhanced file validation with error messages
+        function validateFile(file) {
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+            const allowedExtensions = ['.jpg', '.jpeg', '.png', '.pdf'];
+
+            // Check file type
+            if (!allowedTypes.includes(file.type.toLowerCase())) {
+                showUploadError('❌ Invalid file type. Please upload JPG, PNG, or PDF files only.');
+                return false;
+            }
+
+            // Double check with file extension
+            const fileName = file.name.toLowerCase();
+            const hasValidExtension = allowedExtensions.some(ext => fileName.endsWith(ext));
+            if (!hasValidExtension) {
+                showUploadError('❌ Invalid file extension. Please upload files with .jpg, .png, or .pdf extensions only.');
+                return false;
+            }
+
+            // Check file size
+            if (file.size > maxSize) {
+                showUploadError(`❌ File too large. Maximum size is 5MB. Your file is ${(file.size / (1024 * 1024)).toFixed(2)}MB.`);
+                return false;
+            }
+
+            // Check minimum file size (prevent empty files)
+            if (file.size < 1024) { // Less than 1KB
+                showUploadError('❌ File too small. Please upload a valid document file.');
+                return false;
+            }
+
+            return true;
+        }
+
+        function displayFilePreview(file) {
+            const preview = document.getElementById('uploadPreview');
+            preview.innerHTML = '';
+
+            if (file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '200px';
+                img.style.borderRadius = '8px';
+                img.style.border = '2px solid #1565c0';
+                img.onload = function() {
+                    URL.revokeObjectURL(img.src); // Clean up memory
+                };
+                preview.appendChild(img);
+            }
+            
+            // Always show file info
+            const fileInfo = document.createElement('div');
+            fileInfo.innerHTML = `
+                <div style="background-color: #e8f5e8; border: 2px solid #4caf50; border-radius: 8px; padding: 15px; margin-top: 10px;">
+                    <p style="margin: 0; color: #2e7d32; font-weight: bold;">✅ File Successfully Uploaded</p>
+                    <p style="margin: 5px 0 0 0; color: #666; font-size: 14px;">
+                        <strong>File:</strong> ${file.name}<br>
+                        <strong>Size:</strong> ${(file.size / 1024).toFixed(1)} KB<br>
+                        <strong>Type:</strong> ${file.type}
+                    </p>
+                </div>
+            `;
+            preview.appendChild(fileInfo);
+        }
+
+        // Step 1: Lock EPIC Number and Proceed (Following Flowchart)
+        function lockEpicAndProceed() {
+            const epicInput = document.getElementById('epicNumber');
+            const epicValue = epicInput.value.trim();
+
+            // Final validation before proceeding
+            if (!isEpicLocked) {
+                alert('❌ Please complete EPIC number validation first.');
+                epicInput.focus();
+                return;
+            }
+
+            if (!uploadedFile) {
+                alert('❌ Please upload a verification document first.');
+                return;
+            }
+
+            console.log('EPIC locked and proceeding:', lockedEpicNumber);
+            
+            // Move directly to Python verification step
+            goToStep(3);
+            
+            // Start verification process
+            performPythonVerification();
+        }
+
+        // Step 2: Proceed to Image Verification (Following Flowchart)
+        function proceedToVerification() {
+            if (!uploadedFile) {
+                alert('Please upload a verification document first.');
+                return;
+            }
+
+            // Move to Python verification step
+            goToStep(3);
+            
+            // Start verification process
+            performPythonVerification();
+        }
+
+        // Step 3: Python Image Verification (Following Flowchart)
+        async function performPythonVerification() {
+            // Show the locked EPIC number in the processing step
+            document.getElementById('processingEpicDisplay').textContent = lockedEpicNumber;
+            
+            try {
+                // TODO: Replace this with actual Python backend verification
+                // const verificationResult = await callPythonImageVerification(uploadedFile, lockedEpicNumber);
+                
+                // Simulate Python image verification
+                const verificationResult = await simulatePythonVerification();
+
+                if (verificationResult.success) {
+                    // Extract data post verification and proceed to payment
+                    setTimeout(() => {
+                        goToStep(4);
+                    }, 1000);
+                } else {
+                    // Verification failed
+                    document.getElementById('errorMessage').textContent = 
+                        verificationResult.message || 'Python image verification failed. The document may not be clear or may not match the EPIC number provided.';
+                    goToStep('error');
+                }
+            } catch (error) {
+                console.error('Python verification error:', error);
+                document.getElementById('errorMessage').textContent = 
+                    'An error occurred during image verification. Please try again.';
+                goToStep('error');
+            }
+        }
+
+        // Simulate Python verification (TODO: Replace with actual backend call)
+        async function simulatePythonVerification() {
+            // Simulate processing time for Python image libraries
+            await new Promise(resolve => setTimeout(resolve, 4000));
+            
+            // Simulate 85% success rate
+            const success = Math.random() > 0.15;
+            
+            return {
+                success,
+                message: success ? 
+                    'Python image verification successful' : 
+                    'Could not verify the EPIC number in the uploaded document'
+            };
+        }
+
+        // Step 4: Process Payment (Following Flowchart)
+        async function processPayment() {
+            try {
+                // TODO: Replace with actual payment gateway integration
+                const paymentResult = await simulatePaymentGateway();
+                
+                if (paymentResult.success) {
+                    paymentTransactionId = paymentResult.transactionId;
+                    document.getElementById('finalEpicDisplay').textContent = lockedEpicNumber;
+                    goToStep(5);
+                } else {
+                    alert('Payment failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Payment error:', error);
+                alert('An error occurred during payment. Please try again.');
+            }
+        }
+
+        // Simulate payment gateway (TODO: Replace with actual integration)
+        async function simulatePaymentGateway() {
+            // Simulate payment processing
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            return {
+                success: true,
+                transactionId: 'PAY' + Date.now(),
+                amount: 550
+            };
+        }
+
+        // Step 5: Validate member details
+        function validateMemberDetails() {
+            const form = document.getElementById('memberDetailsForm');
+            const formData = new FormData(form);
+            
+            const fullName = formData.get('fullName').trim();
+            const profession = formData.get('profession').trim();
+            const mandal = formData.get('mandal').trim();
+            const dob = formData.get('dob');
+            const contact = formData.get('contact').trim();
+            const address = formData.get('address').trim();
+
+            if (!fullName || !profession || !mandal || !dob || !contact || !address) {
+                alert('Please fill in all required fields.');
+                return false;
+            }
+
+            // Validate contact number (10 digits)
+            if (!/^\d{10}$/.test(contact)) {
+                alert('Please enter a valid 10-digit contact number.');
+                return false;
+            }
+
+            // Store complete user data
+            userData = {
+                ...userData,
+                fullName,
+                profession,
+                designation: formData.get('designation') || '',
+                mandal,
+                dob,
+                bloodGroup: formData.get('bloodGroup') || '',
+                contact,
+                email: formData.get('email') || '',
+                address
+            };
+
+            return true;
+        }
+
+        // Step 6: Push to Database (Following Flowchart)
+        async function pushToDatabase() {
+            try {
+                // TODO: Replace with actual database save
+                const membershipData = {
+                    ...userData,
+                    verificationStatus: 'verified',
+                    paymentStatus: 'completed',
+                    paymentTransactionId: paymentTransactionId,
+                    membershipDate: new Date().toISOString(),
+                    membershipId: 'TNBSP' + Date.now()
+                };
+                
+                // Simulate database save
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                console.log('Saving to database:', membershipData);
+                
+                // Generate receipt and membership card
+                generateReceipt(membershipData);
+                goToStep(6);
+                
+            } catch (error) {
+                console.error('Database error:', error);
+                alert('An error occurred while saving your data. Please try again.');
+            }
+        }
+
+        function generateReceipt(membershipData) {
+            const now = new Date();
+            document.getElementById('membershipId').textContent = membershipData.membershipId;
+            document.getElementById('receiptNumber').textContent = paymentTransactionId;
+            document.getElementById('receiptDate').textContent = now.toLocaleDateString();
+            
+            const receiptDetails = document.getElementById('receiptDetails');
+            receiptDetails.innerHTML = `
+                <div class="receipt-item"><span>Name:</span><span>${membershipData.fullName}</span></div>
+                <div class="receipt-item"><span>Voter ID:</span><span>${membershipData.voterID}</span></div>
+                <div class="receipt-item"><span>Contact:</span><span>${membershipData.contact}</span></div>
+                <div class="receipt-item"><span>Mandal:</span><span>${membershipData.mandal}</span></div>
+                <div class="receipt-item"><span>Membership ID:</span><span>${membershipData.membershipId}</span></div>
+                <div class="receipt-item"><span>Transaction ID:</span><span>${paymentTransactionId}</span></div>
+            `;
+        }
+
+        function goToStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            
+            // Show target step
+            if (step === 'error') {
+                document.getElementById('errorStep').classList.add('active');
+            } else {
+                document.getElementById(`step${step}`).classList.add('active');
+                currentStep = step;
+                updateProgressBar();
+            }
+        }
+
+        function updateProgressBar() {
+            const progress = (currentStep / 6) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function downloadReceipt() {
+            alert('Receipt download functionality will be implemented with PDF generation library.');
+        }
+
+        function downloadMembershipCard() {
+            alert('Membership card generation functionality will be implemented with card template.');
+        }
+
+        function goToHome() {
+            window.location.href = '/';
+        }
+
+        function contactSupport() {
+            alert('For support, please contact: support@tnbsp.org or call +91-XXXXXXXXXX');
+        }
+
+        /* 
+        // TODO: Actual backend integration functions
+        
+        async function callPythonImageVerification(file, epicNumber) {
+            const formData = new FormData();
+            formData.append('voter_document', file);
+            formData.append('voter_id', epicNumber);
+
+            const response = await fetch('/api/verify-voter-image', {
+                method: 'POST',
+                body: formData
+            });
+
+            return await response.json();
+        }
+
+        async function saveToDatabase(membershipData) {
+            const response = await fetch('/api/create-membership', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(membershipData)
+            });
+            
+            return await response.json();
+        }
+        */
+    </script>
+</body>
+</html>
