@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+pydantic
+pytesseract
+Pillow
+PyMuPDF
+python-dotenv
+mysql-connector-python
+a2wsgi

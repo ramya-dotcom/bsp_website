@@ -524,6 +524,26 @@ function getEnglishContent() {
         gallery: {
             title: "Photo Gallery",
             description: "Explore BSP's journey through powerful moments and historic achievements"
+        },
+
+        // Resources section content
+        resources: {
+            title: "Resources & Downloads",
+            description: "Access important documents and educational materials to support understanding of BSP's vision and activities.",
+            backToHome: "Back to Main Site",
+            categoryBooksTitle: "Books",
+            categoryBooksDesc: "Essential reading materials and publications by BSP leaders and about social justice.",
+            categoryIdeologyTitle: "Ideology", 
+            categoryIdeologyDesc: "Core principles, philosophy, and ideological framework of the Bahujan Samaj Party.",
+            resourceBooks: "Download Books Collection",
+            resourceIdeology: "Download Ideology Guide",
+            externalResourcesTitle: "Useful Links",
+            boothLevelAgent1: "Booth Level Agent 1",
+            boothLevelAgent2: "Booth Level Agent 2",
+            tnElectionDatabase: "TN Election Database",
+            integratedGovDirectory: "Integrated Government Online Directory",
+            contactResourcesTitle: "Need More Information?",
+            contactResourcesDesc: "For additional resources, document requests, or technical support, please don't hesitate to contact our documentation team."
         }
     };
 }
@@ -835,8 +855,9 @@ function updatePageContent() {
         updateElement('faq-subtitle', languageContent.faq?.subtitle);
         updateElement('loading-text', languageContent.loading?.text);
         
-        // Update events and FAQ content
+        // Update events, resources and FAQ content
         updateEventsContent();
+        updateResourcesContent();
         updateFAQContent();
         
         // Update timeline content if language data includes it
@@ -940,6 +961,29 @@ function updateEventsContent() {
         
         eventsGrid.appendChild(eventCard);
     }
+}
+
+/**
+ * Update resources page with current language content
+ */
+function updateResourcesContent() {
+    // Update resources page elements with current language
+    updateElement('back-to-home-text', languageContent.resources?.backToHome);
+    updateElement('resources-title', languageContent.resources?.title);
+    updateElement('resources-description', languageContent.resources?.description);
+    updateElement('category-books-title', languageContent.resources?.categoryBooksTitle);
+    updateElement('category-books-desc', languageContent.resources?.categoryBooksDesc);
+    updateElement('category-ideology-title', languageContent.resources?.categoryIdeologyTitle);
+    updateElement('category-ideology-desc', languageContent.resources?.categoryIdeologyDesc);
+    updateElement('resource-books', languageContent.resources?.resourceBooks);
+    updateElement('resource-ideology', languageContent.resources?.resourceIdeology);
+    updateElement('external-resources-title', languageContent.resources?.externalResourcesTitle);
+    updateElement('booth-level-agent-1', languageContent.resources?.boothLevelAgent1);
+    updateElement('booth-level-agent-2', languageContent.resources?.boothLevelAgent2);
+    updateElement('tn-election-database', languageContent.resources?.tnElectionDatabase);
+    updateElement('integrated-gov-directory', languageContent.resources?.integratedGovDirectory);
+    updateElement('contact-resources-title', languageContent.resources?.contactResourcesTitle);
+    updateElement('contact-resources-desc', languageContent.resources?.contactResourcesDesc);
 }
 
 /**
@@ -1117,7 +1161,10 @@ function scrollToSection(sectionId) {
             if (progress < 1) {
                 requestAnimationFrame(animateScroll);
             } else {
-                updateHistory('main', targetScrollTop);
+                updateHistory(sectionId || 'main', targetScrollTop);
+
+                // Trigger hash so browser can remember it on reload
+                if (sectionId) location.hash = sectionId;
 
                 // Ensure language consistency immediately after navigation animation completes
                 ensureLanguageConsistency(); // Removed setTimeout
@@ -1454,24 +1501,24 @@ function hideEventDetail() {
  */
 function showFAQ() {
     console.log('Showing FAQ page');
-    
-    const mainContainer = document.getElementById('mainContainer');
-    currentScrollPosition = mainContainer.scrollTop;
-    
-    // Store current page state
-    currentPage = 'faq';
-    
+         
+    // Show FAQ page
+    document.getElementById('faqPage').style.display = 'block';
+
     // Hide main container
     document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('resourcesPage').style.display = 'none';
     
     // Hide any active detail pages
     document.querySelectorAll('.detail-page').forEach(page => {
         page.classList.remove('active');
     });
     
-    // Show FAQ page
-    document.getElementById('faqPage').classList.add('active');
-    updateHistory('faq', currentScrollPosition);
+    // Store current page state
+    currentPage = 'faq';
+    currentScrollPosition = document.getElementById('faqPage').scrollTop;
+    updateHistory(currentPage, currentScrollPosition);
+    location.hash = currentPage;
     
     // Close mobile menu if open
     const navMenu = document.querySelector('.nav-menu');
@@ -1546,6 +1593,44 @@ function toggleFAQ(element) {
     }
 }
 
+// ===== RESOURCES FUNCTION =====
+
+function showResources() {
+    document.getElementById('resourcesPage').style.display = 'block';
+    document.getElementById('mainContainer').style.display = 'none';
+    document.getElementById('faqPage').style.display = 'none';
+    document.querySelectorAll('.detail-page').forEach(page => {page.classList.remove('active');});
+    
+    currentPage = 'resources';
+    currentScrollPosition = document.getElementById('resourcesPage').scrollTop;
+    updateHistory(currentPage, currentScrollPosition);
+    location.hash = currentPage;
+
+    // Close mobile menu if open
+    const navMenu = document.querySelector('.nav-menu');
+    const hamburger = document.querySelector('.hamburger');
+    if (navMenu && hamburger) {
+        navMenu.classList.remove('active');
+        hamburger.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+    }
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Ensure language consistency in FAQ page
+    setTimeout(() => {
+        ensureLanguageConsistency();
+    }, 200);
+    
+    return false;
+}
+
+function hideResources() {
+    document.getElementById('resourcesPage').style.display = 'none';
+    document.getElementById('mainContainer').style.display = 'block';
+}
+
 // ===== HISTORY MANAGEMENT =====
 
 /**
@@ -1566,7 +1651,7 @@ function updateHistory(page, scrollPos = null) {
         language: currentLanguage
     };
     
-    const url = page === 'main' ? '/' : '#' + page;
+    const url = page === 'main' ? `/` : '#' + page;
     history.pushState(state, '', url);
 }
 
@@ -1660,32 +1745,7 @@ function downloadDetails() {
  * Initialize contact form
  */
 function initContactForm() {
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Basic form validation
-            const inputs = this.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-            
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.style.borderColor = '#e74c3c';
-                } else {
-                    input.style.borderColor = '';
-                }
-            });
-            
-            if (isValid) {
-                alert(languageContent.messages?.messageSent || 'Thank you for your message! We will get back to you soon.');
-                this.reset();
-            } else {
-                alert(languageContent.messages?.fillRequired || 'Please fill all required fields.');
-            }
-        });
-    }
+    // ! Put the logic for emailJS here!
 }
 
 // ===== SCROLL EFFECTS =====
@@ -1710,12 +1770,36 @@ function initScrollEffects() {
             
             // Update current scroll position
             currentScrollPosition = mainContainer.scrollTop;
-            
+            //localStorage.setItem('scrollPosition', currentScrollPosition);
+                        
             // Update global social media visibility
             updateGlobalSocialVisibility();
             
             // Update active navigation item
             updateActiveNavItem();
+
+            // Section-aware URL updater
+            const sections = ['hero', 'timeline', 'events', 'updates', 'gallery', 'contact']; // Your top-level section IDs
+            let currentVisibleSection = null;
+
+            for (const id of sections) {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    // Check if section is mostly in view (adjust as needed)
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        currentVisibleSection = id;
+                        break;
+                    }
+                }
+            }
+
+            // If section has changed, update hash and history
+            if (currentVisibleSection && location.hash !== `#${currentVisibleSection}`) {
+                const scrollPos = mainContainer.scrollTop;
+                updateHistory(currentVisibleSection, scrollPos);
+                location.hash = currentVisibleSection;
+            }
         });
     }
 }
@@ -1818,20 +1902,26 @@ function initWebsite() {
                 handleBackNavigation('main', 0, '1988', currentLanguage);
             }
         });
-        
-        // Initialize page state
-        updateHistory('main');
-        
+
         // Handle initial URL hash
         if (window.location.hash) {
             const section = window.location.hash.substring(1);
             setTimeout(() => {
-                scrollToSection(section);
+                if (section === 'faq') {
+                showFAQ(); // open FAQ directly
+            } else if (section === 'resources') {
+                showResources(); // open Resources directly
+            } else {
+                scrollToSection(section); // normal section scroll for main page
+            }
                 // Ensure language consistency after initial navigation
                 setTimeout(() => {
                     ensureLanguageConsistency();
                 }, 200);
             }, 500);
+        } else {
+            // Only update history to 'main' if there's no hash
+            updateHistory('main');
         }
         
         // Enhance scroll behavior
@@ -1842,7 +1932,7 @@ function initWebsite() {
         }
         
         console.log('BSP website initialized successfully');
-        
+                
     } catch (error) {
         console.error('Error initializing website:', error);
     }

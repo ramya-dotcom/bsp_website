@@ -265,6 +265,26 @@ languageContent = {
         text: "लोड हो रहा है..."
     },
 
+    // Resources section content
+    resources: {
+        title: "संसाधन और डाउनलोड",
+        description: "बीएसपी की दृष्टि और गतिविधियों की समझ का समर्थन करने के लिए महत्वपूर्ण दस्तावेज़ और शैक्षिक सामग्री तक पहुंच प्राप्त करें।",
+        backToHome: "मुख्य साइट पर वापस जाएं",
+        categoryBooksTitle: "पुस्तकें",
+        categoryBooksDesc: "बीएसपी नेताओं द्वारा और सामाजिक न्याय के बारे में आवश्यक पठन सामग्री और प्रकाशन।",
+        categoryIdeologyTitle: "विचारधारा",
+        categoryIdeologyDesc: "बहुजन समाज पार्टी के मूल सिद्धांत, दर्शन और वैचारिक ढांचा।",
+        resourceBooks: "पुस्तक संग्रह डाउनलोड करें",
+        resourceIdeology: "विचारधारा गाइड डाउनलोड करें",
+        externalResourcesTitle: "उपयोगी लिंक",
+        boothLevelAgent1: "बूथ स्तरीय एजेंट 1",
+        boothLevelAgent2: "बूथ स्तरीय एजेंट 2",
+        tnElectionDatabase: "तमिलनाडु चुनाव डेटाबेस",
+        integratedGovDirectory: "एकीकृत सरकारी ऑनलाइन निर्देशिका",
+        contactResourcesTitle: "अधिक जानकारी चाहिए?",
+        contactResourcesDesc: "अतिरिक्त संसाधनों, दस्तावेज़ अनुरोधों या तकनीकी सहायता के लिए, कृपया हमारी दस्तावेज़ीकरण टीम से संपर्क करने में संकोच न करें।"
+    },
+
     // User messages
     messages: {
         linkCopied: "कार्यक्रम लिंक क्लिपबोर्ड पर कॉपी हो गया!",
