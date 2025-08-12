@@ -2029,6 +2029,32 @@ document.getElementById('download-books').addEventListener('click', function(e) 
   a.click();
   document.body.removeChild(a);
 });
+ 
+// ===== CONTACT FORM HANDLER =====
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize EmailJS with your public key
+  emailjs.init('CLtOrh0btZH1YY4TH'); // Replace with your EmailJS public key
+
+  // Form submission handler
+  document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var resultDiv = document.getElementById('result');
+    resultDiv.textContent = "Sending...";
+
+    emailjs.sendForm(
+      'service_fo2h7er',    // Replace with your EmailJS service ID
+      'template_o5ybal7',   // Replace with your EmailJS template ID
+      this
+    ).then(function() {
+      resultDiv.textContent = "Message sent successfully!";
+      document.getElementById('contactForm').reset();
+    }, function(error) {
+      resultDiv.textContent = "Failed to send message. Please try again.";
+      console.error('Failed to send email:', error);
+    });
+  });
+});
 
 // ===== EXPORT FOR EXTERNAL ACCESS =====
 // Make functions available globally for onclick handlers
