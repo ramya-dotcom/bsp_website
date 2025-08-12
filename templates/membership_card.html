@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Membership Card</title>
+<style>
+  @page { size: A6; margin: 8mm; }
+  body { font-family: Arial, Helvetica, sans-serif; font-size: 11px; color: #111; }
+  .card { border: 2px solid #1E3A8A; padding: 10px; border-radius: 8px; }
+  .header { text-align: center; color: #1E3A8A; margin-bottom: 8px; }
+  .row { display: flex; justify-content: space-between; margin: 4px 0; }
+  .label { font-weight: bold; color: #111; }
+  .value { color: #111; }
+  .photo { width: 90px; height: 110px; object-fit: cover; border: 1px solid #555; }
+  .footer { font-size: 9px; margin-top: 8px; text-align: center; color: #333; }
+  .flex { display: flex; gap: 10px; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <div style="font-size:14px; font-weight:bold;">BAHUJAN SAMAJ PARTY (BSP) - TAMIL NADU UNIT</div>
+      <div style="font-size:12px;">Membership Card</div>
+    </div>
+    <div class="flex">
+      <div>
+        <div class="row"><span class="label">Membership No:</span> <span class="value">{{ membership_no or '-' }}</span></div>
+        <div class="row"><span class="label">Active No:</span> <span class="value">{{ active_no or '-' }}</span></div>
+        <div class="row"><span class="label">Name:</span> <span class="value">{{ name }}</span></div>
+        <div class="row"><span class="label">Profession:</span> <span class="value">{{ profession or '-' }}</span></div>
+        <div class="row"><span class="label">Designation:</span> <span class="value">{{ designation or '-' }}</span></div>
+        <div class="row"><span class="label">Mandal:</span> <span class="value">{{ mandal or '-' }}</span></div>
+        <div class="row"><span class="label">D.O.B:</span> <span class="value">{{ dob or '-' }}</span></div>
+        <div class="row"><span class="label">Blood Group:</span> <span class="value">{{ blood_group or '-' }}</span></div>
+        <div class="row"><span class="label">Contact No:</span> <span class="value">{{ contact_no }}</span></div>
+        <div class="row"><span class="label">Address:</span> <span class="value">{{ address or '-' }}</span></div>
+      </div>
+      <div>
+        {% if photo_data_url %}
+        <img class="photo" src="{{ photo_data_url }}" alt="Photo">
+        {% endif %}
+        <div style="margin-top:6px;">
+          {% if qr_data_url %}
+          <img src="{{ qr_data_url }}" style="width:90px; height:90px;" alt="QR">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      Scan QR to verify membership. Generated on {{ generated_on }}
+    </div>
+  </div>
+</body>
+</html>

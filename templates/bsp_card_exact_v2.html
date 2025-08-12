@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BSP Membership Card</title>
+<style>
+  @page { size: A6; margin: 6mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, Helvetica, sans-serif; color: #111; margin: 0; }
+  .wrap { position: relative; width: 100%; height: 100%; border: 2px solid #1e3a8a; border-radius: 6px; padding: 6mm; }
+
+  .top { text-align: center; margin-top: 1mm; }
+  .m1 { color: #1e3a8a; font-weight: 800; font-size: 9pt; letter-spacing: 0.5pt; text-transform: uppercase; }
+  .m2 { color: #1e3a8a; font-weight: 800; font-size: 9pt; letter-spacing: 0.5pt; text-transform: uppercase; margin-top: 1mm; }
+  .title { color: #1e3a8a; font-weight: 900; font-size: 12pt; margin-top: 1.2mm; }
+  .unit { color: #1e3a8a; font-weight: 800; font-size: 10pt; margin-top: 0.6mm; }
+
+  .grid { display: grid; grid-template-columns: 1fr 34mm; gap: 3mm; margin-top: 4mm; }
+
+  .rows { display: grid; grid-template-columns: 30mm 38mm 45mm; grid-auto-rows: 6.2mm; column-gap: 2mm; }
+  .label { font-weight: 700; font-size: 9pt; align-self: end; }
+  .dots { align-self: end; height: 2px; background-image: radial-gradient(#444 1px, transparent 1px); background-size: 4px 2px; background-repeat: repeat-x; background-position: left center; margin-bottom: 1.6mm; }
+  .value { font-size: 10pt; align-self: end; white-space: pre-wrap; }
+
+  .row { display: contents; }
+
+  .photoBox { width: 34mm; height: 40mm; border: 1px solid #333; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .photoBox img { width: 100%; height: 100%; object-fit: cover; }
+  .qrBox { width: 30mm; height: 30mm; border: 1px solid #333; display: flex; align-items: center; justify-content: center; margin-top: 2mm; }
+  .qrBox img { width: 95%; height: 95%; object-fit: contain; }
+
+  .sig { position: absolute; right: 12mm; bottom: 18mm; text-align: center; }
+  .sig .line { width: 42mm; border-bottom: 1px solid #333; margin-bottom: 1mm; }
+  .sig small { font-size: 9pt; }
+  .sig .name { font-weight: 700; margin-top: 2mm; }
+  .sig .role { font-size: 8pt; }
+
+  .footer { position: absolute; left: 6mm; right: 6mm; bottom: 6mm; text-align: center; font-size: 8pt; color: #333; }
+  .url { color: #1e3a8a; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="m1">EDUCATE AGITATE ORGANISE</div>
+      <div class="m2">JAI BHIM JAI BHARAT</div>
+      <div class="title">BAHUJAN SAMAJ PARTY (BSP)</div>
+      <div class="unit">TAMILNADU UNIT</div>
+    </div>
+
+    <div class="grid">
+      <div class="rows">
+        <div class="row">
+          <div class="label">MEMBERSHIP NO:</div>
+          <div class="dots"></div>
+          <div class="value">{{ membership_no }}</div>
+        </div>
+        <div class="row">
+          <div class="label">ACTIVE NO:</div>
+          <div class="dots"></div>
+          <div class="value">{{ active_no }}</div>
+        </div>
+        <div class="row">
+          <div class="label">Name :</div>
+          <div class="dots"></div>
+          <div class="value">{{ name }}</div>
+        </div>
+        <div class="row">
+          <div class="label">Profession :</div>
+          <div class="dots"></div>
+          <div class="value">{{ profession }}</div>
+        </div>
+        <div class="row">
+          <div class="label">Designation :</div>
+          <div class="dots"></div>
+          <div class="value">{{ designation }}</div>
+        </div>
+        <div class="row">
+          <div class="label">Mandal :</div>
+          <div class="dots"></div>
+          <div class="value">{{ mandal }}</div>
+        </div>
+        <div class="row">
+          <div class="label">D.O.B :</div>
+          <div class="dots"></div>
+          <div class="value">{{ dob }}</div>
+        </div>
+        <div class="row">
+          <div class="label">Blood Group :</div>
+          <div class="dots"></div>
+          <div class="value">{{ blood_group }}</div>
+        </div>
+        <div class="row">
+          <div class="label">Contact No :</div>
+          <div class="dots"></div>
+          <div class="value">{{ contact_no }}</div>
+        </div>
+        <div class="row">
+          <div class="label">Address :</div>
+          <div class="dots"></div>
+          <div class="value">{{ address }}</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="photoBox">
+          {% if photo_data_url %}
+          <img src="{{ photo_data_url }}" alt="Photo">
+          {% else %}
+          <span style="font-size:8pt;color:#666;">Photo</span>
+          {% endif %}
+        </div>
+        <div class="qrBox">
+          <img src="{{ qr_data_url }}" alt="QR">
+        </div>
+      </div>
+    </div>
+
+    <div class="sig">
+      <div class="line"></div>
+      <small>Holder Sign :</small>
+      <div class="name">(P. ANANDAN)</div>
+      <div class="role">President</div>
+    </div>
+
+    <div class="footer">
+      <div>Dadasaheb Kanshiram Bhavan, 2/14 - A Veteran Lines, Pallavaram Cantonment, St. Stephen's School Near, Chennai, Tamil Nadu 600043</div>
+      <div class="url">https://tnbsp.org/</div>
+    </div>
+  </div>
+</body>
+</html>
