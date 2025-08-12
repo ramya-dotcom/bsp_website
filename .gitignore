@@ -1,4 +1,4 @@
-# Ignores the files and extenstions mentioned from being uploaded to GitHub
+# Ignores the files and extensions mentioned from being uploaded to GitHub
 
 *.code-workspace
 *.env

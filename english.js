@@ -255,6 +255,26 @@ languageContent = {
         text: "Loading..."
     },
 
+    // Resources section content
+    resources: {
+        title: "Resources & Downloads",
+        description: "Access important documents and educational materials to support understanding of BSP's vision and activities.",
+        backToHome: "Back to Main Site",
+        categoryBooksTitle: "Books",
+        categoryBooksDesc: "Essential reading materials and publications by BSP leaders and about social justice.",
+        categoryIdeologyTitle: "Ideology", 
+        categoryIdeologyDesc: "Core principles, philosophy, and ideological framework of the Bahujan Samaj Party.",
+        resourceBooks: "Download Books Collection",
+        resourceIdeology: "Download Ideology Guide",
+        externalResourcesTitle: "Useful Links",
+        boothLevelAgent1: "Booth Level Agent 1",
+        boothLevelAgent2: "Booth Level Agent 2",
+        tnElectionDatabase: "TN Election Database",
+        integratedGovDirectory: "Integrated Government Online Directory",
+        contactResourcesTitle: "Need More Information?",
+        contactResourcesDesc: "For additional resources, document requests, or technical support, please don't hesitate to contact our documentation team."
+    },
+
     // User messages
     messages: {
         linkCopied: "Event link copied to clipboard!",
