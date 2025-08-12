@@ -2017,6 +2017,19 @@ window.addEventListener('resize', function() {
     updateGlobalSocialVisibility();
 });
 
+// ===== DOWNLOAD ALL FILES FUNCTION =====
+document.getElementById('download-books').addEventListener('click', function(e) {
+  e.preventDefault();
+  
+  const fileUrl = 'assets/baws_zip/BAWS.zip'; // Path to the ZIP file 
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  a.download = 'BooksCollection.zip';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+
 // ===== EXPORT FOR EXTERNAL ACCESS =====
 // Make functions available globally for onclick handlers
 window.toggleMenu = toggleMenu;
