@@ -1745,68 +1745,7 @@ function downloadDetails() {
  * Initialize contact form
  */
 function initContactForm() {
-    const contactForm = document.getElementById('contactForm');
-    const WEB3_ACCESS_KEY = "084b7df7-9829-4753-8009-f9e18ffaf5fe";
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const inputs = this.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-
-            // Validation: check required fields
-            inputs.forEach(input => {
-                if (!input.value.trim()) {
-                    isValid = false;
-                    input.style.borderColor = '#e74c3c';
-                } else {
-                    input.style.borderColor = '';
-                }
-            });
-
-            if (!isValid) {
-                alert(languageContent.messages?.fillRequired || 'Please fill all required fields.');
-                return;
-            }
-
-            // Prepare form data
-            const formData = new FormData(contactForm);
-            formData.append("access_key", WEB3_ACCESS_KEY);
-            formData.append("replyto", contactForm.querySelector('#email').value);
-
-            const jsonData = JSON.stringify(Object.fromEntries(formData));
-
-            // Disable the form during submission
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            if (submitBtn) submitBtn.disabled = true;
-
-            // Submit to Web3Forms
-            fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json"
-                },
-                body: jsonData
-            })
-            .then(async (response) => {
-                const result = await response.json();
-                if (response.ok) {
-                    alert(languageContent.messages?.messageSent || 'Thank you for your message! We will get back to you soon.');
-                    contactForm.reset();
-                } else {
-                    alert(result.message || "Something went wrong. Please try again.");
-                }
-            })
-            .catch(() => {
-                alert("Something went wrong while submitting the form.");
-            })
-            .finally(() => {
-                if (submitBtn) submitBtn.disabled = false;
-            });
-        });
-    }
+    // ! Put the logic for emailJS here!
 }
 
 // ===== SCROLL EFFECTS =====
