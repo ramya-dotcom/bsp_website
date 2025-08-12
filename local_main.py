@@ -11,9 +11,10 @@ from datetime import date, datetime, timedelta
 import platform
 import enum
 
-# --- Env and MySQL (kept as in your project) ---
+# --- Env (dotenv) ---
 from dotenv import load_dotenv
-import mysql.connector
+# --- MySQL (kept but commented below where used) ---
+# import mysql.connector
 
 # --- FastAPI and Pydantic ---
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Depends, Query
@@ -21,7 +22,7 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Annotated, List, Optional, Union, Sequence
 
-# --- Optional local SQLite fallback for card rendering only ---
+# --- SQLite (active data source for card rendering) ---
 import sqlite3
 
 # ================================================================
@@ -54,7 +55,7 @@ VERIFICATION_SESSIONS = {}
 app = FastAPI(
     title="Membership Workflow API",
     description="A multi-step API for document verification, member creation, payment handling, and card rendering.",
-    version="2.6.4"
+    version="2.7.0"
 )
 
 # ================================================================
@@ -87,19 +88,19 @@ class PaymentUpdate(BaseModel):
 # ================================================================
 # Database connections
 # ================================================================
-def get_db_connection():
-    try:
-        return mysql.connector.connect(
-            host=os.getenv("DATABASE_HOST"),
-            user=os.getenv("DATABASE_USERNAME"),
-            password=os.getenv("DATABASE_PASSWORD"),
-            database=os.getenv("DATABASE_NAME")
-        )
-    except mysql.connector.Error as err:
-        print(f"Database connection error: {err}")
-        return None
+# NOTE: MySQL connection is kept but commented. Re-enable if needed.
+# def get_db_connection():
+#     try:
+#         return mysql.connector.connect(
+#             host=os.getenv("DATABASE_HOST"),
+#             user=os.getenv("DATABASE_USERNAME"),
+#             password=os.getenv("DATABASE_PASSWORD"),
+#             database=os.getenv("DATABASE_NAME")
+#         )
+#     except mysql.connector.Error as err:
+#         print(f"Database connection error: {err}")
+#         return None
 
-# Optional SQLite fallback for card generation
 SQLITE_DB_PATH = Path(os.getenv("SQLITE_DB_PATH", "./members_local.sqlite")).resolve()
 
 def sqlite_conn():
@@ -149,11 +150,10 @@ def row_get(row: sqlite3.Row, key: str):
         return None
 
 # Safe scaler for positions: accepts number or tuple/list of numbers
-def scale_pos(pos: Union[int, float, Sequence[Union[int, float]]], scale: float):
+def scale_pos(pos: Union[int, float, Sequence[Union[int, float, str]], str], scale: float):
     def to_num(x):
         if isinstance(x, (int, float)):
             return x
-        # if it's a numeric string, convert; else raise
         if isinstance(x, str):
             try:
                 return float(x)
@@ -167,7 +167,7 @@ def scale_pos(pos: Union[int, float, Sequence[Union[int, float]]], scale: float)
     raise TypeError(f"Unsupported position type: {type(pos).__name__}")
 
 # ================================================================
-# PDF text extraction to verify EPIC (unchanged)
+# PDF text extraction to verify EPIC
 # ================================================================
 def find_epic_in_text(text):
     if not text:
@@ -214,7 +214,7 @@ def on_startup():
     print("✅ Startup ready")
 
 # ================================================================
-# Original API endpoints (unchanged)
+# Original endpoints (MySQL operations remain commented out)
 # ================================================================
 @app.post("/verify-document/")
 async def verify_document_endpoint(
@@ -269,53 +269,55 @@ async def submit_details_endpoint(
     unique_id = str(uuid.uuid4().hex)[:8]
     pdf_filename = f"{epic_number}_{unique_id}_{temp_pdf_path.name}"
     permanent_pdf_path = PDF_UPLOAD_DIR / pdf_filename
-
     shutil.move(str(temp_pdf_path), str(permanent_pdf_path))
 
     photo_filename = f"{epic_number}_{unique_id}_{Path(photo_file.filename).name}"
     permanent_photo_path = PHOTO_UPLOAD_DIR / photo_filename
-
     try:
         with permanent_photo_path.open("wb") as buffer:
             shutil.copyfileobj(photo_file.file, buffer)
     finally:
         photo_file.file.close()
 
-    conn = get_db_connection()
-    if not conn:
-        cleanup_files([permanent_pdf_path, permanent_photo_path])
-        raise HTTPException(status_code=503, detail="Database service is unavailable.")
+    # NOTE: MySQL insert/update commented out; keep files in place for local testing.
+    # conn = get_db_connection()
+    # if not conn:
+    #     cleanup_files([permanent_pdf_path, permanent_photo_path])
+    #     raise HTTPException(status_code=503, detail="Database service is unavailable.")
+    #
+    # cursor = None
+    # try:
+    #     cursor = conn.cursor()
+    #     sql_insert = """INSERT INTO members
+    #     (name, profession, designation, mandal, dob, blood_group, contact_no,
+    #     address, pdf_proof_path, photo_path, status, active_no)
+    #     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    #     values_insert = (
+    #         member_data.name, member_data.profession, member_data.designation,
+    #         member_data.mandal, member_data.dob,
+    #         member_data.blood_group.value if member_data.blood_group else None,
+    #         member_data.contact_no, member_data.address, str(permanent_pdf_path),
+    #         str(permanent_photo_path), 'pending_payment', None
+    #     )
+    #     cursor.execute(sql_insert, values_insert)
+    #     new_member_id = cursor.lastrowid
+    #     conn.commit()
+    #
+    #     generated_membership_no = generate_membership_no(new_member_id)
+    #     sql_update = "UPDATE members SET membership_no = %s WHERE id = %s"
+    #     cursor.execute(sql_update, (generated_membership_no, new_member_id))
+    #     conn.commit()
+    # except Exception as err:
+    #     cleanup_files([permanent_pdf_path, permanent_photo_path])
+    #     print(f"DB error: {err}")
+    #     raise HTTPException(status_code=500, detail="Failed to create member in the database.")
+    # finally:
+    #     if cursor: cursor.close()
+    #     if conn: conn.close()
 
-    cursor = None
-    try:
-        cursor = conn.cursor()
-        sql_insert = """INSERT INTO members
-        (name, profession, designation, mandal, dob, blood_group, contact_no,
-        address, pdf_proof_path, photo_path, status, active_no)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-        values_insert = (
-            member_data.name, member_data.profession, member_data.designation,
-            member_data.mandal, member_data.dob,
-            member_data.blood_group.value if member_data.blood_group else None,
-            member_data.contact_no, member_data.address, str(permanent_pdf_path),
-            str(permanent_photo_path), 'pending_payment', None
-        )
-        cursor.execute(sql_insert, values_insert)
-        new_member_id = cursor.lastrowid
-        conn.commit()
-
-        generated_membership_no = generate_membership_no(new_member_id)
-        sql_update = "UPDATE members SET membership_no = %s WHERE id = %s"
-        cursor.execute(sql_update, (generated_membership_no, new_member_id))
-        conn.commit()
-    except mysql.connector.Error as err:
-        cleanup_files([permanent_pdf_path, permanent_photo_path])
-        print(f"DB error: {err}")
-        raise HTTPException(status_code=500, detail="Failed to create member in the database.")
-    finally:
-        if cursor: cursor.close()
-        if conn and conn.is_connected(): conn.close()
-
+    # For local usage without MySQL, just mimic a response
+    generated_membership_no = generate_membership_no(1)
+    new_member_id = 1
     if verification_token in VERIFICATION_SESSIONS:
         del VERIFICATION_SESSIONS[verification_token]
 
@@ -327,55 +329,53 @@ async def submit_details_endpoint(
 
 @app.post("/update-payment/")
 async def update_payment_endpoint(update_data: PaymentUpdate):
-    conn = get_db_connection()
-    if not conn:
-        raise HTTPException(status_code=503, detail="Database service is unavailable.")
-
-    cursor = None
-    try:
-        cursor = conn.cursor(dictionary=True)
-        if update_data.status.lower() == "successful":
-            cursor.execute("UPDATE members SET status = 'active' WHERE id = %s", (update_data.member_id,))
-            conn.commit()
-            return {"message": f"Payment successful. Member {update_data.member_id} is now active."}
-
-        elif update_data.status.lower() == "failed":
-            cursor.execute("SELECT pdf_proof_path, photo_path FROM members WHERE id = %s", (update_data.member_id,))
-            record = cursor.fetchone()
-            if record:
-                files_to_delete = []
-                if record.get('pdf_proof_path'):
-                    files_to_delete.append(Path(record['pdf_proof_path']))
-                if record.get('photo_path'):
-                    files_to_delete.append(Path(record['photo_path']))
-                cleanup_files(files_to_delete)
-
-                cursor.execute("DELETE FROM members WHERE id = %s", (update_data.member_id,))
-                conn.commit()
-                return {"message": f"Payment failed. Member {update_data.member_id} and associated files have been deleted."}
-            else:
-                raise HTTPException(status_code=400, detail="Invalid status. Must be 'successful' or 'failed'.")
-        else:
-            raise HTTPException(status_code=400, detail="Invalid status. Must be 'successful' or 'failed'.")
-    except mysql.connector.Error as err:
-        print(f"Database update/delete error: {err}")
-        raise HTTPException(status_code=500, detail="A database error occurred.")
-    finally:
-        if cursor:
-            cursor.close()
-        if conn and conn.is_connected():
-            conn.close()
+    # NOTE: This would normally hit MySQL. Keeping logic stubbed.
+    # conn = get_db_connection()
+    # if not conn:
+    #     raise HTTPException(status_code=503, detail="Database service is unavailable.")
+    #
+    # cursor = None
+    # try:
+    #     cursor = conn.cursor(dictionary=True)
+    #     if update_data.status.lower() == "successful":
+    #         cursor.execute("UPDATE members SET status = 'active' WHERE id = %s", (update_data.member_id,))
+    #         conn.commit()
+    #         return {"message": f"Payment successful. Member {update_data.member_id} is now active."}
+    #     elif update_data.status.lower() == "failed":
+    #         cursor.execute("SELECT pdf_proof_path, photo_path FROM members WHERE id = %s", (update_data.member_id,))
+    #         record = cursor.fetchone()
+    #         if record:
+    #             files_to_delete = []
+    #             if record.get('pdf_proof_path'):
+    #                 files_to_delete.append(Path(record['pdf_proof_path']))
+    #             if record.get('photo_path'):
+    #                 files_to_delete.append(Path(record['photo_path']))
+    #             cleanup_files(files_to_delete)
+    #             cursor.execute("DELETE FROM members WHERE id = %s", (update_data.member_id,))
+    #             conn.commit()
+    #             return {"message": f"Payment failed. Member {update_data.member_id} and associated files have been deleted."}
+    #         else:
+    #             raise HTTPException(status_code=400, detail="Invalid status. Must be 'successful' or 'failed'.")
+    #     else:
+    #         raise HTTPException(status_code=400, detail="Invalid status. Must be 'successful' or 'failed'.")
+    # except Exception as err:
+    #     print(f"Database update/delete error: {err}")
+    #     raise HTTPException(status_code=500, detail="A database error occurred.")
+    # finally:
+    #     if cursor: cursor.close()
+    #     if conn: conn.close()
+    return {"message": f"Payment {update_data.status}. (Stub response with MySQL disabled)"}
 
 # ================================================================
-# NEW: Pillow-based membership card generator (template PNG)
+# Pillow-based membership card generator (template PNG)
 # ================================================================
 # Coordinates assume a base width of 1289 px; scaled by actual template width.
 PIL_POSITIONS = {
-    "left_value_x": 450,     # X where the value text begins for most rows
+    "left_value_x": 450,       # X where the value text begins for most rows
     "id_no":      (130, 275),
     "membership": (530, 275),
     "active_no":  (970, 275),
-    "name":       (0, 357),  # Y only; X from left_value_x
+    "name":       (0, 357),    # Y only; X from left_value_x
     "profession": (0, 398),
     "designation":(0, 439),
     "mandal":     (0, 480),
@@ -414,32 +414,7 @@ def _wrap_text(text: str, max_chars: int):
     return lines
 
 def fetch_member_data(member_id: Optional[int] = None, membership_no: Optional[str] = None) -> dict:
-    """
-    Tries MySQL first; if unavailable or not found, tries SQLite.
-    Returns a dict with keys used below.
-    """
-    # MySQL
-    conn = get_db_connection()
-    if conn and getattr(conn, "is_connected", lambda: False)():
-        try:
-            cur = conn.cursor(dictionary=True)
-            if member_id:
-                cur.execute("SELECT * FROM members WHERE id = %s", (member_id,))
-            else:
-                cur.execute("SELECT * FROM members WHERE membership_no = %s", (membership_no,))
-            row = cur.fetchone()
-            cur.close()
-            conn.close()
-            if row:
-                return row
-        except Exception as e:
-            print(f"MySQL fetch error: {e}")
-            try:
-                conn.close()
-            except Exception:
-                pass
-
-    # SQLite fallback
+    # With MySQL disabled, use SQLite directly
     with sqlite_conn() as scon:
         scur = scon.cursor()
         if member_id:
@@ -448,7 +423,7 @@ def fetch_member_data(member_id: Optional[int] = None, membership_no: Optional[s
             scur.execute("SELECT * FROM members WHERE membership_no = ?", (membership_no,))
         srow = scur.fetchone()
         if not srow:
-            raise HTTPException(status_code=404, detail="Member not found in database(s)")
+            raise HTTPException(status_code=404, detail="Member not found in database")
         return {k: srow[k] for k in srow.keys()}
 
 def render_pillow_card(member: dict) -> Path:
@@ -488,7 +463,7 @@ def render_pillow_card(member: dict) -> Path:
     membership_number = member.get("membership_no") or ""
     active_number = member.get("active_no") or f"ACT{datetime.utcnow().strftime('%m%y')}{str(uuid.uuid4())[:4].upper()}"
 
-    # Safely scaled positions
+    # Scaled positions
     id_x, id_y = scale_pos(PIL_POSITIONS["id_no"], scale)
     mem_x, mem_y = scale_pos(PIL_POSITIONS["membership"], scale)
     act_x, act_y = scale_pos(PIL_POSITIONS["active_no"], scale)
@@ -545,7 +520,7 @@ def render_pillow_card(member: dict) -> Path:
     return out_path
 
 # ================================================================
-# NEW: FastAPI endpoints to generate and download Pillow card
+# FastAPI endpoints to generate and download Pillow card
 # ================================================================
 @app.post("/generate-card-pillow/")
 async def generate_card_pillow(
@@ -554,7 +529,7 @@ async def generate_card_pillow(
 ):
     """
     Generate a membership card PNG using Pillow and the static/card_template.png template.
-    Data is pulled from the database (MySQL primary, SQLite fallback).
+    Data is pulled from SQLite (MySQL disabled).
     """
     if not member_id and not membership_no:
         raise HTTPException(status_code=400, detail="Provide member_id or membership_no")
@@ -580,7 +555,7 @@ async def download_card_pillow(card_path: Annotated[str, Query(description="Abso
     return FileResponse(path=str(p), filename=filename, media_type="image/png")
 
 # ================================================================
-# Optional helper to seed SQLite for local tests (no change to MySQL)
+# Helper to seed SQLite for local tests
 # ================================================================
 @app.post("/seed-sqlite-member/")
 async def seed_sqlite_member(

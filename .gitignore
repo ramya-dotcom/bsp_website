@@ -5,3 +5,6 @@
 venv/
 __pycache__/
 temp_files/
+*.vscode
+.user_test_venv
+
