@@ -9,6 +9,6 @@ python-dotenv
 mysql-connector-python
 a2wsgi
 jinja2
-weasyprint
 qrcode
-reportlab
+numpy
+

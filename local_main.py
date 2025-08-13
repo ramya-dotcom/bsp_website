@@ -11,28 +11,20 @@ from datetime import date, datetime, timedelta
 import platform
 import enum
 
-# --- Env (dotenv) ---
 from dotenv import load_dotenv
-# --- MySQL (kept but commented below where used) ---
-# import mysql.connector
 
-# --- FastAPI and Pydantic ---
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Depends, Query
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Annotated, List, Optional, Union, Sequence
 
-# --- SQLite (active data source for card rendering) ---
 import sqlite3
 
 # ================================================================
-# Load environment
+# Environment and Paths
 # ================================================================
 load_dotenv()
 
-# ================================================================
-# Paths and directories
-# ================================================================
 if platform.system() == "Darwin":  # macOS local dev
     BASE_UPLOAD_DIR = Path("./volunteers_files")
 else:
@@ -44,22 +36,16 @@ PHOTO_UPLOAD_DIR = Path(os.getenv("PHOTO_UPLOAD_DIR", BASE_UPLOAD_DIR / "photos"
 CARDS_DIR = Path(os.getenv("CARDS_DIR", BASE_UPLOAD_DIR / "cards"))
 STATIC_DIR = Path("./static").resolve()
 
-# ================================================================
-# In-memory state
-# ================================================================
 VERIFICATION_SESSIONS = {}
 
-# ================================================================
-# FastAPI app
-# ================================================================
 app = FastAPI(
     title="Membership Workflow API",
-    description="A multi-step API for document verification, member creation, payment handling, and card rendering.",
-    version="2.7.0"
+    description="Document verification, member creation, and Pillow card rendering.",
+    version="3.2.0"
 )
 
 # ================================================================
-# Enums and models
+# Models
 # ================================================================
 class BloodGroup(str, enum.Enum):
     A_pos = "A+"
@@ -76,31 +62,18 @@ class MemberCreate(BaseModel):
     profession: Optional[str] = Field("Software Engineer", description="Profession")
     designation: Optional[str] = Field("Senior Developer", description="Designation")
     mandal: Optional[str] = Field("Coimbatore South", description="Mandal")
-    dob: Optional[date] = Field("1990-01-15", description="Date of Birth (YYYY-MM-DD)")
-    blood_group: Optional[BloodGroup] = Field(BloodGroup.O_pos, description="Select from dropdown")
-    contact_no: Optional[str] = Field("9876543210", description="10-digit Contact Number", pattern=r'^\d{10}$')
+    dob: Optional[date] = Field("1990-01-15", description="YYYY-MM-DD")
+    blood_group: Optional[BloodGroup] = Field(BloodGroup.O_pos, description="Blood Group")
+    contact_no: Optional[str] = Field("9876543210", description="10-digit Contact", pattern=r'^\d{10}$')
     address: Optional[str] = Field("123, V.H. Road, Coimbatore - 641001", description="Address")
 
 class PaymentUpdate(BaseModel):
     member_id: int
-    status: str  # "successful" or "failed"
+    status: str
 
 # ================================================================
-# Database connections
+# SQLite
 # ================================================================
-# NOTE: MySQL connection is kept but commented. Re-enable if needed.
-# def get_db_connection():
-#     try:
-#         return mysql.connector.connect(
-#             host=os.getenv("DATABASE_HOST"),
-#             user=os.getenv("DATABASE_USERNAME"),
-#             password=os.getenv("DATABASE_PASSWORD"),
-#             database=os.getenv("DATABASE_NAME")
-#         )
-#     except mysql.connector.Error as err:
-#         print(f"Database connection error: {err}")
-#         return None
-
 SQLITE_DB_PATH = Path(os.getenv("SQLITE_DB_PATH", "./members_local.sqlite")).resolve()
 
 def sqlite_conn():
@@ -143,13 +116,6 @@ def cleanup_files(files_to_delete: List[Path]):
         except OSError as e:
             print(f"Error deleting file {file_path}: {e}")
 
-def row_get(row: sqlite3.Row, key: str):
-    try:
-        return row[key]
-    except Exception:
-        return None
-
-# Safe scaler for positions: accepts number or tuple/list of numbers
 def scale_pos(pos: Union[int, float, Sequence[Union[int, float, str]], str], scale: float):
     def to_num(x):
         if isinstance(x, (int, float)):
@@ -158,16 +124,16 @@ def scale_pos(pos: Union[int, float, Sequence[Union[int, float, str]], str], sca
             try:
                 return float(x)
             except ValueError:
-                raise TypeError(f"Non-numeric string in position: {x!r}")
-        raise TypeError(f"Unsupported type in position: {type(x).__name__}")
+                raise TypeError(f"Non-numeric position element: {x!r}")
+        raise TypeError(f"Unsupported position type: {type(x).__name__}")
     if isinstance(pos, (int, float, str)):
         return int(round(to_num(pos) * scale))
     if isinstance(pos, (list, tuple)):
         return tuple(int(round(to_num(v) * scale)) for v in pos)
-    raise TypeError(f"Unsupported position type: {type(pos).__name__}")
+    raise TypeError(f"Unsupported position container: {type(pos).__name__}")
 
 # ================================================================
-# PDF text extraction to verify EPIC
+# EPIC extraction
 # ================================================================
 def find_epic_in_text(text):
     if not text:
@@ -177,9 +143,9 @@ def find_epic_in_text(text):
         r'\b([A-Z]{3}[0-9]{7})\b'
     ]
     for pattern in patterns:
-        match = re.search(pattern, text, re.DOTALL)
-        if match:
-            return match.group(1).strip().replace(" ", "")
+        m = re.search(pattern, text, re.DOTALL)
+        if m:
+            return m.group(1).strip().replace(" ", "")
     return None
 
 def extract_epic_from_pdf(pdf_path: Path):
@@ -207,14 +173,13 @@ def extract_epic_from_pdf(pdf_path: Path):
 # ================================================================
 @app.on_event("startup")
 def on_startup():
-    print("Ensuring directories exist...")
     for d in [TEMP_UPLOAD_DIR, PDF_UPLOAD_DIR, PHOTO_UPLOAD_DIR, CARDS_DIR, STATIC_DIR]:
         os.makedirs(d, exist_ok=True)
     sqlite_init_schema()
     print("✅ Startup ready")
 
 # ================================================================
-# Original endpoints (MySQL operations remain commented out)
+# Endpoints (DB work stubbed)
 # ================================================================
 @app.post("/verify-document/")
 async def verify_document_endpoint(
@@ -243,11 +208,8 @@ async def verify_document_endpoint(
         "epic": extracted_epic,
         "expiry": datetime.utcnow() + timedelta(minutes=15)
     }
-
-    return {
-        "message": "Verification successful. Use this token to submit member details.",
-        "verification_token": token
-    }
+    return {"message": "Verification successful. Use this token to submit member details.",
+            "verification_token": token}
 
 def generate_membership_no(new_member_id: int) -> str:
     now = datetime.utcnow()
@@ -279,113 +241,52 @@ async def submit_details_endpoint(
     finally:
         photo_file.file.close()
 
-    # NOTE: MySQL insert/update commented out; keep files in place for local testing.
-    # conn = get_db_connection()
-    # if not conn:
-    #     cleanup_files([permanent_pdf_path, permanent_photo_path])
-    #     raise HTTPException(status_code=503, detail="Database service is unavailable.")
-    #
-    # cursor = None
-    # try:
-    #     cursor = conn.cursor()
-    #     sql_insert = """INSERT INTO members
-    #     (name, profession, designation, mandal, dob, blood_group, contact_no,
-    #     address, pdf_proof_path, photo_path, status, active_no)
-    #     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-    #     values_insert = (
-    #         member_data.name, member_data.profession, member_data.designation,
-    #         member_data.mandal, member_data.dob,
-    #         member_data.blood_group.value if member_data.blood_group else None,
-    #         member_data.contact_no, member_data.address, str(permanent_pdf_path),
-    #         str(permanent_photo_path), 'pending_payment', None
-    #     )
-    #     cursor.execute(sql_insert, values_insert)
-    #     new_member_id = cursor.lastrowid
-    #     conn.commit()
-    #
-    #     generated_membership_no = generate_membership_no(new_member_id)
-    #     sql_update = "UPDATE members SET membership_no = %s WHERE id = %s"
-    #     cursor.execute(sql_update, (generated_membership_no, new_member_id))
-    #     conn.commit()
-    # except Exception as err:
-    #     cleanup_files([permanent_pdf_path, permanent_photo_path])
-    #     print(f"DB error: {err}")
-    #     raise HTTPException(status_code=500, detail="Failed to create member in the database.")
-    # finally:
-    #     if cursor: cursor.close()
-    #     if conn: conn.close()
-
-    # For local usage without MySQL, just mimic a response
     generated_membership_no = generate_membership_no(1)
     new_member_id = 1
     if verification_token in VERIFICATION_SESSIONS:
         del VERIFICATION_SESSIONS[verification_token]
 
-    return {
-        "message": "Details submitted. Proceed to payment.",
-        "member_id": new_member_id,
-        "membership_no": generated_membership_no
-    }
+    return {"message": "Details submitted. Proceed to payment.",
+            "member_id": new_member_id,
+            "membership_no": generated_membership_no}
 
 @app.post("/update-payment/")
 async def update_payment_endpoint(update_data: PaymentUpdate):
-    # NOTE: This would normally hit MySQL. Keeping logic stubbed.
-    # conn = get_db_connection()
-    # if not conn:
-    #     raise HTTPException(status_code=503, detail="Database service is unavailable.")
-    #
-    # cursor = None
-    # try:
-    #     cursor = conn.cursor(dictionary=True)
-    #     if update_data.status.lower() == "successful":
-    #         cursor.execute("UPDATE members SET status = 'active' WHERE id = %s", (update_data.member_id,))
-    #         conn.commit()
-    #         return {"message": f"Payment successful. Member {update_data.member_id} is now active."}
-    #     elif update_data.status.lower() == "failed":
-    #         cursor.execute("SELECT pdf_proof_path, photo_path FROM members WHERE id = %s", (update_data.member_id,))
-    #         record = cursor.fetchone()
-    #         if record:
-    #             files_to_delete = []
-    #             if record.get('pdf_proof_path'):
-    #                 files_to_delete.append(Path(record['pdf_proof_path']))
-    #             if record.get('photo_path'):
-    #                 files_to_delete.append(Path(record['photo_path']))
-    #             cleanup_files(files_to_delete)
-    #             cursor.execute("DELETE FROM members WHERE id = %s", (update_data.member_id,))
-    #             conn.commit()
-    #             return {"message": f"Payment failed. Member {update_data.member_id} and associated files have been deleted."}
-    #         else:
-    #             raise HTTPException(status_code=400, detail="Invalid status. Must be 'successful' or 'failed'.")
-    #     else:
-    #         raise HTTPException(status_code=400, detail="Invalid status. Must be 'successful' or 'failed'.")
-    # except Exception as err:
-    #     print(f"Database update/delete error: {err}")
-    #     raise HTTPException(status_code=500, detail="A database error occurred.")
-    # finally:
-    #     if cursor: cursor.close()
-    #     if conn: conn.close()
     return {"message": f"Payment {update_data.status}. (Stub response with MySQL disabled)"}
 
 # ================================================================
-# Pillow-based membership card generator (template PNG)
+# Pillow card generator (Option 1: overlay above photo)
 # ================================================================
-# Coordinates assume a base width of 1289 px; scaled by actual template width.
+BASE_W = 1289.0  # Reference width for coordinates
+
 PIL_POSITIONS = {
-    "left_value_x": 450,       # X where the value text begins for most rows
-    "id_no":      (130, 275),
-    "membership": (530, 275),
-    "active_no":  (970, 275),
-    "name":       (0, 357),    # Y only; X from left_value_x
-    "profession": (0, 398),
-    "designation":(0, 439),
-    "mandal":     (0, 480),
-    "dob":        (0, 521),
-    "blood":      (0, 562),
-    "contact":    (0, 603),
-    "address":    (0, 644),
+    # Header label colon Xs (base image measures)
+    "id_colon_x":         210,
+    "membership_colon_x": 690,
+    "active_colon_x":    1080,
+
+    # Shared Y baseline for header row
+    "header_values_y":    275,
+
+    # Left column text positions
+    "left_value_x":       450,
+    "name_y":             357,
+    "profession_y":       398,
+    "designation_y":      439,
+    "mandal_y":           480,
+    "dob_y":              521,
+    "blood_y":            562,
+    "contact_y":          603,
+    "address_y":          644,
+
     # Photo box (x, y, w, h)
-    "photo_box":  (923, 357, 200, 240)
+    "photo_box":          (923, 357, 200, 240),
+
+    # Signature overlay anchor (top-left) at base width 1289 px
+    "signature_overlay_xy": (860, 430)
 }
+
+AFTER_COLON_MARGIN = 12  # px after colon where header values begin (base)
 
 def _load_font(size_px: int, bold: bool = False):
     try:
@@ -399,22 +300,20 @@ def _wrap_text(text: str, max_chars: int):
     if not text:
         return [""]
     words = text.split()
-    lines = []
-    current = []
+    lines, cur = [], []
     for w in words:
-        candidate = " ".join(current + [w])
-        if len(candidate) <= max_chars:
-            current.append(w)
+        cand = " ".join(cur + [w])
+        if len(cand) <= max_chars:
+            cur.append(w)
         else:
-            if current:
-                lines.append(" ".join(current))
-            current = [w]
-    if current:
-        lines.append(" ".join(current))
+            if cur:
+                lines.append(" ".join(cur))
+            cur = [w]
+    if cur:
+        lines.append(" ".join(cur))
     return lines
 
 def fetch_member_data(member_id: Optional[int] = None, membership_no: Optional[str] = None) -> dict:
-    # With MySQL disabled, use SQLite directly
     with sqlite_conn() as scon:
         scur = scon.cursor()
         if member_id:
@@ -427,113 +326,121 @@ def fetch_member_data(member_id: Optional[int] = None, membership_no: Optional[s
         return {k: srow[k] for k in srow.keys()}
 
 def render_pillow_card(member: dict) -> Path:
-    """
-    Renders a membership card PNG based on static/card_template.png and member data.
-    Saves to CARDS_DIR and returns the file path.
-    """
     template_path = STATIC_DIR / "card_template.png"
     if not template_path.exists():
         raise HTTPException(status_code=500, detail="Template not found at static/card_template.png")
 
-    # Load template
-    card = Image.open(template_path)
-    if card.mode != "RGB":
-        card = card.convert("RGB")
-    draw = ImageDraw.Draw(card)
+    # RGBA for correct alpha compositing
+    base = Image.open(template_path).convert("RGBA")
+    draw = ImageDraw.Draw(base)
 
-    # Dimensions and scaling
-    base_w = 1289.0  # Reference width used to define coordinates above
-    W, H = card.size
-    scale = W / base_w
+    W, H = base.size
+    scale = W / BASE_W
 
     # Fonts
-    text_font = _load_font(int(22 * scale))
-    bold_font = _load_font(int(22 * scale), bold=True)
+    text_font  = _load_font(int(22 * scale))
+    bold_font  = _load_font(int(22 * scale), bold=True)
     small_font = _load_font(int(18 * scale))
 
-    # Colors
-    BLACK = "#000000"
-    GRAY = "#333333"
+    BLACK  = "#000000"
+    GRAY   = "#333333"
     SILVER = "#CCCCCC"
-    OUTLINE = "#666666"
+    OUTLINE= "#666666"
 
-    # Numbers at top
+    # Header values aligned with titles
     id_val = member.get("id")
     id_number = f"TN{id_val:06d}" if isinstance(id_val, int) else f"TN{datetime.utcnow().strftime('%y')}{str(uuid.uuid4())[:6].upper()}"
     membership_number = member.get("membership_no") or ""
-    active_number = member.get("active_no") or f"ACT{datetime.utcnow().strftime('%m%y')}{str(uuid.uuid4())[:4].upper()}"
+    active_number     = member.get("active_no") or f"ACT{datetime.utcnow().strftime('%m%y')}{str(uuid.uuid4())[:4].upper()}"
 
-    # Scaled positions
-    id_x, id_y = scale_pos(PIL_POSITIONS["id_no"], scale)
-    mem_x, mem_y = scale_pos(PIL_POSITIONS["membership"], scale)
-    act_x, act_y = scale_pos(PIL_POSITIONS["active_no"], scale)
-    vx = scale_pos(PIL_POSITIONS["left_value_x"], scale)
+    header_y = scale_pos(PIL_POSITIONS["header_values_y"], scale)
+    id_x  = scale_pos(PIL_POSITIONS["id_colon_x"] + AFTER_COLON_MARGIN, scale)
+    mem_x = scale_pos(PIL_POSITIONS["membership_colon_x"] + AFTER_COLON_MARGIN, scale)
+    act_x = scale_pos(PIL_POSITIONS["active_colon_x"] + AFTER_COLON_MARGIN, scale)
 
-    def y_scaled(key: str) -> int:
-        _, y = PIL_POSITIONS[key]
-        return scale_pos(y, scale)
-
-    draw.text((id_x,  id_y),  str(id_number),         font=small_font, fill=BLACK, anchor="lt")
-    draw.text((mem_x, mem_y), str(membership_number), font=small_font, fill=BLACK, anchor="mt")
-    draw.text((act_x, act_y), str(active_number),     font=small_font, fill=BLACK, anchor="rt")
+    draw.text((id_x,  header_y), str(id_number),         font=small_font, fill=BLACK, anchor="ls")
+    draw.text((mem_x, header_y), str(membership_number), font=small_font, fill=BLACK, anchor="ls")
+    draw.text((act_x, header_y), str(active_number),     font=small_font, fill=BLACK, anchor="ls")
 
     # Left column values
-    draw.text((vx, y_scaled("name")), (member.get("name") or "").upper(), font=bold_font, fill=BLACK, anchor="lt")
-    draw.text((vx, y_scaled("profession")), member.get("profession") or "", font=text_font, fill=BLACK, anchor="lt")
-    draw.text((vx, y_scaled("designation")), member.get("designation") or "", font=text_font, fill=BLACK, anchor="lt")
-    draw.text((vx, y_scaled("mandal")), member.get("mandal") or "", font=text_font, fill=BLACK, anchor="lt")
+    vx = scale_pos(PIL_POSITIONS["left_value_x"], scale)
+    draw.text((vx, scale_pos(PIL_POSITIONS["name_y"], scale)),        (member.get("name") or "").upper(), font=bold_font,  fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["profession_y"], scale)),  member.get("profession") or "",     font=text_font,  fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["designation_y"], scale)), member.get("designation") or "",    font=text_font,  fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["mandal_y"], scale)),      member.get("mandal") or "",         font=text_font,  fill=BLACK, anchor="ls")
     dob_val = member.get("dob")
     dob_str = str(dob_val) if dob_val is not None else ""
-    draw.text((vx, y_scaled("dob")), dob_str, font=text_font, fill=BLACK, anchor="lt")
-    draw.text((vx, y_scaled("blood")), member.get("blood_group") or "", font=text_font, fill=BLACK, anchor="lt")
-    draw.text((vx, y_scaled("contact")), member.get("contact_no") or "", font=text_font, fill=BLACK, anchor="lt")
+    draw.text((vx, scale_pos(PIL_POSITIONS["dob_y"], scale)),         dob_str,                            font=text_font,  fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["blood_y"], scale)),       member.get("blood_group") or "",    font=text_font,  fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["contact_y"], scale)),     member.get("contact_no") or "",     font=text_font,  fill=BLACK, anchor="ls")
 
-    # Address wrapping
+    # Address (2 lines)
     addr = member.get("address") or ""
-    max_chars = 35
-    lines = _wrap_text(addr, max_chars)
-    addr_y = y_scaled("address")
-    line_gap = scale_pos(25, scale)  # vertical gap between address lines
-    for i, line in enumerate(lines[:2]):  # up to 2 lines
-        draw.text((vx, addr_y + i * line_gap), line, font=text_font, fill=BLACK, anchor="lt")
+    lines = _wrap_text(addr, 35)
+    addr_y = scale_pos(PIL_POSITIONS["address_y"], scale)
+    line_gap = scale_pos(25, scale)
+    for i, line in enumerate(lines[:2]):
+        draw.text((vx, addr_y + i * line_gap), line, font=text_font, fill=BLACK, anchor="ls")
 
-    # Photo box
+    # ------------------------------------------------------------
+    # OPTION 1 IMPLEMENTATION: photo below, overlay above
+    # ------------------------------------------------------------
+
+    # 1) Paste member photo FIRST (below signature)
     px, py, pw, ph = scale_pos(PIL_POSITIONS["photo_box"], scale)
     photo_path = member.get("photo_path")
     if photo_path and Path(photo_path).exists():
         try:
-            img = Image.open(photo_path).convert("RGB")
-            img = img.resize((pw, ph), Image.Resampling.LANCZOS)
-            card.paste(img, (px, py))
-        except Exception:
+            pimg = Image.open(photo_path).convert("RGBA").resize((pw, ph), Image.Resampling.LANCZOS)
+            base.alpha_composite(pimg, (px, py))
+        except Exception as e:
+            print(f"Photo error: {e}")
             draw.rectangle([px, py, px + pw, py + ph], fill=SILVER, outline=OUTLINE, width=2)
-            draw.text((px + pw // 2, py + ph // 2), "PHOTO\nERROR", font=text_font, fill=GRAY, anchor="mm")
+            draw.text((px + pw // 2, py + ph // 2), "PHOTO\nERROR", font=small_font, fill=GRAY, anchor="mm")
     else:
         draw.rectangle([px, py, px + pw, py + ph], fill=SILVER, outline=OUTLINE, width=2)
-        draw.text((px + pw // 2, py + ph // 2), "PHOTO\nNOT FOUND", font=text_font, fill=GRAY, anchor="mm")
+        draw.text((px + pw // 2, py + ph // 2), "PHOTO\nNOT FOUND", font=small_font, fill=GRAY, anchor="mm")
+
+    # 2) Composite signature overlay PNG ABOVE the photo
+    overlay_path = STATIC_DIR / "signature_overlay.png"
+    if overlay_path.exists():
+        try:
+            oimg = Image.open(overlay_path).convert("RGBA")
+            # Scale overlay with overall template width
+            ow, oh = oimg.size
+            oimg = oimg.resize((int(ow * scale), int(oh * scale)), Image.Resampling.LANCZOS)
+
+            # Anchor; tweak nudge_x / nudge_y for quick micro-adjustment (±5–10 px)
+            sx_base, sy_base = PIL_POSITIONS["signature_overlay_xy"]
+            nudge_x, nudge_y = 0, 0
+            sx = scale_pos(sx_base + nudge_x, scale)
+            sy = scale_pos(sy_base + nudge_y, scale)
+
+            base.alpha_composite(oimg, (sx, sy))
+        except Exception as e:
+            print(f"Signature overlay error: {e}")
+    else:
+        # If overlay missing, do nothing (avoids ghosted double drawing)
+        print("Warning: static/signature_overlay.png not found; skipping overlay composite")
+
+    # ------------------------------------------------------------
 
     # Save
-    file_stub = membership_number or f"id-{member.get('id') or 'unknown'}"
-    file_stub = str(file_stub).replace("/", "-")
+    file_stub = (membership_number or f"id-{member.get('id') or 'unknown'}").replace("/", "-")
     out_path = CARDS_DIR / f"bsp_membership_card_{file_stub}.png"
-    card.save(out_path, "PNG", quality=95, optimize=True)
+    base.convert("RGB").save(out_path, "PNG", quality=95, optimize=True)
     return out_path
 
 # ================================================================
-# FastAPI endpoints to generate and download Pillow card
+# Endpoints: generate and download
 # ================================================================
 @app.post("/generate-card-pillow/")
 async def generate_card_pillow(
     member_id: Annotated[Optional[int], Form()] = None,
     membership_no: Annotated[Optional[str], Form()] = None
 ):
-    """
-    Generate a membership card PNG using Pillow and the static/card_template.png template.
-    Data is pulled from SQLite (MySQL disabled).
-    """
     if not member_id and not membership_no:
         raise HTTPException(status_code=400, detail="Provide member_id or membership_no")
-
     member = fetch_member_data(member_id=member_id, membership_no=membership_no)
     out_path = render_pillow_card(member)
     return {
@@ -545,9 +452,6 @@ async def generate_card_pillow(
 
 @app.get("/download-card-pillow")
 async def download_card_pillow(card_path: Annotated[str, Query(description="Absolute path returned by /generate-card-pillow/")]):
-    """
-    Download previously generated card PNG.
-    """
     p = Path(card_path)
     if not p.exists() or not p.is_file():
         raise HTTPException(status_code=404, detail="Card file not found")
@@ -555,7 +459,7 @@ async def download_card_pillow(card_path: Annotated[str, Query(description="Abso
     return FileResponse(path=str(p), filename=filename, media_type="image/png")
 
 # ================================================================
-# Helper to seed SQLite for local tests
+# Helper to seed SQLite quickly
 # ================================================================
 @app.post("/seed-sqlite-member/")
 async def seed_sqlite_member(
