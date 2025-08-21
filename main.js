@@ -173,9 +173,15 @@ function loadLanguagePreference() {
 function getCurrentEventId() {
     const eventDetailPage = document.getElementById('eventDetailPage');
     if (eventDetailPage && eventDetailPage.classList.contains('active')) {
-        // Extract event ID from current page state or URL
         if (currentPage && currentPage.includes('Detail')) {
-            return currentPage.replace('Detail', '');
+            // Remove 'events/' prefix if present
+            let eventId = currentPage;
+            if (eventId.startsWith('events/')) {
+                eventId = eventId.replace('events/', '');
+            }
+            // Remove 'Detail' suffix
+            eventId = eventId.replace('Detail', '');
+            return eventId;
         }
     }
     return null;
@@ -1392,7 +1398,7 @@ function showEventDetail(eventId) {
     currentScrollPosition = mainContainer.scrollTop;
     
     // Store current page state for language consistency
-    currentPage = eventId + 'Detail';
+    currentPage = 'events/' + eventId + 'Detail';
     
     // Find event data
     const eventData = languageContent.events?.items?.find(event => event.id === eventId);
@@ -1409,7 +1415,7 @@ function showEventDetail(eventId) {
     
     // Show detail page
     document.getElementById('eventDetailPage').classList.add('active');
-    updateHistory(eventId + 'Detail', currentScrollPosition);
+    updateHistory('events/' + eventId + 'Detail', currentScrollPosition);
     
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1481,7 +1487,7 @@ function hideEventDetail() {
     document.getElementById('eventDetailPage').classList.remove('active');
     
     // Reset current page state
-    currentPage = 'main';
+    currentPage = 'events';
     
     setTimeout(() => {
         const mainContainer = document.getElementById('mainContainer');
@@ -1491,7 +1497,7 @@ function hideEventDetail() {
         ensureLanguageConsistency();
     }, 50);
     
-    updateHistory('main', currentScrollPosition);
+    updateHistory('events', currentScrollPosition);
 }
 
 // ===== FAQ FUNCTIONS (ENHANCED) =====
@@ -1651,7 +1657,7 @@ function updateHistory(page, scrollPos = null) {
         language: currentLanguage
     };
     
-    const url = page === 'main' ? `/` : '#' + page;
+    const url = page === 'main' ? `/` : `#${page}`;
     history.pushState(state, '', url);
 }
 
@@ -1678,11 +1684,14 @@ function handleBackNavigation(page, scrollPos = 0, timelineYear = '1988', langua
             // Ensure language consistency after navigation
             ensureLanguageConsistency();
         }, 50);
+    } else if (page === 'events') {
+        hideEventDetail();
+        scrollToSection('events');
+    } else if (page.startsWith('events/') && page.includes('Detail')) {
+        const eventId = page.split('/')[1].replace('Detail', '');
+        showEventDetail(eventId);
     } else if (page === 'faq') {
         showFAQ();
-    } else if (page.includes('Detail')) {
-        const eventId = page.replace('Detail', '');
-        showEventDetail(eventId);
     }
     
     // Update timeline if needed
@@ -1746,6 +1755,32 @@ function downloadDetails() {
  */
 function initContactForm() {
     // ! Put the logic for emailJS here!
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic form validation
+            const inputs = this.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+            
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.borderColor = '#e74c3c';
+                } else {
+                    input.style.borderColor = '';
+                }
+            });
+            
+            if (isValid) {
+                alert(languageContent.messages?.messageSent || 'Thank you for your message! We will get back to you soon.');
+                this.reset();
+            } else {
+                alert(languageContent.messages?.fillRequired || 'Please fill all required fields.');
+            }
+        });
+    }
 }
 
 // ===== SCROLL EFFECTS =====
@@ -1907,13 +1942,19 @@ function initWebsite() {
         if (window.location.hash) {
             const section = window.location.hash.substring(1);
             setTimeout(() => {
-                if (section === 'faq') {
-                showFAQ(); // open FAQ directly
-            } else if (section === 'resources') {
-                showResources(); // open Resources directly
-            } else {
-                scrollToSection(section); // normal section scroll for main page
-            }
+                if (section.startsWith('events/')) {
+                    // Example: events/event2Detail
+                    const eventId = section.split('/')[1].replace('Detail', '');
+                    showEventDetail(eventId);
+                } else if (section === 'events') {
+                    scrollToSection('events');
+                } else if (section === 'faq') {
+                    showFAQ();
+                } else if (section === 'resources') {
+                    showResources();
+                } else {
+                    scrollToSection(section);
+                }
                 // Ensure language consistency after initial navigation
                 setTimeout(() => {
                     ensureLanguageConsistency();
