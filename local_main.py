@@ -1,4 +1,4 @@
-import fitz  # PyMuPDF
+import fitz # PyMuPDF
 import re
 from pathlib import Path
 import io
@@ -10,14 +10,11 @@ import uuid
 from datetime import date, datetime, timedelta
 import platform
 import enum
-
 from dotenv import load_dotenv
-
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Depends, Query
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Depends, Query, Path as FastAPIPath
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Annotated, List, Optional, Union, Sequence
-
 import sqlite3
 
 # ================================================================
@@ -85,23 +82,23 @@ def sqlite_init_schema():
     with sqlite_conn() as conn:
         cur = conn.cursor()
         cur.execute("""
-        CREATE TABLE IF NOT EXISTS members (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name VARCHAR(255) NOT NULL,
-            membership_no VARCHAR(100),
-            active_no VARCHAR(100),
-            profession VARCHAR(255),
-            designation VARCHAR(255),
-            mandal VARCHAR(255),
-            dob DATE,
-            blood_group VARCHAR(10),
-            contact_no VARCHAR(20) NOT NULL,
-            address TEXT,
-            pdf_proof_path VARCHAR(512),
-            photo_path VARCHAR(512),
-            status VARCHAR(50) DEFAULT 'pending_payment',
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
+            CREATE TABLE IF NOT EXISTS members (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name VARCHAR(255) NOT NULL,
+                membership_no VARCHAR(100),
+                active_no VARCHAR(100),
+                profession VARCHAR(255),
+                designation VARCHAR(255),
+                mandal VARCHAR(255),
+                dob DATE,
+                blood_group VARCHAR(10),
+                contact_no VARCHAR(20) NOT NULL,
+                address TEXT,
+                pdf_proof_path VARCHAR(512),
+                photo_path VARCHAR(512),
+                status VARCHAR(50) DEFAULT 'pending_payment',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
         """)
         conn.commit()
 
@@ -126,6 +123,7 @@ def scale_pos(pos: Union[int, float, Sequence[Union[int, float, str]], str], sca
             except ValueError:
                 raise TypeError(f"Non-numeric position element: {x!r}")
         raise TypeError(f"Unsupported position type: {type(x).__name__}")
+
     if isinstance(pos, (int, float, str)):
         return int(round(to_num(pos) * scale))
     if isinstance(pos, (list, tuple)):
@@ -156,6 +154,7 @@ def extract_epic_from_pdf(pdf_path: Path):
         if epic:
             doc.close()
             return epic
+
         ocr_text = ""
         for page in doc:
             pix = page.get_pixmap(dpi=300)
@@ -188,6 +187,7 @@ async def verify_document_endpoint(
 ):
     safe_epic = epic_number.strip().upper()
     temp_pdf_path = TEMP_UPLOAD_DIR / f"{uuid.uuid4()}_{Path(pdf_file.filename).name}"
+
     try:
         with temp_pdf_path.open("wb") as buffer:
             shutil.copyfileobj(pdf_file.file, buffer)
@@ -208,6 +208,7 @@ async def verify_document_endpoint(
         "epic": extracted_epic,
         "expiry": datetime.utcnow() + timedelta(minutes=15)
     }
+
     return {"message": "Verification successful. Use this token to submit member details.",
             "verification_token": token}
 
@@ -235,6 +236,7 @@ async def submit_details_endpoint(
 
     photo_filename = f"{epic_number}_{unique_id}_{Path(photo_file.filename).name}"
     permanent_photo_path = PHOTO_UPLOAD_DIR / photo_filename
+
     try:
         with permanent_photo_path.open("wb") as buffer:
             shutil.copyfileobj(photo_file.file, buffer)
@@ -243,6 +245,7 @@ async def submit_details_endpoint(
 
     generated_membership_no = generate_membership_no(1)
     new_member_id = 1
+
     if verification_token in VERIFICATION_SESSIONS:
         del VERIFICATION_SESSIONS[verification_token]
 
@@ -261,27 +264,23 @@ BASE_W = 1289.0  # Reference width for coordinates
 
 PIL_POSITIONS = {
     # Header label colon Xs (base image measures)
-    "id_colon_x":         210,
+    "id_colon_x": 210,
     "membership_colon_x": 690,
-    "active_colon_x":    1080,
-
+    "active_colon_x": 1080,
     # Shared Y baseline for header row
-    "header_values_y":    275,
-
+    "header_values_y": 275,
     # Left column text positions
-    "left_value_x":       450,
-    "name_y":             357,
-    "profession_y":       398,
-    "designation_y":      439,
-    "mandal_y":           480,
-    "dob_y":              521,
-    "blood_y":            562,
-    "contact_y":          603,
-    "address_y":          644,
-
+    "left_value_x": 450,
+    "name_y": 357,
+    "profession_y": 398,
+    "designation_y": 439,
+    "mandal_y": 480,
+    "dob_y": 521,
+    "blood_y": 562,
+    "contact_y": 603,
+    "address_y": 644,
     # Photo box (x, y, w, h)
-    "photo_box":          (923, 357, 200, 240),
-
+    "photo_box": (923, 357, 200, 240),
     # Signature overlay anchor (top-left) at base width 1289 px
     "signature_overlay_xy": (860, 430)
 }
@@ -333,46 +332,46 @@ def render_pillow_card(member: dict) -> Path:
     # RGBA for correct alpha compositing
     base = Image.open(template_path).convert("RGBA")
     draw = ImageDraw.Draw(base)
-
     W, H = base.size
     scale = W / BASE_W
 
     # Fonts
-    text_font  = _load_font(int(22 * scale))
-    bold_font  = _load_font(int(22 * scale), bold=True)
+    text_font = _load_font(int(22 * scale))
+    bold_font = _load_font(int(22 * scale), bold=True)
     small_font = _load_font(int(18 * scale))
 
-    BLACK  = "#000000"
-    GRAY   = "#333333"
+    BLACK = "#000000"
+    GRAY = "#333333"
     SILVER = "#CCCCCC"
-    OUTLINE= "#666666"
+    OUTLINE = "#666666"
 
     # Header values aligned with titles
     id_val = member.get("id")
     id_number = f"TN{id_val:06d}" if isinstance(id_val, int) else f"TN{datetime.utcnow().strftime('%y')}{str(uuid.uuid4())[:6].upper()}"
     membership_number = member.get("membership_no") or ""
-    active_number     = member.get("active_no") or f"ACT{datetime.utcnow().strftime('%m%y')}{str(uuid.uuid4())[:4].upper()}"
+    active_number = member.get("active_no") or f"ACT{datetime.utcnow().strftime('%m%y')}{str(uuid.uuid4())[:4].upper()}"
 
     header_y = scale_pos(PIL_POSITIONS["header_values_y"], scale)
-    id_x  = scale_pos(PIL_POSITIONS["id_colon_x"] + AFTER_COLON_MARGIN, scale)
+    id_x = scale_pos(PIL_POSITIONS["id_colon_x"] + AFTER_COLON_MARGIN, scale)
     mem_x = scale_pos(PIL_POSITIONS["membership_colon_x"] + AFTER_COLON_MARGIN, scale)
     act_x = scale_pos(PIL_POSITIONS["active_colon_x"] + AFTER_COLON_MARGIN, scale)
 
-    draw.text((id_x,  header_y), str(id_number),         font=small_font, fill=BLACK, anchor="ls")
+    draw.text((id_x, header_y), str(id_number), font=small_font, fill=BLACK, anchor="ls")
     draw.text((mem_x, header_y), str(membership_number), font=small_font, fill=BLACK, anchor="ls")
-    draw.text((act_x, header_y), str(active_number),     font=small_font, fill=BLACK, anchor="ls")
+    draw.text((act_x, header_y), str(active_number), font=small_font, fill=BLACK, anchor="ls")
 
     # Left column values
     vx = scale_pos(PIL_POSITIONS["left_value_x"], scale)
-    draw.text((vx, scale_pos(PIL_POSITIONS["name_y"], scale)),        (member.get("name") or "").upper(), font=bold_font,  fill=BLACK, anchor="ls")
-    draw.text((vx, scale_pos(PIL_POSITIONS["profession_y"], scale)),  member.get("profession") or "",     font=text_font,  fill=BLACK, anchor="ls")
-    draw.text((vx, scale_pos(PIL_POSITIONS["designation_y"], scale)), member.get("designation") or "",    font=text_font,  fill=BLACK, anchor="ls")
-    draw.text((vx, scale_pos(PIL_POSITIONS["mandal_y"], scale)),      member.get("mandal") or "",         font=text_font,  fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["name_y"], scale)), (member.get("name") or "").upper(), font=bold_font, fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["profession_y"], scale)), member.get("profession") or "", font=text_font, fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["designation_y"], scale)), member.get("designation") or "", font=text_font, fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["mandal_y"], scale)), member.get("mandal") or "", font=text_font, fill=BLACK, anchor="ls")
+
     dob_val = member.get("dob")
     dob_str = str(dob_val) if dob_val is not None else ""
-    draw.text((vx, scale_pos(PIL_POSITIONS["dob_y"], scale)),         dob_str,                            font=text_font,  fill=BLACK, anchor="ls")
-    draw.text((vx, scale_pos(PIL_POSITIONS["blood_y"], scale)),       member.get("blood_group") or "",    font=text_font,  fill=BLACK, anchor="ls")
-    draw.text((vx, scale_pos(PIL_POSITIONS["contact_y"], scale)),     member.get("contact_no") or "",     font=text_font,  fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["dob_y"], scale)), dob_str, font=text_font, fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["blood_y"], scale)), member.get("blood_group") or "", font=text_font, fill=BLACK, anchor="ls")
+    draw.text((vx, scale_pos(PIL_POSITIONS["contact_y"], scale)), member.get("contact_no") or "", font=text_font, fill=BLACK, anchor="ls")
 
     # Address (2 lines)
     addr = member.get("address") or ""
@@ -409,13 +408,11 @@ def render_pillow_card(member: dict) -> Path:
             # Scale overlay with overall template width
             ow, oh = oimg.size
             oimg = oimg.resize((int(ow * scale), int(oh * scale)), Image.Resampling.LANCZOS)
-
             # Anchor; tweak nudge_x / nudge_y for quick micro-adjustment (±5–10 px)
             sx_base, sy_base = PIL_POSITIONS["signature_overlay_xy"]
             nudge_x, nudge_y = 0, 0
             sx = scale_pos(sx_base + nudge_x, scale)
             sy = scale_pos(sy_base + nudge_y, scale)
-
             base.alpha_composite(oimg, (sx, sy))
         except Exception as e:
             print(f"Signature overlay error: {e}")
@@ -424,7 +421,6 @@ def render_pillow_card(member: dict) -> Path:
         print("Warning: static/signature_overlay.png not found; skipping overlay composite")
 
     # ------------------------------------------------------------
-
     # Save
     file_stub = (membership_number or f"id-{member.get('id') or 'unknown'}").replace("/", "-")
     out_path = CARDS_DIR / f"bsp_membership_card_{file_stub}.png"
@@ -434,14 +430,12 @@ def render_pillow_card(member: dict) -> Path:
 # ================================================================
 # Endpoints: generate and download
 # ================================================================
-@app.post("/generate-card-pillow/")
+
+@app.post("/generate-card-pillow/{member_id}")
 async def generate_card_pillow(
-    member_id: Annotated[Optional[int], Form()] = None,
-    membership_no: Annotated[Optional[str], Form()] = None
+    member_id: int = FastAPIPath(..., description="Member ID from database")
 ):
-    if not member_id and not membership_no:
-        raise HTTPException(status_code=400, detail="Provide member_id or membership_no")
-    member = fetch_member_data(member_id=member_id, membership_no=membership_no)
+    member = fetch_member_data(member_id=member_id)
     out_path = render_pillow_card(member)
     return {
         "message": "Card generated (Pillow)",
@@ -450,13 +444,19 @@ async def generate_card_pillow(
         "card_path": str(out_path)
     }
 
-@app.get("/download-card-pillow")
-async def download_card_pillow(card_path: Annotated[str, Query(description="Absolute path returned by /generate-card-pillow/")]):
-    p = Path(card_path)
-    if not p.exists() or not p.is_file():
+@app.get("/download-card-pillow/{member_id}")
+async def download_card_pillow(
+    member_id: int = FastAPIPath(..., description="Member ID from database")
+):
+    member = fetch_member_data(member_id=member_id)
+    file_stub = (member.get("membership_no") or f"id-{member.get('id') or 'unknown'}").replace("/", "-")
+    out_path = CARDS_DIR / f"bsp_membership_card_{file_stub}.png"
+    
+    if not out_path.exists() or not out_path.is_file():
         raise HTTPException(status_code=404, detail="Card file not found")
+    
     filename = f"membership_card_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.png"
-    return FileResponse(path=str(p), filename=filename, media_type="image/png")
+    return FileResponse(path=str(out_path), filename=filename, media_type="image/png")
 
 # ================================================================
 # Helper to seed SQLite quickly
