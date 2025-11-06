@@ -536,6 +536,7 @@ function getEnglishContent() {
             categoryIdeologyTitle: "Ideology", 
             categoryIdeologyDesc: "Core principles, philosophy, and ideological framework of the Bahujan Samaj Party.",
             resourceBooks: "Download Books Collection",
+            resourceBooksTamil: "Download Tamil Books Collection",
             resourceIdeology: "Download Ideology Guide",
             externalResourcesTitle: "Useful Links",
             boothLevelAgent1: "Booth Level Agent 1",
@@ -976,6 +977,7 @@ function updateResourcesContent() {
     updateElement('category-ideology-title', languageContent.resources?.categoryIdeologyTitle);
     updateElement('category-ideology-desc', languageContent.resources?.categoryIdeologyDesc);
     updateElement('resource-books', languageContent.resources?.resourceBooks);
+    updateElement('resource-tamil-books', languageContent.resources?.resourceBooksTamil);
     updateElement('resource-ideology', languageContent.resources?.resourceIdeology);
     updateElement('external-resources-title', languageContent.resources?.externalResourcesTitle);
     updateElement('booth-level-agent-1', languageContent.resources?.boothLevelAgent1);
@@ -2029,7 +2031,19 @@ document.getElementById('download-books').addEventListener('click', function(e) 
   a.click();
   document.body.removeChild(a);
 });
- 
+
+document.getElementById('download-tamil-books').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  const fileUrl = 'assets/baws_zip/BAWS/Tamil.zip'; // Path to the Tamil ZIP file
+  const a = document.createElement('a');
+  a.href = fileUrl;
+  a.download = 'TamilBooksCollection.zip';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+});
+
 // ===== CONTACT FORM HANDLER =====
 document.addEventListener('DOMContentLoaded', function() {
   // Initialize EmailJS with your public key

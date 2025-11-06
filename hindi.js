@@ -275,6 +275,7 @@ languageContent = {
         categoryIdeologyTitle: "विचारधारा",
         categoryIdeologyDesc: "बहुजन समाज पार्टी के मूल सिद्धांत, दर्शन और वैचारिक ढांचा।",
         resourceBooks: "पुस्तक संग्रह डाउनलोड करें",
+        resourceBooksTamil: "तमिल पुस्तक संग्रह डाउनलोड करें",
         resourceIdeology: "विचारधारा गाइड डाउनलोड करें",
         externalResourcesTitle: "उपयोगी लिंक",
         boothLevelAgent1: "बूथ स्तरीय एजेंट 1",

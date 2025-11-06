@@ -265,6 +265,7 @@ languageContent = {
         categoryIdeologyTitle: "Ideology", 
         categoryIdeologyDesc: "Core principles, philosophy, and ideological framework of the Bahujan Samaj Party.",
         resourceBooks: "Download Books Collection",
+        removeEventListener: "Tamil Books Collection",
         resourceIdeology: "Download Ideology Guide",
         externalResourcesTitle: "Useful Links",
         boothLevelAgent1: "Booth Level Agent 1",

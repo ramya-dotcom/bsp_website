@@ -276,6 +276,7 @@ languageContent = {
         categoryIdeologyTitle: "கொள்கை",
         categoryIdeologyDesc: "பகுஜன் சமாஜ் கட்சியின் முக்கிய கொள்கைகள், தத்துவம் மற்றும் கொள்கைக் கட்டமைப்பு।",
         resourceBooks: "புத்தகத் தொகுப்பைப் பதிவிறக்கவும்",
+        resourceBooksTamil: "தமிழ் புத்தகத் தொகுப்பைப் பதிவிறக்கவும்",
         resourceIdeology: "கொள்கை வழிகாட்டியைப் பதிவிறக்கவும்",
         externalResourcesTitle: "பயனுள்ள இணைப்புகள்",
         boothLevelAgent1: "சாவடி நிலை முகவர் 1",
